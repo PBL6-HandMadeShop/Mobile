@@ -31,6 +31,7 @@ class WelcomeScreen extends StatelessWidget {
             Text(
               welcomeTitle,
               style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                  fontFamily: "Poppins",
                   fontWeight: FontWeight.bold,
                   color: secondaryColor,
                   fontSize: 30.0),

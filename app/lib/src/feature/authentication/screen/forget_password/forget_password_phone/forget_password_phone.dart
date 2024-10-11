@@ -1,15 +1,13 @@
 import 'package:HandcraftShop/src/common_widget/form/form_header_widget.dart';
 import 'package:HandcraftShop/src/constants/size.dart';
-import 'package:HandcraftShop/src/feature/authentication/screen/forget_password/forget_password_otp/otp_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../../../../../constants/colors.dart';
 import '../../../../../constants/image_string.dart';
 import '../../../../../constants/text_string.dart';
 
-class ForgetPasswordMailScreen extends StatelessWidget {
-  const ForgetPasswordMailScreen({Key? key}) : super(key: key);
+class ForgetPasswordPhoneScreen extends StatelessWidget {
+  const ForgetPasswordPhoneScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +35,8 @@ class ForgetPasswordMailScreen extends StatelessWidget {
                   children: [
                     TextFormField(
                       decoration: const InputDecoration(
-                        labelText: "Email",
-                        hintText: "Enter your email",
+                        labelText: "Phone number",
+                        hintText: "Enter your Phone number",
                         hintStyle: TextStyle(fontSize: 15),
                         prefixIcon: Icon(Icons.email),
                       ),
@@ -47,9 +45,7 @@ class ForgetPasswordMailScreen extends StatelessWidget {
                     SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () {
-                            Get.to(()=> const OTPScreen());
-                          },
+                          onPressed: () {},
                           child: Text("NEXT"),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: secondaryColor,

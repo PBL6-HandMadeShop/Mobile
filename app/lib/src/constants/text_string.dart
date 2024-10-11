@@ -36,3 +36,14 @@ const String forgotPasswordBackToLogin = "Back to Login";
 // Home Screen Text
 const String homeTitle = "Home";
 const String homeSubtitle = "Discover your favorite craft";
+
+
+//OTP Screen - Text
+const String otpTitle = "OTP";
+const String otpSubtitle = "Verification";
+const otpMessage = "We have sent you an OTP code to your email. Please enter the code below";
+
+//Dashboard Screen - Text
+const String dashboardTitle = "Dashboard";
+const String dashboardSubtitle = "Welcome to HandcraftShop";
+const String dashboardSearch = "Search for your favorite craft";

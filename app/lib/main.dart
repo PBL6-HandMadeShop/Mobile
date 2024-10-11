@@ -1,3 +1,4 @@
+import 'package:HandcraftShop/src/feature/authentication/screen/onboarding_screen/onboarding_screen.dart';
 import 'package:HandcraftShop/src/feature/authentication/screen/splash_screen/splash_screen.dart';
 import 'package:HandcraftShop/src/feature/authentication/screen/welcome_screen/welcome_screen.dart';
 import 'package:HandcraftShop/src/utils/theme/theme.dart';
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       defaultTransition: Transition.leftToRightWithFade,
       transitionDuration: const Duration(milliseconds: 500),
-      home: WelcomeScreen(),
+      home: const OnboardingScreen(),
     );
   }
 }

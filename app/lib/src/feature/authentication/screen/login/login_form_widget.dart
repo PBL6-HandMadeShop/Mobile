@@ -1,3 +1,4 @@
+import 'package:HandcraftShop/src/feature/dashboard/screen/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -7,6 +8,7 @@ import '../../../../constants/size.dart';
 import '../../../../constants/text_string.dart';
 import '../forget_password/forget_password_mail/forget_password_mail.dart';
 import '../forget_password/forget_password_options/forget_password_btn_widget.dart';
+import '../forget_password/forget_password_phone/forget_password_phone.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({
@@ -84,7 +86,10 @@ class LoginForm extends StatelessWidget {
                                         btnIcon: Icons.phone_callback_outlined,
                                         title: 'Phone number',
                                         subtitle: resetViaPhone,
-                                        onTap: () {},
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                          Get.to(const ForgetPasswordPhoneScreen());
+                                        },
                                       ),
 
                                     ]),
@@ -95,7 +100,9 @@ class LoginForm extends StatelessWidget {
               SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.to(() => const DashBoard());
+                    },
                     child: Text(loginButton.toUpperCase()),
                     style: OutlinedButton.styleFrom(
                         elevation: 0,
