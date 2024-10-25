@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../constants/api_constants.dart';
+
 class CSHttpClient {
- static const String _baseUrl = 'https://midsidecraft.azuremicroservices.io';
+ static const String _baseUrl = APIConstants.BASE_URL;
 
  // helper method to make GET request
  static Future<Map<String, dynamic>> get(String endPoint) async {

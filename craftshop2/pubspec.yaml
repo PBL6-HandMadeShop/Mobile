@@ -72,6 +72,8 @@ flutter:
   assets:
     - assets/logos/
     - assets/images/
+    - assets/logos/logo_google.png
+    - assets/images/signUp/mail-verify.png
     - assets/images/on_boarding_images/
     - assets/icons/brands/
 
