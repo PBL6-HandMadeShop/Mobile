@@ -38,6 +38,7 @@ dependencies:
   get_storage: ^2.1.1
   flutter_native_splash: ^2.4.2
   smooth_page_indicator: ^1.2.0+3
+  carousel_slider: ^5.0.0
 
   # Icons
   iconsax: ^0.0.8
@@ -72,8 +73,19 @@ flutter:
   assets:
     - assets/logos/
     - assets/images/
+    - assets/images/banners/
+    - assets/images/products/
     - assets/logos/logo_google.png
     - assets/images/signUp/mail-verify.png
+    # Catagories
+    - assets/icons/catagories/porcelain.png
+    - assets/icons/catagories/knitting.png
+    - assets/icons/catagories/sculpture.png
+    - assets/icons/catagories/canvas.png
+    - assets/icons/catagories/bracelet.png
+    # banner
+    - assets/images/banners/brand-gom.png
+    - assets/images/banners/Banner-lang-da.jpg
     - assets/images/on_boarding_images/
     - assets/icons/brands/
 

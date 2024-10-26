@@ -37,8 +37,8 @@ class CSDeviceUtils {
   static double getScreenHeight(){
     return MediaQuery.of(Get.context!).size.height;
   }
-  static double getScreenWidth(Builder context){
-    return MediaQuery.of(context as BuildContext).size.width;
+  static double getScreenWidth(BuildContext context){
+    return MediaQuery.of(context).size.width;
   }
   static double getPixelRatio(){
     return MediaQuery.of(Get.context!).padding.top;

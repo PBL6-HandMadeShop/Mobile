@@ -13,7 +13,7 @@ class CSText{
   static const String welcomeSubtitle = "Discover the world of handmade products";
   //-- homw
   static const String homeAppbarTitle = "Handcraft Shop";
-  static const String homeAppbarSubtitle = "Discover the world of handmade products";
+  static const String homeAppbarSubtitle = "Cristiano Ronaldo";
   // login form text
   static const String email = "Email";
   static const String password = "Password";

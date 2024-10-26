@@ -37,6 +37,7 @@ class CSPrimaryHeaderContainer extends StatelessWidget {
                   backgroundColor: CSColors.textWhiteColor.withOpacity(0.1),
                 ),
               ),
+              child,
             ],
           ),
         ),
