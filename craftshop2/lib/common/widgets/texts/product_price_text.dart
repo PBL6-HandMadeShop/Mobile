@@ -1,10 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CSProductPriceText extends StatelessWidget {
   const CSProductPriceText({
     super.key,
-    this.CurrencySign = "\VNĐ",
+    this.CurrencySign = "VNĐ",
     required this.price,
     this.maxLines = 1,
     this.isLarge = false,
@@ -17,7 +16,7 @@ class CSProductPriceText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      price + " " + CurrencySign,
+      "$price $CurrencySign",
       maxLines: maxLines,
       overflow: TextOverflow.ellipsis,
       style: isLarge

@@ -10,8 +10,8 @@ class OnBoardingPage extends StatelessWidget {
     this.image = CSImage.onboarding1,
     this.title = CSText.onboardingTitle1,
     this.subtitle = CSText.onboardingSubtitle1,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String image, title, subtitle;
   @override

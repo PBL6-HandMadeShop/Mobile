@@ -13,9 +13,9 @@ class CSChipTheme{
 
   static ChipThemeData darkChipTheme = const ChipThemeData(
     disabledColor: Colors.grey,
-    labelStyle: const TextStyle(color: Colors.white),
+    labelStyle: TextStyle(color: Colors.white),
     selectedColor: Colors.blue,
-    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
     checkmarkColor: Colors.white,
   );
 

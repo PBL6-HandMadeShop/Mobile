@@ -1,10 +1,8 @@
 import 'package:craftshop2/utils/constants/texts.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '../../../utils/constants/colors.dart';
-import '../../../utils/constants/texts.dart';
 
 class CSFormDivider extends StatelessWidget {
   const CSFormDivider({

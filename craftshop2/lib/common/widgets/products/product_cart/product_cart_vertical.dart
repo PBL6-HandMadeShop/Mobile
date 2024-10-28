@@ -80,10 +80,10 @@ class CSProductCardVertical extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CSProductTitleText(
+                  const CSProductTitleText(
                     title: "Binh Gom Doi",
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: CSSize.spaceBtwItems / 2,
                   ),
                   Row(
@@ -102,6 +102,7 @@ class CSProductCardVertical extends StatelessWidget {
                       )
                     ],
                   ),
+                  // const Spacer(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -116,7 +117,7 @@ class CSProductCardVertical extends StatelessWidget {
                                 Radius.circular(CSSize.productImageRadius),
                           ),
                         ),
-                        child: SizedBox(
+                        child: const SizedBox(
                             width: CSSize.iconLg * 1.2,
                             height: CSSize.iconLg * 1.2,
                             child:  Center(

@@ -29,7 +29,7 @@ class CSVerticalImageText extends StatelessWidget {
             Container(
               width: 56,
               height: 56,
-              padding: EdgeInsets.all(CSSize.sm),
+              padding: const EdgeInsets.all(CSSize.sm),
               decoration: BoxDecoration(
                   color: backgroundColor,
                   borderRadius:

@@ -12,7 +12,7 @@ class ForgetPassword extends StatelessWidget {
   Widget build(BuildContext context) {
     return  Scaffold(
       appBar: AppBar(),
-      body:  Padding(padding: EdgeInsets.all(CSSize.defaultSpace),
+      body:  Padding(padding: const EdgeInsets.all(CSSize.defaultSpace),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -30,7 +30,7 @@ class ForgetPassword extends StatelessWidget {
           // Button
           SizedBox(
             width: double.infinity,
-            child: ElevatedButton(onPressed: ()=> Get.off(() => ResetPassword()), child: const Text(CSText.confirmEmail)),
+            child: ElevatedButton(onPressed: ()=> Get.off(() => const ResetPassword()), child: const Text(CSText.confirmEmail)),
           )
         ],
       ),),
