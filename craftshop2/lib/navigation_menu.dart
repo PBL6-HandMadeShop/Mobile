@@ -1,4 +1,5 @@
 import 'package:craftshop2/features/shop/screens/home/home.dart';
+import 'package:craftshop2/features/shop/screens/wishlist/wishlist.dart';
 import 'package:craftshop2/utils/constants/colors.dart';
 import 'package:craftshop2/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class NavigationMenu extends StatelessWidget {
             onDestinationSelected: (index) => controller.selectedIndex.value = index,
             backgroundColor: darkMode ? CSColors.black: CSColors.white,
             indicatorColor: darkMode ? CSColors.white.withOpacity(0.1): CSColors.black.withOpacity(0.1),
-            destinations: [
+            destinations: const [
           NavigationDestination(icon: Icon(Iconsax.home), label: "Home"),
           NavigationDestination(icon: Icon(Iconsax.shop), label: "Store"),
           NavigationDestination(icon: Icon(Iconsax.heart), label: "Wish List"),
@@ -38,5 +39,5 @@ class NavigationMenu extends StatelessWidget {
 class NavigatonController extends GetxController{
   final Rx<int> selectedIndex = 0.obs;
 
-  final screens =[const HomeScreen(), Container(color: Colors.red), Container(color: Colors.blue), Container(color: Colors.yellow)];
+  final screens =[const HomeScreen(), Container(color: Colors.red), const FavoriteScreen(), Container(color: Colors.yellow)];
 }

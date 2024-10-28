@@ -1,12 +1,10 @@
 import 'package:craftshop2/common/widgets/login_signup/form_divider.dart';
 import 'package:craftshop2/common/widgets/login_signup/social_buttons.dart';
 import 'package:craftshop2/features/authencation/screens/signUp/widgets/sign_up_form.dart';
-import 'package:craftshop2/utils/constants/colors.dart';
 import 'package:craftshop2/utils/constants/sizes.dart';
 import 'package:craftshop2/utils/constants/texts.dart';
 import 'package:craftshop2/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});

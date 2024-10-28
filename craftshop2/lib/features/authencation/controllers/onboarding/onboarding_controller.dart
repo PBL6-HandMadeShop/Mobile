@@ -18,7 +18,7 @@ class OnboardingController extends GetxController {
 
   void nextPage() {
     if(currentPageIndex.value == 2){
-       Get.offAll(LoginScreen());
+       Get.offAll(const LoginScreen());
     } else{
       int page = currentPageIndex.value + 1;
       pageController.jumpToPage(page);
@@ -27,6 +27,6 @@ class OnboardingController extends GetxController {
 
   void skipPage() {
     currentPageIndex.value = 2;
-    Get.to(()=> LoginScreen());
+    Get.to(()=> const LoginScreen());
   }
 }

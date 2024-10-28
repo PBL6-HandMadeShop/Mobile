@@ -1,12 +1,6 @@
-import 'package:craftshop2/utils/constants/colors.dart';
-import 'package:craftshop2/utils/constants/sizes.dart';
 import 'package:craftshop2/utils/constants/texts.dart';
-import 'package:craftshop2/utils/device/device_utility.dart';
-import 'package:craftshop2/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../../utils/constants/image_string.dart';
 import '../../controllers/onboarding/onboarding_controller.dart';
@@ -29,7 +23,7 @@ class OnboardingScreen extends StatelessWidget {
           PageView(
             controller: controller.pageController,
             onPageChanged: controller.updatePageIndicator,
-            children: [
+            children: const [
               /// Onboarding Page 1
               OnBoardingPage(
                   image: CSImage.onboarding1,

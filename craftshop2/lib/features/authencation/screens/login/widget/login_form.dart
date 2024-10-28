@@ -20,13 +20,13 @@ class CSLoginform extends StatelessWidget {
       child: Column(
         children: [
           TextFormField(
-            decoration: InputDecoration(
-                prefixIcon: const Icon(Iconsax.direct_right), labelText: CSText.email),
+            decoration: const InputDecoration(
+                prefixIcon: Icon(Iconsax.direct_right), labelText: CSText.email),
           ),
           const SizedBox(height: CSSize.spaceBtwInputFields,),
           TextFormField(
-            decoration: InputDecoration(
-                prefixIcon: const Icon(Iconsax.password_check), labelText: CSText.password, suffixIcon: const Icon(Iconsax.eye_slash)),
+            decoration: const InputDecoration(
+                prefixIcon: Icon(Iconsax.password_check), labelText: CSText.password, suffixIcon: Icon(Iconsax.eye_slash)),
 
           ),
           const SizedBox(height: CSSize.spaceBtwInputFields /2,),
@@ -42,7 +42,7 @@ class CSLoginform extends StatelessWidget {
                 ],
               ),
               // forgot password
-              TextButton(onPressed: ()=> Get.to(() =>ForgetPassword()), child: const Text(CSText.forgotPassword)),
+              TextButton(onPressed: ()=> Get.to(() =>const ForgetPassword()), child: const Text(CSText.forgotPassword)),
             ],
           ),
           const SizedBox(height: CSSize.spaceBtwSections,),
@@ -54,7 +54,7 @@ class CSLoginform extends StatelessWidget {
           //.Sign up button
           SizedBox(
               width:double.infinity ,
-              child: OutlinedButton(onPressed: () => Get.to(() => SignUpScreen()), child: const Text(CSText.createAccount))),
+              child: OutlinedButton(onPressed: () => Get.to(() => const SignUpScreen()), child: const Text(CSText.createAccount))),
           const SizedBox(height: CSSize.spaceBtwSections,),
         ],
       ),

@@ -1,12 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 import '../../../../../common/widgets/custom_shape/containers/circular_container.dart';
 import '../../../../../common/widgets/images/cs_rounded_image.dart';
 import '../../../../../utils/constants/colors.dart';
-import '../../../../../utils/constants/image_string.dart';
 import '../../../../../utils/constants/sizes.dart';
 import '../../../controllers/home_controller.dart';
 
@@ -26,7 +24,7 @@ class CSPromoSlider extends StatelessWidget {
             onPageChanged: (index, _) => controller.updatePageIndicator(index),
     ),
           items: banners.map((url) =>  CSRoundedImage(imageUrl: url),).toList(),),
-        SizedBox(height: CSSize.spaceBtwItems),
+        const SizedBox(height: CSSize.spaceBtwItems),
         Center(
           child: Obx(
             () => Row(
@@ -36,7 +34,7 @@ class CSPromoSlider extends StatelessWidget {
                   CSCircularContainer(
                     width: 20,
                     height: 4,
-                    margin: EdgeInsets.only(right: 10),
+                    margin: const EdgeInsets.only(right: 10),
                     backgroundColor: controller.carousalCurrentIndex.value == i ? CSColors.primaryColor:CSColors.grey,
                   ),
               ],

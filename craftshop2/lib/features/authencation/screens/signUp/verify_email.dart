@@ -17,22 +17,22 @@ class VerifyEmailScreen extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         actions: [
-          IconButton(onPressed:()=> Get.offAll(()=> LoginScreen()), icon: Icon(CupertinoIcons.clear))
+          IconButton(onPressed:()=> Get.offAll(()=> const LoginScreen()), icon: const Icon(CupertinoIcons.clear))
         ],
       ),
       body: SingleChildScrollView(
-        child:  Padding(padding: EdgeInsets.all(CSSize.defaultSpace),
+        child:  Padding(padding: const EdgeInsets.all(CSSize.defaultSpace),
         child: Column(
           /// image
             children: [
-              Image(image:  AssetImage(CSImage.verify), width: CSHelperFunctions.screenWidth(),),
+              Image(image:  const AssetImage(CSImage.verify), width: CSHelperFunctions.screenWidth(),),
               /// Tilte and subtitle
               Text(CSText.confirmEmail, style: Theme.of(context).textTheme.headlineMedium, textAlign: TextAlign.center,)
               ,const SizedBox(height: CSSize.spaceBtwSections,),
               Text(CSText.confirmEmailSubtitle, style: Theme.of(context).textTheme.bodyMedium, textAlign: TextAlign.center,),
               /// button
               const SizedBox(height: CSSize.spaceBtwSections,),
-              SizedBox(width: double.infinity, child: ElevatedButton(onPressed: ()=> Get.to(() => LoginScreen()), child: const Text(CSText.backtoLogin)),),
+              SizedBox(width: double.infinity, child: ElevatedButton(onPressed: ()=> Get.to(() => const LoginScreen()), child: const Text(CSText.backtoLogin)),),
               const SizedBox(height: CSSize.spaceBtwSections,),
             ],
 
