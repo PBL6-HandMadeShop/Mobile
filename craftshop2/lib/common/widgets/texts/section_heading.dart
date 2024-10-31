@@ -4,9 +4,9 @@ class CSSectionHeading extends StatelessWidget {
   const CSSectionHeading({
     super.key,
     this.textColor,
-    this.showActionButton = false
+    this.showActionButton = true
     , required this.title
-    ,  this.buttonTitle ="View All"
+    , this.buttonTitle ="View All"
     , this.onPressed,
   });
   final Color? textColor;
@@ -16,9 +16,10 @@ class CSSectionHeading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(title, style: Theme.of(context).textTheme.headlineSmall!.apply(color: textColor),maxLines: 1, overflow: TextOverflow.ellipsis,),
-        if(showActionButton) TextButton(onPressed: (){}, child:  Text(buttonTitle)),
+        if(showActionButton) TextButton(onPressed: onPressed, child:  Text(buttonTitle)),
       ],
     );
   }
