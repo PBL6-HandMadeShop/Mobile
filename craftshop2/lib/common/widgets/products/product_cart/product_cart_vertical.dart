@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../icons/cs_circular_icon.dart';
+import '../../texts/cs_brand_title_text_with_vertified_icon.dart';
 import '../../texts/product_price_text.dart';
 import '../../texts/product_title.dart';
 
@@ -75,67 +76,58 @@ class CSProductCardVertical extends StatelessWidget {
             const SizedBox(
               height: CSSize.spaceBtwItems / 2,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: CSSize.sm),
+            const Padding(
+              padding: EdgeInsets.only(left: CSSize.sm),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const CSProductTitleText(
+                  CSProductTitleText(
                     title: "Binh Gom Doi",
+                    smallSize: true,
                   ),
-                  const SizedBox(
+                  SizedBox(
                     height: CSSize.spaceBtwItems / 2,
                   ),
-                  Row(
-                    children: [
-                      Text("Thanh Ha",
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: Theme.of(context).textTheme.labelMedium),
-                      const SizedBox(
-                        width: CSSize.xs,
-                      ),
-                      const Icon(
-                        Iconsax.verify5,
-                        color: CSColors.primaryColor,
-                        size: CSSize.iconXs,
-                      )
-                    ],
-                  ),
+                  CsBrandTitleTextWithVertifiedIcon(title: 'Do gom cho moi nha', ),
                   // const Spacer(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      //price
-                      const CSProductPriceText(price: '200K',),
-                      Container(
-                        decoration: const BoxDecoration(
-                          color: CSColors.dark,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(CSSize.cardRadiusMd),
-                            bottomRight:
-                                Radius.circular(CSSize.productImageRadius),
-                          ),
-                        ),
-                        child: const SizedBox(
-                            width: CSSize.iconLg * 1.2,
-                            height: CSSize.iconLg * 1.2,
-                            child:  Center(
-                              child: Icon(
-                                Iconsax.add,
-                                color: CSColors.white,
-                              ),
-                            )),
-                      )
-                    ],
-                  )
                 ],
               ),
-            )
+            ),
+            const Spacer(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                //price
+                const Padding(
+                  padding: EdgeInsets.only(left: CSSize.sm),
+                  child: CSProductPriceText(price: '200K',),
+                ),
+                Container(
+                  decoration: const BoxDecoration(
+                    color: CSColors.dark,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(CSSize.cardRadiusMd),
+                      bottomRight:
+                      Radius.circular(CSSize.productImageRadius),
+                    ),
+                  ),
+                  child: const SizedBox(
+                      width: CSSize.iconLg * 1.2,
+                      height: CSSize.iconLg * 1.2,
+                      child:  Center(
+                        child: Icon(
+                          Iconsax.add,
+                          color: CSColors.white,
+                        ),
+                      )),
+                )
+              ],
+            ),
           ],
         ),
       ),
     );
   }
 }
+
 

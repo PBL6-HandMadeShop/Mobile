@@ -1,5 +1,13 @@
+import 'package:craftshop2/common/widgets/texts/section_heading.dart';
+import 'package:craftshop2/features/personalization/screens/profile/widgets/profile_menu.dart';
 import 'package:flutter/material.dart';
-import 'package:pbl06new/features/personalization/screens/profile/widgets/profile_menu.dart';
+import 'package:iconsax/iconsax.dart';
+
+
+import '../../../../common/widgets/appbar/appbar.dart';
+import '../../../../common/widgets/images/cs_circular_image.dart';
+import '../../../../utils/constants/image_string.dart';
+import '../../../../utils/constants/sizes.dart';
 
 class ProfileScreen extends StatelessWidget{
   const ProfileScreen({super.key});
@@ -7,11 +15,11 @@ class ProfileScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      appBar: const TAppBar(showBackArrow: true, title: Text('Profile')),
+      appBar: const CSAppBar(showBackArrow: true, title: Text('Profile')),
 
       body: SingleChildScrollView(
         child: Padding(
-            padding: const EdgeInsets.all(TSizes.defaultSpace),
+            padding: const EdgeInsets.all(CSSize.defaultSpace),
             child: Column(
               children: [
                 /// Profile Picture
@@ -19,46 +27,48 @@ class ProfileScreen extends StatelessWidget{
                   width: double.infinity,
                   child: Column(
                     children: [
-                      const TCircularImage(image: TImage.user, width: 80, height: 80),
+                      const CSCircularImage(image: CSImage.user, width: 80, height: 80),
                       TextButton(onPressed: (){}, child: const Text('Change Profile Picture')),
                     ],
                   ),
                 ),
 
                 /// details
-                const SizedBox(height: TSizes.spaceBtwItems/2),
+                const SizedBox(height: CSSize.spaceBtwItems/2),
 
-                const SizedBox(height: TSizes.spaceBtwItems),
+                const SizedBox(height: CSSize.spaceBtwItems),
 
                 ///Heading Profile Info
-                const TSectionHeading(title: 'Profile Information', showActionButton: false),
-                const SizedBox(height: TSizes.spaceBtwItems),
+                const CSSectionHeading(title: 'Profile Information', showActionButton: false),
+                const SizedBox(height: CSSize.spaceBtwItems),
 
-                TProfileMenu(onPressed: (){}, title: 'name', value: 'Coding with Me'),
-                const SizedBox(height: TSizes.spaceBtwItems),
+                CSProfileMenu(onPressed: (){}, title: 'Name', value: 'Coding with Me'),
+                CSProfileMenu(onPressed: (){}, title: 'Username', value: 'Coding with M'),
 
-                TProfileMenu(onPressed: (){}, title: 'name', value: 'Coding with Me'),
-                TProfileMenu(onPressed: (){}, title: 'username', value: 'Coding with M'),
-
-                const SizedBox(height: TSizes.spaceBtwItems),
+                const SizedBox(height: CSSize.spaceBtwItems),
                 const Divider(),
-                const SizedBox(height: TSizes.spaceBtwItems),
+                const SizedBox(height: CSSize.spaceBtwItems),
 
-                const TSectionHeading(title: 'Personal Information', showActionButton: false),
-                const SizedBox(height: TSizes.spaceBtwItems),
+                const CSSectionHeading(title: 'Personal Information', showActionButton: false),
+                const SizedBox(height: CSSize.spaceBtwItems),
 
-                TProfileMenu(onPressed: (){}, title: 'username', value: 'Coding with M'),
-                TProfileMenu(onPressed: (){}, title: 'username', value: 'Coding with M'),
-                TProfileMenu(onPressed: (){}, title: 'username', value: 'Coding with M'),
-                TProfileMenu(onPressed: (){}, title: 'username', value: 'Coding with M'),
-                TProfileMenu(onPressed: (){}, title: 'username', value: 'Coding with M'),
+                CSProfileMenu(onPressed: (){}, title: 'User ID', icon: Iconsax.copy,value: '12345'),
+                CSProfileMenu(onPressed: (){}, title: 'E-mail', value: 'craftshop'),
+                CSProfileMenu(onPressed: (){}, title: 'Phone Number', value: '09123456767'),
+                CSProfileMenu(onPressed: (){}, title: 'Gender', value: 'Male'),
+                CSProfileMenu(onPressed: (){}, title: 'Birthday', value: '10/10/10'),
                 const Divider(),
-                const SizedBox(height: TSizes.spaceBtwItems),
-                
+                const SizedBox(height: CSSize.spaceBtwItems),
+
                 Center(
-                  child: TextButton(onPressed: (){}, child: const Text('Close Account'), style: TextStyle(color: Color.red)
+                  child: TextButton(
+                      onPressed: (){},
+                      child: const Text('Close Account'),
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.red, // Set the text color to red
+                      ),
                   ),
-                )
+                ),
               ],
             ),
         ),

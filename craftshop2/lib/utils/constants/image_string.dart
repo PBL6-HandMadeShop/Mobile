@@ -33,25 +33,10 @@ class CSImage{
   static const String product4 = 'assets/images/products/product-39.jpg';
   static const String product5 = 'assets/images/products/product-39.jpg';
   static const String product6 = 'assets/images/products/product-39.jpg';
-  static const String product7 = 'assets/images/products/product-39.jpg';
-  static const String product8 = 'assets/images/products/product-39.jpg';
-  static const String product9 = 'assets/images/products/product-39.jpg';
-  static const String product10 = 'assets/images/products/product-39.jpg';
-  static const String product11 = 'assets/images/products/product-39.jpg';
-  static const String product12 = 'assets/images/products/product-39.jpg';
-  static const String product13 = 'assets/images/products/product-39.jpg';
-  static const String product14 = 'assets/images/products/product-39.jpg';
-  static const String product15 = 'assets/images/products/product-39.jpg';
-  static const String product16 = 'assets/images/products/product-39.jpg';
-  static const String product17 = 'assets/images/products/product-39.jpg';
-  static const String product18 = 'assets/images/products/product-39.jpg';
-  static const String product19 = 'assets/images/products/product-39.jpg';
-  static const String product20 = 'assets/images/products/product-39.jpg';
-  static const String product21 = 'assets/images/products/product-39.jpg';
-  static const String product22 = 'assets/images/products/product-39.jpg';
-  static const String product23 = 'assets/images/products/product-39.jpg';
-  static const String product24 = 'assets/images/products/product-39.jpg';
-  static const String product25 = 'assets/images/products/product-39.jpg';
+ // user
+
+  static const String user = 'assets/images/user/product-39.jpg';
+
 
 
 }

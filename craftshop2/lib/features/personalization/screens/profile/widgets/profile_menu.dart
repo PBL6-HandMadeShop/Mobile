@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 
-class TProfileMenu extends StatelessWidget {
-  const TProfileMenu({
+import '../../../../../utils/constants/sizes.dart';
+
+class CSProfileMenu extends StatelessWidget {
+  const CSProfileMenu({
     super.key,
     required this.onPressed,
     required this.title,
@@ -17,15 +20,15 @@ class TProfileMenu extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: TSizes.spaceBtwItems / 1.5),
+          padding: const EdgeInsets.symmetric(vertical: CSSize.spaceBtwItems / 1.5),
           child: Row(
             children: [
               Expanded(flex:3, child: Text(title, style: Theme.of(context).textTheme.bodySmall, overflow: TextOverflow.ellipsis)),
-              Expanded(flex: 5, child: Text(title, style: Theme.of(context).textTheme.bodySmall, overflow: TextOverflow.ellipsis)),
+              Expanded(flex: 5, child: Text(value, style: Theme.of(context).textTheme.bodySmall, overflow: TextOverflow.ellipsis)),
               Expanded(child : Icon(icon, size: 18)),
             ],
           ),
       ),
-    )
+    );
   }
 }

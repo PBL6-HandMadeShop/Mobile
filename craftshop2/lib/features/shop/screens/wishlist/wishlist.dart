@@ -6,7 +6,6 @@ import 'package:craftshop2/utils/constants/sizes.dart';
 import 'package:craftshop2/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../../common/widgets/products/product_cart/product_cart_vertical.dart';
@@ -25,7 +24,7 @@ class FavoriteScreen extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
-        child: Padding(padding: EdgeInsets.all(CSSize.defaultSpace),
+        child: Padding(padding: const EdgeInsets.all(CSSize.defaultSpace),
         child: Column(
           children: [
             CSGridLayout(itemCount: 4, itemBuilder: (_,index) => const CSProductCardVertical()),
