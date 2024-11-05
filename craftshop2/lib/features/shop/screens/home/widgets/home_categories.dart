@@ -1,7 +1,13 @@
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+
+
 
 import '../../../../../common/widgets/image_text_widgets/vertical_img_text.dart';
 import '../../../../../utils/constants/image_string.dart';
+import '../../sub_category/sub_categories.dart';
+
 
 class CSHomeCategories extends StatelessWidget {
   const CSHomeCategories({
@@ -20,7 +26,7 @@ class CSHomeCategories extends StatelessWidget {
           return CSVerticalImageText(
             image: CSImage.bracelet,
             title: 'Bracelet Category',
-            onTap: () {},
+            onTap: () => Get.to(() => const SubCategoriesScreen()),
           );
         },
       ),
