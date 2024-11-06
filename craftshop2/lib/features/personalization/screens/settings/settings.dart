@@ -1,4 +1,5 @@
 import 'package:craftshop2/common/widgets/texts/section_heading.dart';
+import 'package:craftshop2/features/shop/screens/cart/cart.dart';
 import 'package:flutter/material.dart ';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -9,6 +10,7 @@ import '../../../../common/widgets/list_tiles/settings_menu_tile.dart';
 import '../../../../common/widgets/list_tiles/user_profile_tile.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/sizes.dart';
+import '../../../shop/screens/order/order.dart';
 import '../address/address.dart';
 import '../profile/profile.dart';
 
@@ -42,8 +44,8 @@ class SettingsScreen extends StatelessWidget{
                       const SizedBox(height: CSSize.spaceBtwItems),
 
                       CSSettingsMenuTile(icon: Iconsax.safe_home, title: 'My Addresses', subTitle: 'Set shopping delivery adress', onTab: () => Get.to(() => const UserAddressScreen())),
-                      CSSettingsMenuTile(icon: Iconsax.shopping_cart, title: 'My Cart', subTitle: 'Add, remove product adn move to checkout',onTab: (){}),
-                      CSSettingsMenuTile(icon: Iconsax.bag_tick, title: 'My Orders ', subTitle: 'In-progress and Completed Orders', onTab: (){}),
+                      CSSettingsMenuTile(icon: Iconsax.shopping_cart, title: 'My Cart', subTitle: 'Add, remove product adn move to checkout',onTab: () => Get.to(() => const CartScreen())),
+                      CSSettingsMenuTile(icon: Iconsax.bag_tick, title: 'My Orders ', subTitle: 'In-progress and Completed Orders', onTab: () => Get.to(() => const OrderScreen())),
                       CSSettingsMenuTile(icon: Iconsax.bank, title: 'Bank Account', subTitle: 'Withdraw balance to registered bank account', onTab: (){}),
                       CSSettingsMenuTile(icon: Iconsax.discount_shape, title: 'My Coupons', subTitle: 'List of all the discounted coupons',onTab: (){}),
                       CSSettingsMenuTile(icon: Iconsax.notification, title: 'Notifications', subTitle: 'Set any kind of notification message', onTab: (){}),

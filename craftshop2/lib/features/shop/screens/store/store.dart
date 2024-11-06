@@ -10,8 +10,11 @@ import 'package:craftshop2/utils/constants/colors.dart';
 import 'package:craftshop2/utils/constants/sizes.dart';
 import 'package:craftshop2/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 import '../../../../common/brand/card_brand.dart';
+import '../brand/all_brands.dart';
 
 class Store extends StatelessWidget {
   const Store({super.key});
@@ -63,7 +66,7 @@ class Store extends StatelessWidget {
                         // featured brand
                         CSSectionHeading(
                           title: "Featured Brands",
-                          onPressed: () {},
+                          onPressed: () => Get.to(() => const AllBrandsScreen()),
                         ),
                         const SizedBox(
                           height: CSSize.spaceBtwItems / 1.5,
