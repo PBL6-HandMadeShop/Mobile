@@ -40,6 +40,7 @@ class CSText{
   static const String and = "and";
   static const String address = "Address";
   static const String backtoLogin = "Back to Login";
+  static const String gender = "Male or Female";
   //Authentications Headlings Text
   static const String loginTitle = "Welcome Back!";
   static const String loginSubtitle = "Discover Limitless handmade products";
@@ -52,5 +53,6 @@ class CSText{
   static const String confirmEmail = "Check your email address";
   static const String confirmEmailSubtitle = "CShop@support.com";
   static const String emailNotReceived = "Email not received?";
+
 
 }

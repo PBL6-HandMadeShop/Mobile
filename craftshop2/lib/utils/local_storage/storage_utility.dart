@@ -1,4 +1,5 @@
 import 'package:get_storage/get_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CSLocalStorage{
   static final CSLocalStorage _instance = CSLocalStorage._internal();
@@ -10,12 +11,14 @@ class CSLocalStorage{
 
   final _storage = GetStorage();
 
-  Future<void> saveData<T>(String key, T value) async {
-    await _storage.write(key, value);
+  static Future<void> saveData(String key, String value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(key, value);
   }
 
-  T? readData<T>(String key) {
-    return _storage.read<T>(key);
+  static Future<String?> readData(String key) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(key);
   }
   Future<void> removeData(String key) async {
     await _storage.remove(key);
