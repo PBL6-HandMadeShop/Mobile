@@ -54,5 +54,6 @@ class CSText{
   static const String confirmEmailSubtitle = "CShop@support.com";
   static const String emailNotReceived = "Email not received?";
 
+  static const String Continue = "Continue";
 
 }

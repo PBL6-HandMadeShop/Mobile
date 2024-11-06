@@ -6,8 +6,11 @@ import 'package:craftshop2/utils/constants/image_string.dart';
 import 'package:craftshop2/utils/constants/sizes.dart';
 import 'package:craftshop2/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
 
+import '../../../../features/shop/screens/product_details/product_detail.dart';
 import '../../icons/cs_circular_icon.dart';
 import '../../texts/cs_brand_title_text_with_vertified_icon.dart';
 import '../../texts/product_price_text.dart';
@@ -20,7 +23,7 @@ class CSProductCardVertical extends StatelessWidget {
   Widget build(BuildContext context) {
     final dark = CSHelperFunctions.isDarkMode(context);
     return GestureDetector(
-      onTap: (){},
+      onTap: () => Get.to(() => const ProductDetailScreen()),
       child: Container(
         width: 180,
         padding: const EdgeInsets.all(1),
@@ -66,7 +69,6 @@ class CSProductCardVertical extends StatelessWidget {
                       top: 0,
                       right: 0,
                       child: CSCircularlIcon(
-                        dark: dark,
                         icon: Iconsax.heart5,
                         color: Colors.red,
                       ))

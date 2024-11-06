@@ -5,6 +5,8 @@ import 'package:craftshop2/features/shop/screens/home/widgets/promo_slider.dart'
 import 'package:craftshop2/utils/constants/colors.dart';
 import 'package:craftshop2/utils/constants/image_string.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 import '../../../../common/widgets/custom_shape/containers/primary_header_container.dart';
 import '../../../../common/widgets/custom_shape/containers/search_container.dart';
@@ -12,8 +14,12 @@ import '../../../../common/widgets/layouts/grid_layout.dart';
 import '../../../../common/widgets/products/product_cart/product_cart_vertical.dart';
 import '../../../../common/widgets/texts/section_heading.dart';
 import '../../../../utils/constants/sizes.dart';
+
 import '../../../../utils/local_storage/storage_utility.dart';
 import '../../../authencation/models/user_model.dart';
+
+import '../all_products/all_products.dart';
+
 import 'widgets/home_appbar.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -125,8 +131,15 @@ class _HomeScreen extends State<HomeScreen>{
 
                     /// popular pproduct
                     const SizedBox(height: CSSize.spaceBtwSections),
-                    CSGridLayout(itemCount: 2,
-                      itemBuilder: (_,index) => const CSProductCardVertical(),),
+
+                    CSSectionHeading(title: 'Popular Products', onPressed: () => Get.to(() => const AllProducts()),),
+
+                    const SizedBox(height: CSSize.spaceBtwItems),
+                    CSGridLayout(
+                      itemCount: 2,
+                      itemBuilder: (_,index) => const CSProductCardVertical(),
+                    ),
+
                   ],
                 )
             ),
