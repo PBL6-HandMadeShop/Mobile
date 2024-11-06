@@ -1,118 +1,205 @@
-import 'package:craftshop2/features/authencation/screens/signUp/verify_email.dart';
+import 'dart:convert';
+
 import 'package:craftshop2/features/authencation/screens/signUp/widgets/term_and_condition.dart';
+import 'package:craftshop2/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
+import 'package:craftshop2/utils/http/http_client.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-
 import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/constants/texts.dart';
+import '../verify_email.dart';
 
-class CSSignupForm extends StatelessWidget {
-  const CSSignupForm({
-    super.key,
-    required this.dark,
-  });
-
+class CSSignupForm extends StatefulWidget {
   final bool dark;
+  const CSSignupForm({required this.dark, Key? key}) : super(key: key);
+
+  @override
+  _CSSignupFormState createState() => _CSSignupFormState();
+}
+
+class _CSSignupFormState extends State<CSSignupForm> {
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _birthDateController = TextEditingController();
+  bool _isMale = false;
+  bool _isFemale = false;
+
+  void _handleGenderChange(String gender) {
+    setState(() {
+      if (gender == 'MALE') {
+        _isMale = true;
+        _isFemale = false;
+      } else if (gender == 'FEMALE') {
+        _isMale = false;
+        _isFemale = true;
+      }
+    });
+  }
+
+  Future<void> _selectBirthDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null) {
+      setState(() {
+        _birthDateController.text = "${picked.year}-${picked.month}-${picked.day}";
+      });
+    }
+  }
+
+
+
+  void _register() async {
+    if (_formKey.currentState!.validate()) {
+      final data = {
+        'name': _nameController.text.trim(),
+        'email': _emailController.text.trim(),
+        'phoneNumber': _phoneNumberController.text.trim(),
+        'username': _usernameController.text.trim(),
+        'gender': _isMale ? 'MALE' : 'FEMALE',
+        'birthDate': _birthDateController.text, // Adjust date format
+      };
+      print("Data being sent: $data");
+      try {
+        final response = await CSHttpClient.register(jsonEncode(data) as Map<String, String>);
+        print('Registration successful: $response');
+        // Navigate to the VerifyEmail screen
+        Get.to(() => const VerifyEmailScreen());
+      } catch (e) {
+        print('Registration failed: $e');
+        // Show error message if registration fails
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Registration failed: $e')),
+        );
+      }
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
     return Form(
+      key: _formKey,
       child: Column(
         children: [
+          TextFormField(
+            controller: _nameController,
+            decoration: const InputDecoration(
+              labelText: 'Name',
+              prefixIcon: Icon(Iconsax.user),
+            ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter your name';
+              }
+              return null;
+            },
+          ),
+          const SizedBox(height: CSSize.spaceBtwInputFields),
+          TextFormField(
+            controller: _emailController,
+            decoration: const InputDecoration(
+              labelText: 'Email',
+              prefixIcon: Icon(Iconsax.direct),
+            ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter your email';
+              } else if (!GetUtils.isEmail(value)) {
+                return 'Please enter a valid email';
+              }
+              return null;
+            },
+          ),
+          const SizedBox(height: CSSize.spaceBtwInputFields),
+          TextFormField(
+            controller: _phoneNumberController,
+            decoration: const InputDecoration(
+              labelText: 'Phone Number',
+              prefixIcon: Icon(Iconsax.call),
+            ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter your phone number';
+              }
+              return null;
+            },
+          ),
+          const SizedBox(height: CSSize.spaceBtwInputFields),
+          TextFormField(
+            controller: _usernameController,
+            decoration: const InputDecoration(
+              labelText: 'Username',
+              prefixIcon: Icon(Iconsax.user_edit),
+            ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter your username';
+              }
+              return null;
+            },
+          ),
+          const SizedBox(height: CSSize.spaceBtwInputFields/2),
           Row(
             children: [
-              Flexible(
-                child: TextFormField(
-                  expands: false,
-                  decoration: const InputDecoration(
-                    labelText: CSText.FirstName,
-                    prefixIcon: Icon(Iconsax.user),
-                  ),
+              Expanded(
+                child: CheckboxListTile(
+                  title: const Text('Male'),
+                  value: _isMale,
+                  onChanged: (bool? value) {
+                    _handleGenderChange('MALE');
+                  },
                 ),
               ),
-              const SizedBox(
-                width: CSSize.spaceBtwInputFields,
-              ),
-              Flexible(
-                child: TextFormField(
-                  expands: false,
-                  decoration: const InputDecoration(
-                    labelText: CSText.LastName,
-                    prefixIcon: Icon(Iconsax.user),
-                  ),
+              Expanded(
+                child: CheckboxListTile(
+                  title: const Text('Female'),
+                  value: _isFemale,
+                  onChanged: (bool? value) {
+                    _handleGenderChange('FEMALE');
+                  },
                 ),
               ),
             ],
           ),
-          const SizedBox(
-            height: CSSize.spaceBtwInputFields,
-          ),
-
-          /// Username
+          const SizedBox(height: CSSize.spaceBtwInputFields/2),
           TextFormField(
-            expands: false,
+            controller: _birthDateController,
             decoration: const InputDecoration(
-              labelText: CSText.username,
-              prefixIcon: Icon(Iconsax.user_edit),
+              labelText: 'Birth Date',
+              prefixIcon: Icon(Iconsax.calendar),
             ),
+            readOnly: true,
+            onTap: () => _selectBirthDate(context),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter your birth date';
+              }
+              return null;
+            },
           ),
-          const SizedBox(
-            height: CSSize.spaceBtwInputFields,
-          ),
-
-          /// Username
-          TextFormField(
-            expands: false,
-            decoration: const InputDecoration(
-              labelText: CSText.address,
-              prefixIcon: Icon(Iconsax.home),
-            ),
-          ),
-          const SizedBox(
-            height: CSSize.spaceBtwInputFields,
-          ),
-
-          /// Username
-          TextFormField(
-            expands: false,
-            decoration: const InputDecoration(
-              labelText: CSText.email,
-              prefixIcon: Icon(Iconsax.direct),
-            ),
-          ),
-          const SizedBox(
-            height: CSSize.spaceBtwInputFields,
-          ),
-
-          /// Username
-          TextFormField(
-            expands: false,
-            decoration: const InputDecoration(
-              labelText: CSText.phoneNo,
-              prefixIcon: Icon(Iconsax.call),
-            ),
-          ),
-          const SizedBox(
-            height: CSSize.spaceBtwInputFields,
-          ),
-
-          /// term and condition
-          CSTermAndConditionCheckBox(dark: dark),
-
-          /// sign up button
+          const SizedBox(height: CSSize.spaceBtwInputFields),
+          CSTermAndConditionCheckBox(dark: CSHelperFunctions.isDarkMode(context)),
           const SizedBox(
             height: CSSize.spaceBtwSections,
           ),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-                onPressed: () => Get.to(()=> const VerifyEmailScreen()),
-                child: const Text(CSText.createAccount)),
-          )
+              onPressed: _register,
+              child: const Text(CSText.createAccount),
+            ),
+          ),
         ],
       ),
     );
   }
 }
-
