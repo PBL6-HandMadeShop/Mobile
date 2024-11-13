@@ -1,132 +1,140 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:craftshop2/features/authencation/models/user_model.dart';
-import 'package:craftshop2/utils/local_storage/storage_utility.dart';
-import 'package:dio/dio.dart';
+import 'package:dio/dio.dart' as dio;
 import 'package:dio/io.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 import '../../../../utils/constants/api_constants.dart';
 
 class API_Services {
-  final Dio _dio = Dio();
-  final User user = User();
+  final dio.Dio _dio = dio.Dio();
   final String _baseUrl = APIConstants.BASE_URL;
+  final FlutterSecureStorage storage = FlutterSecureStorage();
 
   API_Services() {
     (_dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
       client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
       return client;
     };
+
+    _dio.interceptors.add(dio.InterceptorsWrapper(
+      onRequest: (options, handler) async {
+        String? token = await storage.read(key: 'session_token');
+        if (token != null) {
+          options.headers['Authorization'] = 'Bearer $token';
+        }
+        return handler.next(options);
+      },
+    ));
   }
 
-  Future<Response> register(Map<String, dynamic> data) async {
+  Future<dio.Response> register(Map<String, dynamic> data) async {
     try {
-      FormData formData = FormData.fromMap(data);
-
+      dio.FormData formData = dio.FormData.fromMap(data);
       final response = await _dio.post(
-        '$_baseUrl/${APIConstants.REGISTER}', // Replace with the actual API URL
+        '$_baseUrl/${APIConstants.REGISTER}',
         data: formData,
-        options: Options(
+        options: dio.Options(
           headers: {
             "Content-Type": "multipart/form-data",
             'ngrok-skip-browser-warning': 'true',
           },
-          responseType: ResponseType.json,
+          responseType: dio.ResponseType.json,
         ),
       );
-      print('Response data: ${response.data}');
       return response;
     } catch (e) {
-      if (e is DioError) {
+      if (e is dio.DioError) {
         print('Status code: ${e.response?.statusCode}');
         print('Response data: ${e.response?.data}');
         return e.response!;
       }
-      print('Registration failed: $e');
-      return Response(
-        requestOptions: RequestOptions(path: '$_baseUrl/${APIConstants.REGISTER}'),
+      return dio.Response(
+        requestOptions: dio.RequestOptions(path: '$_baseUrl/${APIConstants.REGISTER}'),
         statusCode: 500,
         statusMessage: 'Registration failed',
       );
     }
   }
 
-  Future<Response> login(Map<String, dynamic> userData) async {
+  Future<void> login(String username, String password) async {
     try {
       final response = await _dio.post(
-        '$_baseUrl/${APIConstants.LOGIN}', // URL đăng nhập của bạn
-        data: FormData.fromMap(userData),
-        options: Options(
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+        '$_baseUrl/${APIConstants.LOGIN}',
+        data: dio.FormData.fromMap({
+          'username': username,
+          'password': password,
+        }),
+        options: dio.Options(
+          contentType: dio.Headers.multipartFormDataContentType,
         ),
       );
+      print("Full response: $response");
 
-      // Kiểm tra phản hồi để xác định đăng nhập có thành công không
-      if (response.statusCode == 200 && response.data['status'] == 'ok') {
-        // Lấy sessionCode từ phản hồi
-        final newSessionCode = response.data['sessionCode'];
+      Map<String, dynamic> responseData = jsonDecode(response.data);
+      print("Full response: $responseData");
+      if (responseData['status'] == "ok") {
+        String token = responseData['sessionCode'];
+        print("Token received: $token");
 
-        // Lưu sessionCode mới vào local storage
-        await CSLocalStorage.saveData('sessionCode', newSessionCode);
-        print("Session code saved: $newSessionCode");
-        // Khi đăng nhập thành công, bạn cần lưu thông tin người dùng vào localStorage
-        final userJson = json.encode(user.toJson());  // user là đối tượng của User model
-        await CSLocalStorage.saveData('user_data', userJson);
+        // Write to secure storage
+        await storage.write(key: 'session_token', value: responseData['sessionCode']);
 
-        return response; // Trả về phản hồi đăng nhập thành công
+        print("Token saved to secure storage.");
+
+        // Optionally read back the token to confirm
+        String? storedToken = await storage.read(key: 'session_token');
+        print("Stored token: $storedToken");
+
       } else {
-        print("Đăng nhập thất bại: ${response.data['message']}");
-        return response; // Trả về phản hồi lỗi
+        print("Login failed: ${responseData['message']}");
       }
     } catch (e) {
-      print('Lỗi khi gọi API đăng nhập: $e');
-      throw e; // Ném lỗi để xử lý ngoài hàm này nếu cần
+      if (e is dio.DioError && e.response != null) {
+        print("Status Code: ${e.response?.statusCode}");
+        print("Response Data: ${e.response?.data}");
+      }
     }
   }
-  Future<Response> getUserInfo() async {
+
+  Future<Map<String, dynamic>?> fetchData(String token) async {
     try {
-      // Lấy sessionCode đã lưu
-      final sessionCode = await CSLocalStorage.getItem('sessionCode');
-      if (sessionCode == null) {
-        throw 'Không tìm thấy sessionCode, người dùng chưa đăng nhập';
+      if (token == null) {
+        print("User is not logged in");
+        return null;
       }
 
-      // Gửi yêu cầu GET để lấy thông tin người dùng
       final response = await _dio.get(
-        '$_baseUrl/${APIConstants.GET_INFO_USER}', // Thay thế bằng URL chính xác
-        options: Options(
+        '$_baseUrl/${APIConstants.GET_INFO_USER}',
+        options: dio.Options(
           headers: {
-            'Session-Code': sessionCode, // Thêm sessionCode vào header
+            'Authorization': 'Bearer $token', // Add Bearer token for authorization
+            'Session-Code': token, // Assuming sessionCode is the same as the token
+            'ngrok-skip-browser-warning': 'true', // Include ngrok header
           },
         ),
       );
 
-      if (response.statusCode == 200 && response.data['status'] == 'ok') {
-        print('Thông tin người dùng: ${response.data['content']}');
-        return response; // Trả về thông tin người dùng
+      Map<String, dynamic> responseData = jsonDecode(response.data);
+
+      if (response.statusCode == 200 && responseData['status'] == 'ok') {
+        final userInfo = responseData['content'];
+        return userInfo;
+        print("User Info: $userInfo");
       } else {
-        throw 'Lỗi: ${response.data['message']}';
+        print("Error fetching data: ${responseData['message']}");
       }
     } catch (e) {
-      print('Lỗi khi lấy thông tin người dùng: $e');
-      throw e;
+      if (e is dio.DioError) {
+        print("Failed to fetch user info: ${e.response?.data ?? e.message}");
+      } else {
+        print("Failed to fetch user info: $e");
+      }
     }
   }
-  Future<Response> updateUserInfo(Map<String, dynamic> userData) async {
-    final sessionCode = await CSLocalStorage.getItem('sessionCode');
-    if (sessionCode == null) {
-      throw 'Không tìm thấy sessionCode, người dùng chưa đăng nhập';
-    }
 
-    return await _dio.post(
-      '$_baseUrl/api/updateUserInfo',
-      data: FormData.fromMap(userData),
-      options: Options(
-        headers: {
-          'Session-Code': sessionCode,
-        },
-      ),
-    );
+  Future<void> logout() async {
+    await storage.delete(key: 'session_token');
   }
 }
