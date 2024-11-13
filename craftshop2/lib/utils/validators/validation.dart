@@ -1,11 +1,17 @@
 class CSValidator{
   static String? validateEmail(String? value){
     if(value == null || value.isEmpty){
-      return "Email is required";
+      return "User is required";
     }
     final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
     if(!emailRegExp.hasMatch(value)){
-      return "Enter a valid email";
+      return "Enter a valid User";
+    }
+    return null;
+  }
+  static String? validateEmptyText( String? fieldName, String? value){
+    if(value == null || value.isEmpty){
+      return "$fieldName is required";
     }
     return null;
   }

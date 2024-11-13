@@ -58,13 +58,35 @@ class User {
       updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'username': username,
+      'name': name,
+      'email': email,
+      'phoneNumber': phoneNumber,
+      'address': address,
+      'province': province,
+      'city': city,
+      'district': district,
+      'ward': ward,
+      'gender': gender,
+      'birthDate': birthDate?.toIso8601String(),
+      'avatar': avatar?.toJson(),
+      'role': role,
+      'accountStatus': accountStatus,
+      'createdAt': createdAt?.toIso8601String(),
+      'updatedAt': updatedAt?.toIso8601String(),
+    };
+  }
 }
 
 class Avatar {
-  final String? id; // Make nullable
-  final String? name; // Make nullable
-  final String? accessibility; // Make nullable
-  final DateTime? createdAt; // Make nullable
+  final String? id;
+  final String? name;
+  final String? accessibility;
+  final DateTime? createdAt;
 
   Avatar({
     this.id,
@@ -80,5 +102,14 @@ class Avatar {
       accessibility: json['accessibility'],
       createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'accessibility': accessibility,
+      'createdAt': createdAt?.toIso8601String(),
+    };
   }
 }

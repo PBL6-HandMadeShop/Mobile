@@ -6,10 +6,22 @@ import 'package:flutter/material.dart';
 import '../../../../../common/brand/brand_showcase.dart';
 import '../../../../../utils/constants/image_string.dart';
 import '../../../../../utils/constants/sizes.dart';
+import '../../../controllers/cs_home_product_controller.dart';
+import '../../../models/model_category.dart';
 
-class CsCategoryTab extends StatelessWidget {
+class CsCategoryTab extends StatefulWidget {
   const CsCategoryTab({super.key});
+  @override
+  _CsCategoryTabState createState() => _CsCategoryTabState();
 
+}
+class _CsCategoryTabState extends State<CsCategoryTab> {
+  late Future<List<Product>> _products;
+  @override
+  void initState() {
+    super.initState();
+    _products = ProductService().getProductsPage(0, 10);  // Lấy dữ liệu sản phẩm từ API
+  }
   @override
   Widget build(BuildContext context) {
     return  ListView(

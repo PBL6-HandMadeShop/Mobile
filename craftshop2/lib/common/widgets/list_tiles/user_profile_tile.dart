@@ -45,10 +45,12 @@ class _CSUserProfileTile extends State<CSUserProfileTile> {
         });
       } else {
         print('No user data found in local storage.');
+        setState(() {
+          isLoading = false;
+        });
       }
     } catch (e) {
       print('Failed to load user info: $e');
-    } finally {
       setState(() {
         isLoading = false;
       });
@@ -58,18 +60,24 @@ class _CSUserProfileTile extends State<CSUserProfileTile> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: const CSCircularImage(
-        image: CSImage.user,
+      leading: isLoading
+          ? const CircularProgressIndicator() // Show loading indicator while fetching
+          : CSCircularImage(
+        image: _userData?.avatar?.name ?? CSImage.user, // Fallback image if no avatar
         width: 50,
         height: 50,
         padding: 0,
       ),
-      title: Text(
-        _userData?.name ?? 'No Name',
+      title: isLoading
+          ? const Text('Loading...') // Show loading text while fetching
+          : Text(
+        _userData?.name ?? 'No Name', // Display user name or fallback text
         style: Theme.of(context).textTheme.headlineSmall!.apply(color: CSColors.white),
       ),
-      subtitle: Text(
-        _userData?.email ?? 'No Email',
+      subtitle: isLoading
+          ? const Text('') // Blank subtitle while loading
+          : Text(
+        _userData?.email ?? 'No Email', // Display user email or fallback text
         style: Theme.of(context).textTheme.headlineSmall!.apply(color: CSColors.white),
       ),
       trailing: IconButton(

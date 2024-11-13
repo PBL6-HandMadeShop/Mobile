@@ -1,68 +1,51 @@
 import 'dart:convert';
-
+import 'package:craftshop2/features/authencation/controllers/login_controller/login_controller.dart';
 import 'package:craftshop2/features/authencation/screens/password_configuration/forget_password.dart';
 import 'package:craftshop2/features/authencation/screens/signUp/sign_up.dart';
+import 'package:craftshop2/features/shop/screens/home/home.dart';
 import 'package:craftshop2/navigation_menu.dart';
 import 'package:craftshop2/utils/constants/texts.dart';
 import 'package:craftshop2/utils/local_storage/storage_utility.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:craftshop2/utils/http/http_client.dart';
-
 import '../../../../../utils/constants/sizes.dart';
 
-class CSLoginform extends StatefulWidget {
-  const CSLoginform({super.key});
+class CSLoginForm extends StatefulWidget {
+  const CSLoginForm({Key? key}) : super(key: key);
 
   @override
-  _CSLoginformState createState() => _CSLoginformState();
+  State<CSLoginForm> createState() => _CSLoginFormState();
 }
 
-class _CSLoginformState extends State<CSLoginform> {
+class _CSLoginFormState extends State<CSLoginForm> {
   final _formKey = GlobalKey<FormState>();
-  final _usernameController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final LoginController _loginController = Get.put(LoginController());
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
+
   void _login() async {
     if (_formKey.currentState!.validate()) {
       final username = _usernameController.text.trim();
       final password = _passwordController.text.trim();
 
-      // Check if username is not empty
-      if (username.isEmpty) {
-        print('Username cannot be empty');
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Username cannot be empty')),
-        );
-        return; // Prevent further processing
-      }
       final data = {
-        'username': _usernameController.text.trim(),
-        'password': _passwordController.text.trim(),
+        'username': username,
+        'password': password,
       };
 
-      print("Data being sent: $data");
       try {
-        final response = await CSHttpClient.login(data);
-        print('Login successful: $response');
-
-        // Save user data to local storage
-        if (response['status'] == 'ok') {
-          final userData = response['content'];
-          await CSLocalStorage.saveData('user_data', json.encode(userData)); // Save user data as JSON
-          Get.to(() => const NavigationMenu());
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Login failed: ${response['message']}')),
-          );
-        }
+        // Gọi hàm đăng nhập từ LoginController
+        await _loginController.loginUser(data);
+        // Assuming the response is handled inside the controller
       } catch (e) {
-        print('Login failed: $e');
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Login failed: $e')),
         );
       }
+
+      Get.to(() =>NavigationMenu());
     }
   }
 
@@ -88,32 +71,30 @@ class _CSLoginformState extends State<CSLoginform> {
               },
             ),
             const SizedBox(height: CSSize.spaceBtwInputFields),
-
-
-        TextFormField(
-        controller: _passwordController,
-        decoration: InputDecoration(
-          prefixIcon: Icon(Iconsax.password_check),
-          labelText: CSText.password,
-          suffixIcon: IconButton(
-            icon: Icon(
-              _isPasswordVisible ? Iconsax.eye : Iconsax.eye_slash,
+            TextFormField(
+              controller: _passwordController,
+              decoration: InputDecoration(
+                prefixIcon: const Icon(Iconsax.password_check),
+                labelText: CSText.password,
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _isPasswordVisible ? Iconsax.eye : Iconsax.eye_slash,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _isPasswordVisible = !_isPasswordVisible;
+                    });
+                  },
+                ),
+              ),
+              obscureText: !_isPasswordVisible,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your password';
+                }
+                return null;
+              },
             ),
-            onPressed: () {
-              setState(() {
-                _isPasswordVisible = !_isPasswordVisible;
-              });
-            },
-          ),
-        ),
-        obscureText: !_isPasswordVisible,
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter your password';
-          }
-          return null;
-        },
-      ),
             const SizedBox(height: CSSize.spaceBtwInputFields / 2),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

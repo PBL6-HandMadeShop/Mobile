@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:craftshop2/utils/local_storage/storage_utility.dart';
+import 'package:dio/dio.dart';
+import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import '../constants/api_constants.dart';
 
@@ -72,6 +74,23 @@ class CSHttpClient {
     } catch (e) {
       print('Network error: $e');
       throw Exception('Network error: $e');
+    }
+  }
+  static Future<Map<String, dynamic>> logout() async {
+    var uri = Uri.parse('$_baseUrl/${APIConstants.LOGOUT}');
+
+    final response = await http.post(
+      uri,
+      headers: {
+        'Content-Type': 'application/json',
+        'ngrok-skip-browser-warning': 'true',},
+    );
+
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+      return responseData;
+    } else {
+      return {'status': 'error', 'message': 'Logout failed due to server error'};
     }
   }
   // Helper method to get user info
@@ -179,6 +198,32 @@ class CSHttpClient {
     }
   }
 
+  Future<Map<String, dynamic>> getProductType(String id) async {
+    try {
+      final response = await Dio().get(
+        get(APIConstants.GET_PRODUCT_TYPE) as String, // Thay bằng URL thực tế
+        queryParameters: {'id': id},
+      );
+
+      if (response.statusCode == 200 && response.data['status'] == 'ok') {
+        return {
+          'status': 'ok',
+          'content': response.data['content'],
+          'message': response.data['message'],
+        };
+      } else {
+        return {
+          'status': 'error',
+          'message': response.data['message'] ?? 'Error fetching product type',
+        };
+      }
+    } catch (e) {
+      return {
+        'status': 'error',
+        'message': 'An error occurred: $e',
+      };
+    }
+  }
   // Handle response
   static Map<String, dynamic> _handleResponse(http.Response response) {
     if (response.statusCode == 200) {

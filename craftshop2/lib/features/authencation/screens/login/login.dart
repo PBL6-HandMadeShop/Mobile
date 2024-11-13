@@ -22,7 +22,7 @@ class LoginScreen extends StatelessWidget {
           children: [
             /// Login, title subtitle
             CSLoginHeader(dark: dark),
-            const CSLoginform(),
+            const CSLoginForm(),
             /// Drivider
             CSFormDivider(dividerText: CSText.orSignInWith, dark: dark),
             const SizedBox(height: CSSize.spaceBtwSections,),
