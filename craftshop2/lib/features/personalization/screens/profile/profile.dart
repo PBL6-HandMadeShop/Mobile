@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:craftshop2/common/widgets/texts/section_heading.dart';
 import 'package:craftshop2/features/personalization/screens/profile/widgets/profile_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../../common/widgets/appbar/appbar.dart';
@@ -12,6 +14,7 @@ import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/http/http_client.dart';
 import '../../../../utils/local_storage/storage_utility.dart';
 import '../../../authencation/models/user_model.dart';
+import '../../../authencation/screens/login/login.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -140,7 +143,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
               Center(
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () async{
+                    if (_userData?.accountStatus != 'ACTIVE') {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Account is not active. Logout denied.')),
+                      );
+                      return;
+                    }
+                    final response = await CSHttpClient.logout();
+                    if(response['status'] == 'ok'){
+                      await CSLocalStorage.removeData('user_data');
+                      Get.offAll(() => const LoginScreen());
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(response['message']?? 'Logged out successfully')),
+                      );
+                    }else{
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(response['message'] ?? 'Logout failed')),
+                      );
+                    }
+                  },
                   child: const Text('Close Account'),
                   style: TextButton.styleFrom(
                     foregroundColor: Colors.red, // Set the text color to red

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:craftshop2/features/authencation/screens/login/login.dart';
 import 'package:craftshop2/features/authencation/screens/signUp/widgets/term_and_condition.dart';
 import 'package:craftshop2/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/constants/texts.dart';
+import '../../../controllers/registration/register_controller.dart';
 import '../verify_email.dart';
 
 class CSSignupForm extends StatefulWidget {
@@ -20,6 +22,9 @@ class CSSignupForm extends StatefulWidget {
 
 class _CSSignupFormState extends State<CSSignupForm> {
   final _formKey = GlobalKey<FormState>();
+  final RegisterController _registerController = RegisterController();
+
+
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
@@ -49,8 +54,11 @@ class _CSSignupFormState extends State<CSSignupForm> {
     );
     if (picked != null) {
       setState(() {
-        _birthDateController.text = "${picked.year}-${picked.month}-${picked.day}";
+        final formattedMonth = picked.month.toString().padLeft(2, '0');
+        final formattedDay = picked.day.toString().padLeft(2, '0');
+        _birthDateController.text = "[${picked.year},$formattedMonth,$formattedDay]";
       });
+
     }
   }
 
@@ -58,27 +66,21 @@ class _CSSignupFormState extends State<CSSignupForm> {
 
   void _register() async {
     if (_formKey.currentState!.validate()) {
+      // Tạo dữ liệu đăng ký dưới dạng Map
       final data = {
         'name': _nameController.text.trim(),
         'email': _emailController.text.trim(),
         'phoneNumber': _phoneNumberController.text.trim(),
         'username': _usernameController.text.trim(),
         'gender': _isMale ? 'MALE' : 'FEMALE',
-        'birthDate': _birthDateController.text, // Adjust date format
+        'birthDate': _birthDateController.text,
       };
-      print("Data being sent: $data");
-      try {
-        final response = await CSHttpClient.register(jsonEncode(data) as Map<String, String>);
-        print('Registration successful: $response');
-        // Navigate to the VerifyEmail screen
-        Get.to(() => const VerifyEmailScreen());
-      } catch (e) {
-        print('Registration failed: $e');
-        // Show error message if registration fails
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Registration failed: $e')),
-        );
-      }
+
+      // Gọi hàm đăng ký từ RegisterController
+      await _registerController.registerUser(data);
+
+      // Xử lý thành công, ví dụ điều hướng đến trang khác
+       Get.to(()=> const LoginScreen());
     }
   }
 
@@ -195,6 +197,7 @@ class _CSSignupFormState extends State<CSSignupForm> {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: _register,
+
               child: const Text(CSText.createAccount),
             ),
           ),

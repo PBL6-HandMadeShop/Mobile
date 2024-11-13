@@ -2,6 +2,8 @@ import 'package:craftshop2/features/authencation/screens/onboarding/onboarding.d
 import 'package:craftshop2/utils/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'biindings/general_bindings.dart';
  ///-----Use this class to setup themes, initial Bindings, any animations and
 class App extends StatelessWidget {
   const App({super.key});
