@@ -1,13 +1,30 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:craftshop2/utils/local_storage/storage_utility.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
 import 'package:http/http.dart' as http;
+
 import '../constants/api_constants.dart';
 
 class CSHttpClient {
   static const String _baseUrl = APIConstants.BASE_URL;
 
+
+  HttpClient _createHttpClient() {
+    final client = HttpClient();
+    client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+    return client;
+  }
+
+
+
+  Future<http.Response> customPostRequest(Uri uri, Map<String, String> headers, String body) async {
+    final client = http.Client();
+    final request = await client.post(uri, headers: headers, body: body);
+    return request;
+  }
   // Helper method to register user using MultipartRequest
   static Future<Map<String, dynamic>> register(Map<String, String> data) async {
     var uri = Uri.parse('$_baseUrl/${APIConstants.REGISTER}');

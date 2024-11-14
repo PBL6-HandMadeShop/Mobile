@@ -1,8 +1,14 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:craftshop2/common/widgets/texts/section_heading.dart';
+import 'package:craftshop2/features/personalization/screens/profile/change_infor/change_name.dart';
+import 'package:craftshop2/features/personalization/screens/profile/change_infor/change_phone.dart';
+import 'package:craftshop2/utils/http/api_service.dart';
 import 'package:craftshop2/features/personalization/screens/profile/widgets/profile_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
@@ -24,9 +30,11 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  User? _userData;
-  bool isLoading = true;
 
+  bool isLoading = true;
+  final API_Services api_services = API_Services();
+  final FlutterSecureStorage storage = FlutterSecureStorage();
+  Map<String, dynamic>? userInfo;
   @override
   void initState() {
     super.initState();
@@ -39,37 +47,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
 
     try {
-      // final response = await CSHttpClient.getUserInfo();
-      //
-      // if (response['status'] == 'ok') {
-      //   // Parse and set user data
-      //   setState(() {
-      //     _userData = User.fromJson(response['content']);
-      //     isLoading = false;
-      //     print("User info fetched: $_userData");
-      //   });
-      // Attempt to read user data from local storage
-      final userDataJson = await CSLocalStorage.readData(
-          'user_data'); // Assuming you saved user data as JSON
-      if (userDataJson != null) {
-        // Parse the user data
-        setState(() {
-          _userData = User.fromJson(json.decode(userDataJson));
-          isLoading = false;
-        });
-      } else {
-        print('No user data found in local storage.');
-      }
+      String? token = await storage.read(key: 'session_token');
+
+      Map<String, dynamic>? fetchedData = await api_services.fetchDataUser(token!);
+      setState(() {
+        userInfo = fetchedData;
+        isLoading = false;
+      });
+      print(userInfo);
     } catch (e) {
       print('Failed to load user info: $e');
-    } finally {
+    }  finally {
       setState(() {
         isLoading = false;
       });
     }
-    if (_userData != null) {
+    if (userInfo != null) {
       // Access userInfo fields
-      String? name = _userData!.name; // Make sure this field is not null
+      String? name = "${userInfo!['name']}"; // Make sure this field is not null
     } else {
       // Handle the case where userInfo is null
     }
@@ -109,12 +104,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
               const SizedBox(height: CSSize.spaceBtwItems),
 
               CSProfileMenu(
-                  onPressed: () {},
+                  onPressed: () => Get.to(() => const ChangeName()) ,
                   title: "Name",
-                  value: _userData?.name ?? 'No loading'),
+                  value: "${userInfo!['name']}" ?? 'No loading'),
               CSProfileMenu(
                   onPressed: () {}, title: 'Username',
-                  value:_userData?.username ?? 'No loading'),
+                  value:"${userInfo!["username"]}" ?? 'No loading'),
 
               const SizedBox(height: CSSize.spaceBtwItems),
               const Divider(),
@@ -125,43 +120,53 @@ class _ProfileScreenState extends State<ProfileScreen> {
               const SizedBox(height: CSSize.spaceBtwItems),
 
               CSProfileMenu(
-                  onPressed: () {},
+                  onPressed: () async {
+                    String userId = "${userInfo!['id']}" ?? 'No loading';
+
+                    // Copy to clipboard
+                    await Clipboard.setData(ClipboardData(text: userId));
+
+                    // Show confirmation to user
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('User ID copied to clipboard')),
+                    );
+                  },
                   title: 'User ID',
                   icon: Iconsax.copy,
-                  value: _userData?.id ?? 'No loading'),
+                  value: "${userInfo!['id']}" ?? 'No loading'),
               CSProfileMenu(
-                  onPressed: () {}, title: 'E-mail', value: _userData?.email ?? 'No loading'),
+                  onPressed: () async {
+                    String email = "${userInfo!['email']}" ?? 'No loading';
+
+                    // Copy to clipboard
+                    await Clipboard.setData(ClipboardData(text: email));
+
+                    // Show confirmation to user
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Email copied to clipboard')),
+                    );
+                  },icon: Iconsax.copy, title: 'E-mail', value: "${userInfo!['email']}" ?? 'No loading'),
               CSProfileMenu(
-                  onPressed: () {},
+                  onPressed: ()=> Get.to(() => const ChangePhone())  ,
                   title: 'Phone Number',
-                  value: _userData?.phoneNumber ?? 'No loading'),
-              CSProfileMenu(onPressed: () {}, title: 'Gender', value: _userData?.gender ?? 'N/A'),
+                  value: "${userInfo!['phoneNumber']}" ?? 'No loading'),
+              CSProfileMenu(onPressed: () {}, title: 'Gender', value: "${userInfo!['gender']}" ?? 'N/A'),
               CSProfileMenu(
-                  onPressed: () {}, title: 'Birthday', value: _userData?.birthDate?.toString() ?? 'N/A'),
+                  onPressed: () {}, title: 'Birthday', value: "${userInfo!['birthDate']}".toString() ?? 'N/A'),
               const Divider(),
               const SizedBox(height: CSSize.spaceBtwItems),
 
               Center(
                 child: TextButton(
                   onPressed: () async{
-                    if (_userData?.accountStatus != 'ACTIVE') {
+                    if ("${userInfo!['accountStatus']}" != 'ACTIVE') {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('Account is not active. Logout denied.')),
                       );
                       return;
                     }
-                    final response = await CSHttpClient.logout();
-                    if(response['status'] == 'ok'){
-                      await CSLocalStorage.removeData('user_data');
-                      Get.offAll(() => const LoginScreen());
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(response['message']?? 'Logged out successfully')),
-                      );
-                    }else{
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(response['message'] ?? 'Logout failed')),
-                      );
-                    }
+                    final response = await api_services.logout();
+                    Get.to(() => const LoginScreen());
                   },
                   child: const Text('Close Account'),
                   style: TextButton.styleFrom(

@@ -150,27 +150,29 @@ class _CSSignupFormState extends State<CSSignupForm> {
             },
           ),
           const SizedBox(height: CSSize.spaceBtwInputFields/2),
-          Row(
-            children: [
-              Expanded(
-                child: CheckboxListTile(
-                  title: const Text('Male'),
-                  value: _isMale,
-                  onChanged: (bool? value) {
-                    _handleGenderChange('MALE');
-                  },
+          Form(
+            child: Row(
+              children: [
+                Expanded(
+                  child: CheckboxListTile(
+                    title: const Text('Male'),
+                    value: _isMale,
+                    onChanged: (bool? value) {
+                      _handleGenderChange('MALE');
+                    },
+                  ),
                 ),
-              ),
-              Expanded(
-                child: CheckboxListTile(
-                  title: const Text('Female'),
-                  value: _isFemale,
-                  onChanged: (bool? value) {
-                    _handleGenderChange('FEMALE');
-                  },
+                Expanded(
+                  child: CheckboxListTile(
+                    title: const Text('Female'),
+                    value: _isFemale,
+                    onChanged: (bool? value) {
+                      _handleGenderChange('FEMALE');
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           const SizedBox(height: CSSize.spaceBtwInputFields/2),
           TextFormField(

@@ -50,14 +50,15 @@ class User {
       district: json['district'],
       ward: json['ward'],
       gender: json['gender'],
-      birthDate: json['birthDate'] != null ? DateTime.parse(json['birthDate']) : null,
+      birthDate: json['birthDate'] != null ? DateTime.tryParse(json['birthDate']) : null,
       avatar: json['avatar'] != null ? Avatar.fromJson(json['avatar']) : null,
       role: json['role'],
       accountStatus: json['accountStatus'],
-      createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
-      updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
+      createdAt: json['createdAt'] != null ? DateTime.tryParse(json['createdAt']) : null,
+      updatedAt: json['updatedAt'] != null ? DateTime.tryParse(json['updatedAt']) : null,
     );
   }
+
 
   Map<String, dynamic> toJson() {
     return {

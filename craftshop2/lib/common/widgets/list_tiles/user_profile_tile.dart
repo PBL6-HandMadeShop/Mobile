@@ -1,12 +1,14 @@
 import 'dart:convert';
 
+import 'package:craftshop2/utils/http/api_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../features/authencation/models/user_model.dart';
 import '../../../utils/constants/colors.dart';
 import '../../../utils/constants/image_string.dart';
-import '../../../utils/local_storage/storage_utility.dart';
+
 import '../images/cs_circular_image.dart';
 
 class CSUserProfileTile extends StatefulWidget {
@@ -24,7 +26,9 @@ class CSUserProfileTile extends StatefulWidget {
 class _CSUserProfileTile extends State<CSUserProfileTile> {
   User? _userData;
   bool isLoading = true;
-
+  final API_Services api_services = API_Services();
+  final FlutterSecureStorage storage = FlutterSecureStorage();
+  Map<String, dynamic>? userInfo;
   @override
   void initState() {
     super.initState();
@@ -37,20 +41,16 @@ class _CSUserProfileTile extends State<CSUserProfileTile> {
     });
 
     try {
-      final userDataJson = await CSLocalStorage.readData('user_data');
-      if (userDataJson != null) {
+      String? token = await storage.read(key: 'session_token');
+      Map<String, dynamic>? fetchedData = await api_services.fetchDataUser(token!);
         setState(() {
-          _userData = User.fromJson(json.decode(userDataJson));
+          userInfo = fetchedData;
           isLoading = false;
         });
-      } else {
-        print('No user data found in local storage.');
-        setState(() {
-          isLoading = false;
-        });
-      }
+        print(userInfo);
     } catch (e) {
       print('Failed to load user info: $e');
+    } finally {
       setState(() {
         isLoading = false;
       });
@@ -60,24 +60,18 @@ class _CSUserProfileTile extends State<CSUserProfileTile> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: isLoading
-          ? const CircularProgressIndicator() // Show loading indicator while fetching
-          : CSCircularImage(
-        image: _userData?.avatar?.name ?? CSImage.user, // Fallback image if no avatar
+      leading: const CSCircularImage(
+        image: CSImage.user,
         width: 50,
         height: 50,
         padding: 0,
       ),
-      title: isLoading
-          ? const Text('Loading...') // Show loading text while fetching
-          : Text(
-        _userData?.name ?? 'No Name', // Display user name or fallback text
+      title: Text(
+          "${userInfo!['name']}" ?? 'No Name',
         style: Theme.of(context).textTheme.headlineSmall!.apply(color: CSColors.white),
       ),
-      subtitle: isLoading
-          ? const Text('') // Blank subtitle while loading
-          : Text(
-        _userData?.email ?? 'No Email', // Display user email or fallback text
+      subtitle: Text(
+      "${userInfo!['email']}"?? 'No Email',
         style: Theme.of(context).textTheme.headlineSmall!.apply(color: CSColors.white),
       ),
       trailing: IconButton(

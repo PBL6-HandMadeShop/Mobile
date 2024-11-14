@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:get_storage/get_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../features/authencation/models/user_model.dart';
+
 class CSLocalStorage {
   static final CSLocalStorage _instance = CSLocalStorage._internal();
 
@@ -12,14 +14,35 @@ class CSLocalStorage {
   CSLocalStorage._internal();
 
   final _storage = GetStorage();
+  static Future<void> saveUserData(User user) async {
+    final prefs = await SharedPreferences.getInstance();
+    final userData = jsonEncode(user.toJson());
+    await prefs.setString('userData', userData);
+    print('User data saved: $userData'); // Debug print to confirm data is saved
+  }
 
+  static Future<User?> loadUserData() async {
+    final prefs = await SharedPreferences.getInstance();
+    final userData = prefs.getString('userData');
+    if (userData != null) {
+      return User.fromJson(jsonDecode(userData));
+    }
+    return null;
+  }
+  static Future<User?> readUserData() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? userJson = prefs.getString('user_data');
+    if (userJson != null) {
+      return User.fromJson(jsonDecode(userJson)); // Decode JSON to User object
+    }
+    return null;
+  }
   // Phương thức lưu dữ liệu vào SharedPreferences
   static Future<void> saveData(String key, String value) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(key, value);
   }
 
-  // Phương thức đọc dữ liệu từ SharedPreferences
   static Future<String?> readData(String key) async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(key);
