@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:craftshop2/features/authencation/controllers/connect_api/api_service.dart';
+import 'package:craftshop2/utils/http/api_service.dart';
 import 'package:craftshop2/features/authencation/controllers/login_controller/login_controller.dart';
 import 'package:craftshop2/features/authencation/screens/password_configuration/forget_password.dart';
 import 'package:craftshop2/features/authencation/screens/signUp/sign_up.dart';

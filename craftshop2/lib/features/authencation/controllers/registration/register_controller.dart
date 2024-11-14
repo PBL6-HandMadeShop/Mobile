@@ -1,6 +1,6 @@
 // controllers/registration/register_controller.dart
 import '../registration/register_controller.dart';
-import '../connect_api/api_service.dart';
+import '../../../../utils/http/api_service.dart';
 
 class RegisterController {
   final API_Services _registrationApi = API_Services();

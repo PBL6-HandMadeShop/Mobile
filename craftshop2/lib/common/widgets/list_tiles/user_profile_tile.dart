@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:craftshop2/features/authencation/controllers/connect_api/api_service.dart';
+import 'package:craftshop2/utils/http/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:iconsax/iconsax.dart';
@@ -42,7 +42,7 @@ class _CSUserProfileTile extends State<CSUserProfileTile> {
 
     try {
       String? token = await storage.read(key: 'session_token');
-      Map<String, dynamic>? fetchedData = await api_services.fetchData(token!);
+      Map<String, dynamic>? fetchedData = await api_services.fetchDataUser(token!);
         setState(() {
           userInfo = fetchedData;
           isLoading = false;
