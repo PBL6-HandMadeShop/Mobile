@@ -12,5 +12,6 @@ class APIConstants {
   static const String GET_LINE_PRODUCT_PAGE = 'api/getProductLinesPage';
   static const String GENERATE_CODE = 'api/generatePasswordCode';
   static const String GET_PROUCT_PAGE = 'api/getProductsPage';
+  static const String GET_PRODUCT_TYPE_PAGE = '/api/getProductTypesPage';
 
 }

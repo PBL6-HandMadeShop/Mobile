@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:craftshop2/features/authencation/models/user_model.dart';
+import 'dart:typed_data';
+
 import 'package:dio/dio.dart' as dio;
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:path_provider/path_provider.dart';
+
 
 import '../constants/api_constants.dart';
 
@@ -163,48 +164,44 @@ class API_Services {
     }
   }
 
-  Future<String?> downloadFileAndSave({String? fileId, required String token}) async {
+  Future<Uint8List?> downloadFile(String id, String token) async {
     try {
-      final response = await _dio.get(
+      Response response = await _dio.get(
         '$_baseUrl/${APIConstants.DOWNLOAD_IMAGE}',
-        queryParameters: {'id': fileId},
-        options: dio.Options(
+        queryParameters: {
+          'id': id,  // Hoặc bạn có thể sử dụng 'name': 'filename'
+        },
+
+        options: Options(
+          responseType: ResponseType.bytes,
           headers: {
-            'Authorization': 'Bearer $token',
-            'Session-Code': token,
-            'ngrok-skip-browser-warning': 'true',
-          },
-          responseType: dio.ResponseType.bytes, // Lấy dữ liệu dưới dạng byte
+            'Authorization': 'Bearer $token', // Add Bearer token for authorization
+            'Session-Code': token, // Assuming sessionCode is the same as the token
+            'ngrok-skip-browser-warning': 'true', // Include ngrok header
+          },// Để nhận dữ liệu dạng binary
         ),
       );
 
+      // Kiểm tra nếu tải thành công và trả về dữ liệu binary (file)
       if (response.statusCode == 200) {
-        // Lưu file vào bộ nhớ tạm
-        final Directory tempDir = await getTemporaryDirectory();
-        final String filePath = '${tempDir.path}/$fileId.png';
-        final File file = File(filePath);
-
-        await file.writeAsBytes(response.data);
-        return filePath;
+        return response.data;  // Trả về dữ liệu binary của file
+      } else {
+        print('Failed to download file: ${response.statusCode}');
+        return null;
       }
     } catch (e) {
-      print("Failed to download and save file: $e");
+      print('Error downloading file: $e');
+      return null;
     }
-    return null;
   }
+
 
 
   Future<void> logout() async {
     await storage.delete(key: 'session_token');
   }
 
-  Future<dio.Response> updateInformation({
-    String? name,
-    String? phoneNumber,
-    String? address,
-    File? avatar,
-    required String token,
-  }) async {
+  Future<dio.Response> updateInformation({String? name, String? phoneNumber, String? address, File? avatar, required String token,}) async {
     try {
       final data = {
         if (name != null) 'name': name,
@@ -222,6 +219,7 @@ class API_Services {
             'Session-Code': token,
             'ngrok-skip-browser-warning': 'true',
           },
+
         ),
       );
 
@@ -265,6 +263,51 @@ class API_Services {
         'status': 'error',
         'message': 'An error occurred: $e',
       };
+    }
+  }
+
+  Future<Map<String, dynamic>> getProductType(String productId) async {
+
+    try {
+      final response = await _dio.get(
+          '$_baseUrl/${APIConstants.GET_PRODUCT_TYPE}',
+      queryParameters: {'id': productId});
+      Map<String, dynamic> responseData = jsonDecode(response.data);
+      if (response.statusCode == 200 && responseData['status'] == 'ok') {
+        return {
+          'status': 'ok',
+          'message': responseData['message'],
+          'content': responseData['content'],
+        };
+      } else {
+        return {
+          'status': 'error',
+          'message': responseData['message'] ?? 'Unknown error occurred',
+        };
+      }
+    } catch (e) {
+      return {
+        'status': 'error',
+        'message': 'Failed to fetch data: $e',
+      };
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getProductTypesPage({int page = 0, int size = 10}) async {
+    final params = {'page': page, 'size': size};
+
+    try {
+      final response = await _dio.get(
+          '$_baseUrl/${APIConstants.GET_PRODUCT_TYPE_PAGE}',
+      queryParameters: params);
+      Map<String, dynamic> responseData = jsonDecode(response.data);
+      if (response.statusCode == 200 && responseData['status'] == 'ok') {
+        return List<Map<String, dynamic>>.from(responseData['content']);
+      } else {
+        throw Exception('Failed to load product types');
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
     }
   }
 }
