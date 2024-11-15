@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:craftshop2/utils/http/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -8,8 +6,8 @@ import 'package:iconsax/iconsax.dart';
 import '../../../features/authencation/models/user_model.dart';
 import '../../../utils/constants/colors.dart';
 import '../../../utils/constants/image_string.dart';
-
 import '../images/cs_circular_image.dart';
+import 'dart:typed_data';
 
 class CSUserProfileTile extends StatefulWidget {
   const CSUserProfileTile({
@@ -29,6 +27,8 @@ class _CSUserProfileTile extends State<CSUserProfileTile> {
   final API_Services api_services = API_Services();
   final FlutterSecureStorage storage = FlutterSecureStorage();
   Map<String, dynamic>? userInfo;
+  Uint8List? fileData;
+
   @override
   void initState() {
     super.initState();
@@ -43,11 +43,14 @@ class _CSUserProfileTile extends State<CSUserProfileTile> {
     try {
       String? token = await storage.read(key: 'session_token');
       Map<String, dynamic>? fetchedData = await api_services.fetchDataUser(token!);
-        setState(() {
-          userInfo = fetchedData;
-          isLoading = false;
-        });
-        print(userInfo);
+
+      setState(() {
+        userInfo = fetchedData;
+        isLoading = false;
+      });
+      print(userInfo);
+      print("id:  ${userInfo?['avatar']?['id']}");
+      fileData = await api_services.downloadFile("${userInfo?['avatar']?['id']}", token);
     } catch (e) {
       print('Failed to load user info: $e');
     } finally {
@@ -60,18 +63,18 @@ class _CSUserProfileTile extends State<CSUserProfileTile> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: const CSCircularImage(
-        image: CSImage.user,
+      leading: CSCircularImage(
+        image: fileData?? CSImage.user,
         width: 50,
         height: 50,
         padding: 0,
       ),
       title: Text(
-          "${userInfo!['name']}" ?? 'No Name',
+        userInfo?['name'] ?? 'No Name',
         style: Theme.of(context).textTheme.headlineSmall!.apply(color: CSColors.white),
       ),
       subtitle: Text(
-      "${userInfo!['email']}"?? 'No Email',
+        userInfo?['email'] ?? 'No Email',
         style: Theme.of(context).textTheme.headlineSmall!.apply(color: CSColors.white),
       ),
       trailing: IconButton(

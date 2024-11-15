@@ -5,6 +5,7 @@ import 'package:craftshop2/common/widgets/layouts/grid_layout.dart';
 import 'package:craftshop2/common/widgets/products/cart/cart_menu_icon.dart';
 import 'package:craftshop2/common/widgets/texts/section_heading.dart';
 import 'package:craftshop2/features/shop/controllers/product_controller.dart';
+import 'package:craftshop2/features/shop/controllers/product_type_controller.dart';
 import 'package:craftshop2/features/shop/screens/store/widget/category_tab.dart';
 
 import 'package:craftshop2/utils/constants/colors.dart';
@@ -15,6 +16,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
 import '../../../../common/brand/card_brand.dart';
+import '../../controllers/product_type_page_controller.dart';
 import '../brand/all_brands.dart';
 
 class Store extends StatelessWidget {
@@ -23,7 +25,7 @@ class Store extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final productController = Get.put(ProductController());
-
+    final productTypeController = Get.put(ProductTypePageController());
     return DefaultTabController(
         length: 4,
         child: Scaffold(
@@ -88,20 +90,13 @@ class Store extends StatelessWidget {
                   ),
 
                   /// tab-bar
-                  bottom:const CSTabBar(tabs: [
-                    Tab(
-                      child: Text("Pottery"),
-                    ),
-                    Tab(
-                      child: Text("Sculpture"),
-                    ),
-                    Tab(
-                      child: Text("Painting"),
-                    ),
-                    Tab(
-                      child: Text("Weaving"),
-                    ),
-                  ]),
+                  bottom: CSTabBar(
+                    tabs: productTypeController.productTypes.map((productType) {
+                      return Tab(
+                        child: Text(productType['name'] ?? 'Unknown'),
+                      );
+                    }).toList(),
+                  ),
                 ),
               ];
             },

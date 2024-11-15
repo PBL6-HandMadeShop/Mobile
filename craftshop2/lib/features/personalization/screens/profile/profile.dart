@@ -1,9 +1,10 @@
-import 'dart:convert';
+
 import 'dart:io';
 
 import 'package:craftshop2/common/widgets/texts/section_heading.dart';
 import 'package:craftshop2/features/personalization/screens/profile/change_infor/change_name.dart';
 import 'package:craftshop2/features/personalization/screens/profile/change_infor/change_phone.dart';
+import 'package:craftshop2/features/personalization/screens/profile/change_infor/change_picture.dart';
 import 'package:craftshop2/utils/http/api_service.dart';
 import 'package:craftshop2/features/personalization/screens/profile/widgets/profile_menu.dart';
 import 'package:flutter/material.dart';
@@ -13,13 +14,11 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
 
+
 import '../../../../common/widgets/appbar/appbar.dart';
 import '../../../../common/widgets/images/cs_circular_image.dart';
 import '../../../../utils/constants/image_string.dart';
 import '../../../../utils/constants/sizes.dart';
-import '../../../../utils/http/http_client.dart';
-import '../../../../utils/local_storage/storage_utility.dart';
-import '../../../authencation/models/user_model.dart';
 import '../../../authencation/screens/login/login.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -35,6 +34,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final API_Services api_services = API_Services();
   final FlutterSecureStorage storage = FlutterSecureStorage();
   Map<String, dynamic>? userInfo;
+  Uint8List? fileData;
+
   @override
   void initState() {
     super.initState();
@@ -54,6 +55,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         userInfo = fetchedData;
         isLoading = false;
       });
+      fileData = await api_services.downloadFile("${userInfo?['avatar']?['id']}", token);
       print(userInfo);
     } catch (e) {
       print('Failed to load user info: $e');
@@ -70,6 +72,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,11 +87,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 width: double.infinity,
                 child: Column(
                   children: [
-                    const CSCircularImage(
-                        image: CSImage.user, width: 80, height: 80),
+                    CSCircularImage(
+                        image: fileData ?? CSImage.user, width: 80, height: 80),
                     TextButton(
-                        onPressed: () {},
-                        child: const Text('Change Profile Picture')),
+                      onPressed: () {
+                        Get.to(() => const ChangePicture());
+                      },
+                      child: const Text('Change Profile Picture'),
+                    ),
                   ],
                 ),
               ),
