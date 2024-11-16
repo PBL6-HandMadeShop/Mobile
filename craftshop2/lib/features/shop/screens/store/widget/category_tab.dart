@@ -1,30 +1,34 @@
-import 'package:craftshop2/common/widgets/layouts/grid_layout.dart';
-import 'package:craftshop2/common/widgets/products/product_cart/product_cart_vertical.dart';
-import 'package:craftshop2/common/widgets/texts/section_heading.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../../../../../common/brand/brand_showcase.dart';
+import '../../../../../common/widgets/layouts/grid_layout.dart';
+import '../../../../../common/widgets/products/product_cart/product_cart_vertical.dart';
+import '../../../../../common/widgets/texts/section_heading.dart';
 import '../../../../../utils/constants/image_string.dart';
 import '../../../../../utils/constants/sizes.dart';
-import '../../../controllers/cs_home_product_controller.dart';
-import '../../../models/model_category.dart';
 
 class CsCategoryTab extends StatefulWidget {
-  const CsCategoryTab({super.key});
+  final Map<String, dynamic>? productPage; // Accept product data as a parameter
+
+  const CsCategoryTab({super.key, this.productPage});
+
   @override
   _CsCategoryTabState createState() => _CsCategoryTabState();
-
 }
+
 class _CsCategoryTabState extends State<CsCategoryTab> {
-  late Future<List<Product>> _products;
+  bool isLoading = true;
+
   @override
   void initState() {
     super.initState();
-    _products = ProductService().getProductsPage(0, 10);  // Lấy dữ liệu sản phẩm từ API
+    // The data is passed directly to the widget, so no need to fetch again
   }
+
   @override
   Widget build(BuildContext context) {
-    return  ListView(
+    final productPage = widget.productPage;
+    return ListView(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       children: [
@@ -33,26 +37,36 @@ class _CsCategoryTabState extends State<CsCategoryTab> {
           child: Column(
             children: [
               ///-- Brand
-              const CSBrandShowCase(
-                images: [
-                  CSImage.product2,
-                  CSImage.product2,
-                  CSImage.product2,
-                ],
-              ), const CSBrandShowCase(
-                images: [
-                  CSImage.product2,
-                  CSImage.product2,
-                  CSImage.product2,
-                ],
-              ),
-              const SizedBox(height: CSSize.spaceBtwItems,),
+              // const CSBrandShowCase(
+              //   images: [
+              //     CSImage.product2,
+              //     CSImage.product2,
+              //     CSImage.product2,
+              //   ],
+              // ),
+              // const CSBrandShowCase(
+              //   images: [
+              //     CSImage.product2,
+              //     CSImage.product2,
+              //     CSImage.product2,
+              //   ],
+              // ),
+              // const SizedBox(height: CSSize.spaceBtwItems),
               ///-- Products
-              CSSectionHeading(title: "You might like", showActionButton: true, onPressed: (){}),
-              const SizedBox(height: CSSize.spaceBtwItems,),
+              CSSectionHeading(title: "You might like", showActionButton: true, onPressed: () {}),
+              const SizedBox(height: CSSize.spaceBtwItems),
 
-              CSGridLayout(itemCount: 4, itemBuilder: (_, index) => const CSProductCardVertical()),
-              const SizedBox(height: CSSize.spaceBtwSections,),
+              CSGridLayout(
+                itemCount: productPage?['content']?.length ?? 0,
+                itemBuilder: (_, index) {
+                  final productData = productPage?['content']?[index];
+                  return productData != null
+                      ? CSProductCardVertical(productData: productData)
+                      : const SizedBox.shrink(); // In case no data is found
+                },
+              ),
+
+              const SizedBox(height: CSSize.spaceBtwSections),
             ],
           ),
         ),

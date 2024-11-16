@@ -37,11 +37,11 @@ class CsBrandTitleTextWithVertifiedIcon extends StatelessWidget {
         const SizedBox(
           width: CSSize.xs,
         ),
-        Icon(
-          Iconsax.verify5,
-          color: iconColor,
-          size: CSSize.iconXs,
-        )
+        // Icon(
+        //   Iconsax.verify5,
+        //   color: iconColor,
+        //   size: CSSize.iconXs,
+        // )
       ],
     );
   }
