@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-
 import '../../../../../common/widgets/texts/section_heading.dart';
 import '../../../../../utils/constants/sizes.dart';
+import '../../../../../features/authencation/models/user_model.dart';
+import '../../../../personalization/models/user_info.dart';
 
 class CSBillingAddressSection extends StatelessWidget {
-  const CSBillingAddressSection({super.key});
+  final UserInfo userInfo;
+
+  const CSBillingAddressSection({super.key, required this.userInfo});
 
   @override
   Widget build(BuildContext context) {
@@ -16,14 +19,15 @@ class CSBillingAddressSection extends StatelessWidget {
           buttonTitle: 'Change',
           onPressed: () {},
         ),
-        Text('Coding with T', style: Theme.of(context).textTheme.bodyLarge),
+        // Thay 'Coding with T' bằng tên người dùng lấy từ đối tượng userInfo
+        Text(userInfo.name, style: Theme.of(context).textTheme.bodyLarge),
         const SizedBox(height: CSSize.spaceBtwItems / 2),
         Row(
           children: [
             const Icon(Icons.phone, color: Colors.grey, size: 16),
             const SizedBox(width: CSSize.spaceBtwItems),
-            Text('+92-317-8059525', style: Theme.of(context).textTheme.bodyMedium),
-          ], // Row children
+            Text(userInfo.phoneNumber, style: Theme.of(context).textTheme.bodyMedium),
+          ], // Các phần tử trong Row
         ), // Row
         const SizedBox(height: CSSize.spaceBtwItems / 2),
         Row(
@@ -32,14 +36,14 @@ class CSBillingAddressSection extends StatelessWidget {
             const SizedBox(width: CSSize.spaceBtwItems),
             Expanded(
               child: Text(
-                'South Liana, Maine 87695, USA',
+                userInfo.address,
                 style: Theme.of(context).textTheme.bodyMedium,
                 softWrap: true,
               ),
             ),
-          ], // Row children
+          ], // Các phần tử trong Row
         ), // Row
-      ], // Column children
+      ], // Các phần tử trong Column
     ); // Column
   }
 }
