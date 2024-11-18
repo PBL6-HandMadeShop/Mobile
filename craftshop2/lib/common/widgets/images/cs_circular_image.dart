@@ -1,5 +1,5 @@
-import 'dart:typed_data';  // Để làm việc với Uint8List
-
+import 'dart:typed_data'; // Để làm việc với Uint8List
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../../../utils/constants/colors.dart';
 import '../../../utils/constants/sizes.dart';
@@ -19,7 +19,7 @@ class CSCircularImage extends StatelessWidget {
   });
 
   final BoxFit? fit;
-  final dynamic image;  // Chấp nhận cả String (để hiển thị ảnh từ mạng hoặc asset) và Uint8List (ảnh từ bộ nhớ)
+  final dynamic image; // Hỗ trợ String (asset/network) và Uint8List (memory)
   final bool isNetworkImage;
   final Color? overlayColor;
   final Color? backgroundColor;
@@ -36,18 +36,22 @@ class CSCircularImage extends StatelessWidget {
             (CSHelperFunctions.isDarkMode(context) ? CSColors.dark : CSColors.white),
         borderRadius: BorderRadius.circular(100),
       ),
-      child: image is Uint8List // Kiểm tra nếu image là kiểu dữ liệu Uint8List
-          ? Image.memory(
-        image as Uint8List, // Chuyển đổi sang Uint8List
-        fit: fit ?? BoxFit.cover,
-        color: overlayColor,
-      )
-          : Image(
-        image: isNetworkImage
-            ? NetworkImage(image as String)
-            : AssetImage(image as String) as ImageProvider,
-        fit: fit ?? BoxFit.cover,
-        color: overlayColor,
+      child: ClipOval(
+        child: image is Uint8List
+            ? Image.memory(
+          image as Uint8List,
+          fit: fit ?? BoxFit.cover,
+          color: overlayColor,
+        )
+            : CachedNetworkImage(
+          imageUrl: isNetworkImage ? image as String : '',
+          placeholder: (context, url) => Center(
+            child: CircularProgressIndicator(),
+          ),
+          errorWidget: (context, url, error) => Icon(Icons.error, color: Colors.red),
+          fit: fit ?? BoxFit.cover,
+          color: overlayColor,
+        ),
       ),
     );
   }

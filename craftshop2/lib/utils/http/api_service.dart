@@ -30,6 +30,7 @@ class API_Services {
         return handler.next(options);
       },
     ));
+
   }
 
   Future<dio.Response> register(Map<String, dynamic> data) async {
@@ -195,7 +196,34 @@ class API_Services {
     }
   }
 
+  Future<Uint8List?> downloadProductImage(String id) async {
+    try {
+      Response response = await _dio.get(
+        '$_baseUrl/${APIConstants.DOWNLOAD_IMAGE}',
+        queryParameters: {
+          'id': id,  // Hoặc bạn có thể sử dụng 'name': 'filename'
+        },
 
+        options: Options(
+          responseType: ResponseType.bytes,
+          headers: {
+            'ngrok-skip-browser-warning': 'true', // Include ngrok header
+          },// Để nhận dữ liệu dạng binary
+        ),
+      );
+
+      // Kiểm tra nếu tải thành công và trả về dữ liệu binary (file)
+      if (response.statusCode == 200) {
+        return response.data;  // Trả về dữ liệu binary của file
+      } else {
+        print('Failed to download file: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('Error downloading file: $e');
+      return null;
+    }
+  }
 
   Future<void> logout() async {
     await storage.delete(key: 'session_token');
@@ -233,36 +261,24 @@ class API_Services {
       );
     }
   }
-  Future<Map<String, dynamic>> getProductsPage({int page = 0, int size = 10}) async {
+  Future<Map<String, dynamic>> fetchProducts({int page = 0, int size = 10}) async {
     try {
-      // URL endpoint lấy trang sản phẩm
       final response = await _dio.get(
-        '$_baseUrl/${APIConstants.GET_PROUCT_PAGE}',
+        '$_baseUrl/${APIConstants.GET_PRODUCT_PAGE}',
         queryParameters: {
           'page': page,
           'size': size,
         },
       );
       Map<String, dynamic> responseData = jsonDecode(response.data);
-      // Kiểm tra kết quả
-      if (response.statusCode == 200 && responseData['status'] == 'ok') {
-        return {
-          'status': 'ok',
-          'content': responseData['content'], // Danh sách sản phẩm trả về
-          'message': responseData['message'],
-        };
+      if (response.statusCode == 200) {
+        print("Response product data: $responseData");
+        return responseData; // Dữ liệu trả về dạng Map<String, dynamic>
       } else {
-        return {
-          'status': 'error',
-          'message': responseData['message'] ?? 'Failed to fetch products page',
-        };
+        throw Exception("Failed to fetch products: ${response.statusMessage}");
       }
     } catch (e) {
-      print('Error fetching products: $e');
-      return {
-        'status': 'error',
-        'message': 'An error occurred: $e',
-      };
+      throw Exception("Error occurred while fetching products: $e");
     }
   }
 
@@ -293,21 +309,24 @@ class API_Services {
     }
   }
 
-  Future<List<Map<String, dynamic>>> getProductTypesPage({int page = 0, int size = 10}) async {
-    final params = {'page': page, 'size': size};
-
+  Future<Map<String, dynamic>> getProductTypesPage({int page = 0, int size = 10}) async {
     try {
       final response = await _dio.get(
-          '$_baseUrl/${APIConstants.GET_PRODUCT_TYPE_PAGE}',
-      queryParameters: params);
+        '$_baseUrl/${APIConstants.GET_PRODUCT_PAGE}',
+        queryParameters: {
+          'page': page,
+          'size': size,
+        },
+      );
       Map<String, dynamic> responseData = jsonDecode(response.data);
-      if (response.statusCode == 200 && responseData['status'] == 'ok') {
-        return List<Map<String, dynamic>>.from(responseData['content']);
+      if (response.statusCode == 200) {
+        print("Response getProductTypesPage data: $responseData");
+        return responseData; // Dữ liệu trả về dạng Map<String, dynamic>
       } else {
-        throw Exception('Failed to load product types');
+        throw Exception("Failed to fetch products: ${response.statusMessage}");
       }
     } catch (e) {
-      throw Exception('Error: $e');
+      throw Exception("Error occurred while fetching products: $e");
     }
   }
 }

@@ -25,10 +25,10 @@ class CSSortableProducts extends StatelessWidget {
         const SizedBox(height: CSSize.spaceBtwSections),
 
         /// Products
-        CSGridLayout(
-          itemCount:8, // Specify the item count here,
-          itemBuilder: (_, index) => const CSProductCardVertical(),
-        ), // TGridLayout
+        // CSGridLayout(
+        //   itemCount:8, // Specify the item count here,
+        //   itemBuilder: (_, index) => const CSProductCardVertical(),
+        // ), // TGridLayout
       ], // Column children
     );
   }
