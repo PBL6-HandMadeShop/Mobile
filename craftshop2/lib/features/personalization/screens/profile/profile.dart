@@ -1,26 +1,22 @@
-import 'dart:convert';
-import 'dart:io';
-
-import 'package:craftshop2/common/widgets/texts/section_heading.dart';
-import 'package:craftshop2/features/personalization/screens/profile/change_infor/change_name.dart';
-import 'package:craftshop2/features/personalization/screens/profile/change_infor/change_phone.dart';
-import 'package:craftshop2/utils/http/api_service.dart';
+import 'dart:typed_data';  // To work with Uint8List
 import 'package:craftshop2/features/personalization/screens/profile/widgets/profile_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:iconsax/iconsax.dart';
-
 import '../../../../common/widgets/appbar/appbar.dart';
 import '../../../../common/widgets/images/cs_circular_image.dart';
+import '../../../../common/widgets/texts/section_heading.dart';
 import '../../../../utils/constants/image_string.dart';
 import '../../../../utils/constants/sizes.dart';
-import '../../../../utils/http/http_client.dart';
-import '../../../../utils/local_storage/storage_utility.dart';
-import '../../../authencation/models/user_model.dart';
+import '../../../../utils/http/api_service.dart';
 import '../../../authencation/screens/login/login.dart';
+
+
+import 'change_infor/change_name.dart';
+import 'change_infor/change_phone.dart';
+import 'change_infor/change_picture.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -30,51 +26,60 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-
   bool isLoading = true;
   final API_Services api_services = API_Services();
   final FlutterSecureStorage storage = FlutterSecureStorage();
   Map<String, dynamic>? userInfo;
+  Uint8List? fileData;
+
+
   @override
   void initState() {
     super.initState();
-    _loadUserInfo();
+    _loadUserInfoAndAvatar();
   }
 
-  Future<void> _loadUserInfo() async {
+  Future<void> _loadUserInfoAndAvatar() async {
     setState(() {
       isLoading = true;
     });
 
     try {
       String? token = await storage.read(key: 'session_token');
+      if (token == null) throw Exception("Token is null");
 
-      Map<String, dynamic>? fetchedData = await api_services.fetchDataUser(token!);
-      setState(() {
-        userInfo = fetchedData;
-        isLoading = false;
+      // Tải song song thông tin user và file avatar
+      final userInfoFuture = api_services.fetchDataUser(token);
+      final avatarFuture = userInfoFuture.then((data) async {
+        if (data?['avatar']?['id'] != null) {
+          return api_services.downloadFile("${data?['avatar']?['id']}", token);
+        }
+        return null; // Không có avatar
       });
-      print(userInfo);
+
+      // Chờ cả hai Future hoàn thành
+      final results = await Future.wait([userInfoFuture, avatarFuture]);
+      setState(() {
+        userInfo = results[0] as Map<String, dynamic>?;
+        fileData = results[1] as Uint8List?;
+      });
     } catch (e) {
-      print('Failed to load user info: $e');
-    }  finally {
+      print('Failed to load user info or avatar: $e');
+    } finally {
       setState(() {
         isLoading = false;
       });
-    }
-    if (userInfo != null) {
-      // Access userInfo fields
-      String? name = "${userInfo!['name']}"; // Make sure this field is not null
-    } else {
-      // Handle the case where userInfo is null
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (isLoading || userInfo == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
     return Scaffold(
       appBar: const CSAppBar(showBackArrow: true, title: Text('Profile')),
-      body: SingleChildScrollView(
+      body:  SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(CSSize.defaultSpace),
           child: Column(
@@ -84,11 +89,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 width: double.infinity,
                 child: Column(
                   children: [
-                    const CSCircularImage(
-                        image: CSImage.user, width: 80, height: 80),
+                    CSCircularImage(
+                        image: fileData ?? CSImage.user, width: 80, height: 80),
                     TextButton(
-                        onPressed: () {},
-                        child: const Text('Change Profile Picture')),
+                      onPressed: () {
+                        Get.to(() => const ChangePicture());
+                      },
+                      child: const Text('Change Profile Picture'),
+                    ),
                   ],
                 ),
               ),
@@ -104,12 +112,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
               const SizedBox(height: CSSize.spaceBtwItems),
 
               CSProfileMenu(
-                  onPressed: () => Get.to(() => const ChangeName()) ,
-                  title: "Name",
-                  value: "${userInfo!['name']}" ?? 'No loading'),
+                onPressed: () => Get.to(() => const ChangeName()),
+                title: "Name",
+                value: userInfo != null && userInfo!.containsKey('name') ? "${userInfo!['name']}" : 'No loading',
+              ),
               CSProfileMenu(
                   onPressed: () {}, title: 'Username',
-                  value:"${userInfo!["username"]}" ?? 'No loading'),
+                  value: "${userInfo!["username"]}" ?? 'No loading'),
 
               const SizedBox(height: CSSize.spaceBtwItems),
               const Divider(),
@@ -145,9 +154,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('Email copied to clipboard')),
                     );
-                  },icon: Iconsax.copy, title: 'E-mail', value: "${userInfo!['email']}" ?? 'No loading'),
+                  },
+                  icon: Iconsax.copy,
+                  title: 'E-mail',
+                  value: "${userInfo!['email']}" ?? 'No loading'),
               CSProfileMenu(
-                  onPressed: ()=> Get.to(() => const ChangePhone())  ,
+                  onPressed: () => Get.to(() => const ChangePhone()),
                   title: 'Phone Number',
                   value: "${userInfo!['phoneNumber']}" ?? 'No loading'),
               CSProfileMenu(onPressed: () {}, title: 'Gender', value: "${userInfo!['gender']}" ?? 'N/A'),

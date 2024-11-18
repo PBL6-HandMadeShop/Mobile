@@ -47,7 +47,7 @@ dependencies:
   connectivity_plus: ^6.1.0
   carousel_slider: ^5.0.0
   shared_preferences: ^2.3.2
-
+  cached_network_image: ^3.4.1
 
   # Icons
   iconsax: ^0.0.8
@@ -92,6 +92,7 @@ flutter:
     - assets/images/banners/
     - assets/images/products/
     - assets/logos/logo_google.png
+    - assets/images/user/default_user_image.png
     - assets/images/signUp/mail-verify.png
     # Catagories
     - assets/icons/catagories/porcelain.png

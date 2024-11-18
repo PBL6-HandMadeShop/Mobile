@@ -1,25 +1,27 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:typed_data';
+import 'dart:io';
 
-import '../../../utils/constants/sizes.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
 
 class CSRoundedImage extends StatelessWidget {
   const CSRoundedImage({
     super.key,
     this.width,
-    this.height ,
+    this.height,
     required this.imageUrl,
     this.applyImageRadius = true,
     this.border,
     this.backgroundColor,
     this.fit = BoxFit.contain,
-    this.padding ,
+    this.padding,
     this.isNetworkImage = false,
     this.onPressed,
-    this.borderRadius = CSSize.md,
+    this.borderRadius = 8.0,
   });
 
   final double? width, height;
-  final String imageUrl;
+  final dynamic imageUrl;
   final bool applyImageRadius;
   final BoxBorder? border;
   final Color? backgroundColor;
@@ -38,15 +40,27 @@ class CSRoundedImage extends StatelessWidget {
         height: height,
         padding: padding,
         decoration: BoxDecoration(
-            border: border,
-            color: backgroundColor,
-            borderRadius: BorderRadius.circular(CSSize.md)),
+          border: border,
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
         child: ClipRRect(
-            borderRadius:applyImageRadius? BorderRadius.circular(CSSize.md): BorderRadius.zero,
-            child: Image(
-              image: isNetworkImage ? NetworkImage(imageUrl): AssetImage(imageUrl),
-              fit: fit,
-            )),
+          borderRadius: applyImageRadius ? BorderRadius.circular(borderRadius) : BorderRadius.zero,
+          child: imageUrl is Uint8List && imageUrl.isNotEmpty
+              ? Image.memory(imageUrl as Uint8List, fit: fit ?? BoxFit.cover)
+              : isNetworkImage && imageUrl is String && imageUrl.isNotEmpty
+              ? CachedNetworkImage(
+            imageUrl: imageUrl as String,
+            placeholder: (context, url) => Center(
+              child: CircularProgressIndicator(),
+            ),
+            errorWidget: (context, url, error) => Icon(Icons.error),
+            fit: fit ?? BoxFit.cover,
+          )
+              : imageUrl is String && !isNetworkImage
+              ? Image.file(File(imageUrl), fit: fit ?? BoxFit.cover)
+              : Icon(Icons.error),
+        ),
       ),
     );
   }

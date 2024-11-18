@@ -1,12 +1,11 @@
-import 'dart:convert';
+
 import 'package:craftshop2/utils/http/api_service.dart';
-import 'package:craftshop2/features/authencation/controllers/login_controller/login_controller.dart';
 import 'package:craftshop2/features/authencation/screens/password_configuration/forget_password.dart';
 import 'package:craftshop2/features/authencation/screens/signUp/sign_up.dart';
-import 'package:craftshop2/features/shop/screens/home/home.dart';
+
 import 'package:craftshop2/navigation_menu.dart';
 import 'package:craftshop2/utils/constants/texts.dart';
-import 'package:craftshop2/utils/local_storage/storage_utility.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';

@@ -5,6 +5,7 @@ import 'package:craftshop2/features/shop/screens/home/widgets/promo_slider.dart'
 import 'package:craftshop2/utils/constants/colors.dart';
 import 'package:craftshop2/utils/constants/image_string.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
@@ -15,6 +16,7 @@ import '../../../../common/widgets/products/product_cart/product_cart_vertical.d
 import '../../../../common/widgets/texts/section_heading.dart';
 import '../../../../utils/constants/sizes.dart';
 
+import '../../../../utils/http/api_service.dart';
 import '../../../../utils/local_storage/storage_utility.dart';
 import '../../../authencation/models/user_model.dart';
 
@@ -29,8 +31,11 @@ class HomeScreen extends StatefulWidget {
   _HomeScreen createState() => _HomeScreen();
 }
 class _HomeScreen extends State<HomeScreen>{
-  User? _userData;
   bool isLoading = true;
+  final API_Services api_services = API_Services();
+  final FlutterSecureStorage storage = FlutterSecureStorage();
+  Map<String, dynamic>? userInfo;
+
 
   @override
   void initState() {
@@ -44,41 +49,31 @@ class _HomeScreen extends State<HomeScreen>{
     });
 
     try {
-      // final response = await CSHttpClient.getUserInfo();
-      //
-      // if (response['status'] == 'ok') {
-      //   // Parse and set user data
-      //   setState(() {
-      //     _userData = User.fromJson(response['content']);
-      //     isLoading = false;
-      //     print("User info fetched: $_userData");
-      //   });
-      // Attempt to read user data from local storage
-      final userDataJson = await CSLocalStorage.readData(
-          'user_data'); // Assuming you saved user data as JSON
-      if (userDataJson != null) {
-        // Parse the user data
-        setState(() {
-          _userData = User.fromJson(json.decode(userDataJson));
-          isLoading = false;
-        });
-      } else {
-        print('No user data found in local storage.');
-      }
+      String? token = await storage.read(key: 'session_token');
+
+      Map<String, dynamic>? fetchedData = await api_services.fetchDataUser(token!);
+      setState(() {
+        userInfo = fetchedData;
+        isLoading = false;
+      });
+      // fileData = await api_services.downloadFile("${userInfo?['avatar']?['id']}", token);
+      print(userInfo);
     } catch (e) {
       print('Failed to load user info: $e');
-    } finally {
+    }  finally {
       setState(() {
         isLoading = false;
       });
     }
-    if (_userData != null) {
+    if (userInfo != null) {
       // Access userInfo fields
-      String? name = _userData!.name; // Make sure this field is not null
+      String? name = "${userInfo!['name']}"; // Make sure this field is not null
     } else {
       // Handle the case where userInfo is null
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -135,10 +130,10 @@ class _HomeScreen extends State<HomeScreen>{
                     CSSectionHeading(title: 'Popular Products', onPressed: () => Get.to(() => const AllProducts()),),
 
                     const SizedBox(height: CSSize.spaceBtwItems),
-                    CSGridLayout(
-                      itemCount: 2,
-                      itemBuilder: (_,index) => const CSProductCardVertical(),
-                    ),
+                    // CSGridLayout(
+                    //   itemCount: 2,
+                    //   itemBuilder: (_,index) => const CSProductCardVertical(),
+                    // ),
 
                   ],
                 )

@@ -1,4 +1,5 @@
 class APIConstants {
+
  static const String BASE_URL = 'https://10.0.2.2:8080'; // URL base của hệ thống
 
  // API Người dùng
@@ -48,3 +49,4 @@ class APIConstants {
  static const String CANCEL_ORDER = 'api/cancelOrder';
  static const String CONFIRM_PAYMENT_VNPAY = 'api/confirmPaymentUsingVNPAY';
 }
+
