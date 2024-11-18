@@ -31,7 +31,6 @@ class _CSProductCardVertical extends State<CSProductCardVertical> {
   Map<String, dynamic>? productInfo;
   Uint8List? fileData;
   bool isLoading = true;
-
   @override
   void initState() {
     super.initState();
@@ -80,7 +79,10 @@ class _CSProductCardVertical extends State<CSProductCardVertical> {
     final dark = CSHelperFunctions.isDarkMode(context);
 
     return GestureDetector(
-      onTap: () => Get.to(() => const ProductDetailScreen()),
+      onTap: () => Get.to(() => ProductDetailScreen(
+        productData: productInfo ?? {},
+        fileData: fileData,)
+      ),
       child: Container(
         width: 180,
         padding: const EdgeInsets.all(1),

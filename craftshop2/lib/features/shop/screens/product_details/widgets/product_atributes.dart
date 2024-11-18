@@ -10,8 +10,8 @@ import '../../../../../utils/constants/colors.dart';
 import '../../../../../utils/constants/sizes.dart';
 
 class CSProductAtributes extends StatelessWidget{
-  const CSProductAtributes({super.key});
-
+  const CSProductAtributes({super.key, required this.quantityRemain});
+  final int quantityRemain;
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -50,7 +50,7 @@ class CSProductAtributes extends StatelessWidget{
                         children: [
                           const CSProductTitleText(title: 'Stock', smallSize: true),
                           const SizedBox(width: CSSize.spaceBtwItems),
-                          Text('In Stocks', style:  Theme.of(context).textTheme.titleMedium),
+                          Text("$quantityRemain", style:  Theme.of(context).textTheme.titleMedium),
                         ],
                       ),
                     ],
