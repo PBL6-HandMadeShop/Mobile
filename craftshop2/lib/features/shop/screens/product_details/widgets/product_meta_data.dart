@@ -13,9 +13,13 @@ import '../../../../../utils/constants/sizes.dart';
 
 class CSProductMetaData extends StatelessWidget{
   const CSProductMetaData({
-    super.key,
+    super.key, required this.price, required this.basePrice, required this.origin, required this.status, required this.productName,
 });
-
+  final String productName;
+  final String price;
+  final String basePrice;
+  final String origin;
+  final String status;
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -36,22 +40,22 @@ class CSProductMetaData extends StatelessWidget{
             ),
             const SizedBox(width: CSSize.spaceBtwItems),
             ///Price
-            Text('\$250', style: Theme.of(context).textTheme.titleSmall!.apply(decoration: TextDecoration.lineThrough)),
+            Text( '${basePrice} VND', style: Theme.of(context).textTheme.titleSmall!.apply(decoration: TextDecoration.lineThrough)),
             const SizedBox(width: CSSize.spaceBtwItems),
-            const CSProductPriceText(price: '175', isLarge: true),
+            CSProductPriceText(price: price, isLarge: false),
             const SizedBox(width: CSSize.spaceBtwItems),
           ],
         ),
         const SizedBox(height: CSSize.spaceBtwItems/1.5),
         /// Title
-        CSProductTitleText(title: 'Green Nike Sports Shirt'),
+        CSProductTitleText(title: origin ?? 'From the VietNam Handcrafted'),
         const SizedBox(height: CSSize.spaceBtwItems/1.5),
         /// Stock
         Row(
           children: [
-            const CSProductTitleText(title: 'Status'),
+            CSProductTitleText(title: "Status"),
             const SizedBox(width: CSSize.spaceBtwItems),
-            Text('In Stock', style: Theme.of(context).textTheme.titleMedium),
+            Text(status, style: Theme.of(context).textTheme.titleMedium),
           ],
         ),
         const SizedBox(height: CSSize.spaceBtwItems/1.5),
@@ -64,7 +68,7 @@ class CSProductMetaData extends StatelessWidget{
                 height: 32,
                 overlayColor: darkMode ? CSColors.white : CSColors.black,
             ),
-            const CsBrandTitleTextWithVertifiedIcon(title: 'Nike', brandTextSize: TextSizes.medium),
+            CsBrandTitleTextWithVertifiedIcon(title: productName, brandTextSize: TextSizes.medium),
           ],
         ),
       ],

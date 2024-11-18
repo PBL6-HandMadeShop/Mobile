@@ -329,4 +329,88 @@ class API_Services {
       throw Exception("Error occurred while fetching products: $e");
     }
   }
+  Future<Map<String, dynamic>> getCartItems(String token) async {
+    try {
+      // Gửi yêu cầu POST đến API getCartItem
+      final response = await _dio.post(
+        '$_baseUrl/${APIConstants.GET_CART_ITEMS}',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token', // Add Bearer token for authorization
+            'Session-Code': token, // Assuming sessionCode is the same as the token
+            'ngrok-skip-browser-warning': 'true', // Include ngrok header
+          },
+        ),
+      );
+
+      // Kiểm tra nếu API trả về status ok
+      if (response.statusCode == 200) {
+        return response.data; // Trả về dữ liệu API
+      } else {
+        throw Exception('Failed to load cart items');
+      }
+    } catch (e) {
+      // In lỗi nếu có sự cố trong quá trình gọi API
+      print('Error: $e');
+      return {'status': 'error', 'message': 'Something went wrong'};
+    }
+  }
+  Future<dio.Response> addToCart(String productId, int quantity, String token) async {
+    try {
+      final response = await _dio.post(
+        '$_baseUrl/${APIConstants.ADD_CART_ITEM}', // API endpoint
+        data: dio.FormData.fromMap({
+          'productId': productId,
+          'quantity': quantity,
+        }),
+        options: dio.Options(
+          headers: {
+            'Authorization': 'Bearer $token', // Add Bearer token for authorization
+            'Session-Code': token, // Assuming sessionCode is the same as the token
+            'ngrok-skip-browser-warning': 'true', // Include ngrok header
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        return response; // Return the API response
+      } else {
+        throw Exception('Failed to add item to cart');
+      }
+    } catch (e) {
+      print('Error: $e');
+      return dio.Response(
+        requestOptions: dio.RequestOptions(path: '$_baseUrl/${APIConstants.ADD_CART_ITEM}'),
+        statusCode: 500,
+        statusMessage: 'Something went wrong',
+        data: {'status': 'error', 'message': 'Something went wrong'},
+      );
+    }
+  }
+  Future<Map<String, dynamic>> removeFromCart(String productId, String token) async {
+    try {
+      final response = await _dio.post(
+          '$_baseUrl/${APIConstants.REMOVE_CART_ITEM}',// Địa chỉ API
+        data: FormData.fromMap({
+          'productId': productId, // Chỉ cần truyền ID của sản phẩm cần xóa
+        }),
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token', // Add Bearer token for authorization
+            'Session-Code': token, // Assuming sessionCode is the same as the token
+            'ngrok-skip-browser-warning': 'true', // Include ngrok header
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        return response.data; // Trả về dữ liệu API
+      } else {
+        throw Exception('Failed to remove item from cart');
+      }
+    } catch (e) {
+      print('Error: $e');
+      return {'status': 'error', 'message': 'Something went wrong'};
+    }
+  }
 }
