@@ -135,6 +135,7 @@ class API_Services {
       }
     }
   }
+
   Future<Map<String, dynamic>?> generatePasswordCode(String email) async {
     try {
       print(email);
@@ -239,7 +240,7 @@ class API_Services {
     try {
       // URL endpoint lấy trang sản phẩm
       final response = await _dio.get(
-        '$_baseUrl/${APIConstants.GET_PROUCT_PAGE}',
+        '$_baseUrl/${APIConstants.GET_PRODUCTS_PAGE}',
         queryParameters: {
           'page': page,
           'size': size,
@@ -267,4 +268,55 @@ class API_Services {
       };
     }
   }
+
+  /// UserInfo
+  Future<Map<String, dynamic>> fetchUserInfo() async {
+    try {
+      // Lấy token từ secure storage
+      String? token = await storage.read(key: 'session_token');
+
+      if (token == null) {
+        throw Exception('User is not logged in or session token is missing.');
+      }
+
+      // Gửi yêu cầu tới API getUserInfo
+      final response = await _dio.get(
+        '$_baseUrl/${APIConstants.GET_INFO_USER}',
+        options: dio.Options(
+          headers: {
+            'Authorization': 'Bearer $token', // Thêm token vào header Authorization
+            'ngrok-skip-browser-warning': 'true', // Nếu đang dùng ngrok
+          },
+        ),
+      );
+
+      // Phân tích dữ liệu trả về
+      if (response.statusCode == 200) {
+        Map<String, dynamic> responseData = response.data;
+
+        // Kiểm tra trạng thái trả về
+        if (responseData['status'] == 'ok') {
+          return {
+            'status': 'ok',
+            'content': responseData['content'], // Trả về thông tin user
+          };
+        } else {
+          return {
+            'status': 'error',
+            'message': responseData['message'] ?? 'Failed to fetch user info',
+          };
+        }
+      } else {
+        throw Exception('Failed to fetch user info. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching user info: $e');
+      return {
+        'status': 'error',
+        'message': 'An error occurred while fetching user info: $e',
+      };
+    }
+  }
+
+///
 }
