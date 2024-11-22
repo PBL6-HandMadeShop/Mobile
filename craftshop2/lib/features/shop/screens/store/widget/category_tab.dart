@@ -22,6 +22,7 @@ class _CsCategoryTabState extends State<CsCategoryTab> {
   @override
   void initState() {
     super.initState();
+    print(widget.productPage?["producs"][1]);
     // The data is passed directly to the widget, so no need to fetch again
   }
 
@@ -57,9 +58,9 @@ class _CsCategoryTabState extends State<CsCategoryTab> {
               const SizedBox(height: CSSize.spaceBtwItems),
 
               CSGridLayout(
-                itemCount: productPage?['content']?.length ?? 0,
+                itemCount: widget.productPage?["producs"].length ?? 0,
                 itemBuilder: (_, index) {
-                  final productData = productPage?['content']?[index];
+                  final productData = productPage?["producs"][index];
                   return productData != null
                       ? CSProductCardVertical(productData: productData)
                       : const SizedBox.shrink(); // In case no data is found

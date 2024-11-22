@@ -49,4 +49,3 @@ class APIConstants {
  static const String CANCEL_ORDER = 'api/cancelOrder';
  static const String CONFIRM_PAYMENT_VNPAY = 'api/confirmPaymentUsingVNPAY';
 }
-

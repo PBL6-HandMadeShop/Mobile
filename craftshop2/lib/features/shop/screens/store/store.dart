@@ -1,5 +1,6 @@
 import 'package:craftshop2/features/shop/screens/store/widget/category_tab.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
@@ -30,7 +31,8 @@ class _Store extends State<Store> {
   Map<String, dynamic>? productPage3;
   Map<String, dynamic>? productPage4;
   bool isLoading = true;
-
+  Map<String, dynamic>? reviews;
+  final FlutterSecureStorage storage = FlutterSecureStorage();
   @override
   void initState() {
     super.initState();
@@ -39,18 +41,25 @@ class _Store extends State<Store> {
 
   Future<void> _loadProductTypes() async {
     try {
-      Map<String, dynamic> fetchedData1 = await api_services.fetchProducts(page: 0, size: 10);
-      Map<String, dynamic> fetchedData2 = await api_services.fetchProducts(page: 1, size: 10);
-      Map<String, dynamic> fetchedData3 = await api_services.fetchProducts(page: 2, size: 10);
-      Map<String, dynamic> fetchedData4 = await api_services.fetchProducts(page: 3, size: 10);
+      String? token = await storage.read(key: 'session_token');
+      Map<String, dynamic> fetchedData1 = await api_services.getProductTypesPage( size: 100, token: token!);
+      Map<String, dynamic> fetchedData5 = await api_services.fetchReviews(
+          '670ce6b4f6c452757d354192', 'token', rating: 0, page: 1, size: 5);
+
+      if (!mounted) return; // Check if the widget is still mounted
 
       setState(() {
-        productPage1 = fetchedData1;
-        productPage2 = fetchedData2;
-        productPage3 = fetchedData3;
-        productPage4 = fetchedData4;
+        productPage1 = fetchedData1?['content']?[0];
+        productPage2 = fetchedData1?['content']?[1];
+        productPage3 = fetchedData1?['content']?[2];
+        productPage4 = fetchedData1?['content']?[3];
       });
+      print('DSP ${productPage1?['name']}');
+      print('DSP ${productPage1?['name']}');
+      print('DSP ${productPage1?['name']}');
+      print('DSP ${productPage1?['name']}');
     } catch (e) {
+      if (!mounted) return; // Check if the widget is still mounted
       print('Error fetching products: $e');
     }
   }
@@ -115,10 +124,11 @@ class _Store extends State<Store> {
                 ),
                 // tab-bar
                 bottom: CSTabBar(tabs: [
-                  const Tab(child: Text('Default Name')),
-                  const Tab(child: Text("Sculpture")),
-                  const Tab(child: Text("Painting")),
-                  const Tab(child: Text("Weaving")),
+                  Tab(child: Text('${productPage1?['name']}')),
+                  Tab(child: Text('${productPage2?['name']}')),
+                  Tab(child: Text('${productPage3?['name']}')),
+                  Tab(child: Text('${productPage4?['name']}')),
+
                 ]),
               ),
             ];

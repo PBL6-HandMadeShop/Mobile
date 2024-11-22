@@ -6,9 +6,9 @@ import '../../../../../utils/constants/texts.dart';
 
 class CSHomeAppBar extends StatelessWidget {
   const CSHomeAppBar({
-    super.key,
+    super.key, required this.Subtitle,
   });
-
+  final String Subtitle;
   @override
   Widget build(BuildContext context) {
     return CSAppBar(
@@ -20,7 +20,7 @@ class CSHomeAppBar extends StatelessWidget {
             style: Theme.of(context).textTheme.labelMedium!.apply(color: CSColors.grey),
           ),
           Text(
-            CSText.homeAppbarSubtitle,
+            Subtitle,
             style: Theme.of(context).textTheme.headlineSmall!.apply(color: CSColors.white),
           ),
         ],

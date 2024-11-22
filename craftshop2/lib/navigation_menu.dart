@@ -1,3 +1,4 @@
+import 'package:craftshop2/features/shop/screens/checkout/checkout.dart';
 import 'package:craftshop2/features/shop/screens/home/home.dart';
 import 'package:craftshop2/features/shop/screens/store/store.dart';
 import 'package:craftshop2/features/shop/screens/wishlist/wishlist.dart';

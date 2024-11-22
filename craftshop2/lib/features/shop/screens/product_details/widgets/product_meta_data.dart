@@ -13,11 +13,12 @@ import '../../../../../utils/constants/sizes.dart';
 
 class CSProductMetaData extends StatelessWidget{
   const CSProductMetaData({
-    super.key, required this.price, required this.basePrice, required this.origin, required this.status, required this.productName,
+    super.key, required this.price, required this.offPrice, required this.origin, required this.status, required this.productName,
 });
   final String productName;
   final String price;
-  final String basePrice;
+  final String offPrice;
+  // final String basePrice;
   final String origin;
   final String status;
   @override
@@ -36,12 +37,10 @@ class CSProductMetaData extends StatelessWidget{
               radius: CSSize.sm,
               backgroundColor: CSColors.secondaryColor.withOpacity(0.8),
               padding: const EdgeInsets.symmetric(horizontal: CSSize.sm, vertical: CSSize.xs),
-              child: Text('25%', style: Theme.of(context).textTheme.labelLarge!.apply(color: CSColors.white)),
+              child: Text( offPrice+'%', style: Theme.of(context).textTheme.labelLarge!.apply(color: CSColors.white)),
             ),
             const SizedBox(width: CSSize.spaceBtwItems),
             ///Price
-            Text( '${basePrice} VND', style: Theme.of(context).textTheme.titleSmall!.apply(decoration: TextDecoration.lineThrough)),
-            const SizedBox(width: CSSize.spaceBtwItems),
             CSProductPriceText(price: price, isLarge: false),
             const SizedBox(width: CSSize.spaceBtwItems),
           ],

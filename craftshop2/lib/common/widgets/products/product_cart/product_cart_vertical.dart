@@ -53,6 +53,12 @@ class _CSProductCardVertical extends State<CSProductCardVertical> {
         productInfo = results[0] as Map<String, dynamic>?;
         fileData = results[1] as Uint8List?;
       });
+      if (widget.productData?['vouchers'] != null && widget.productData!['vouchers'].isNotEmpty) {
+        print('discount ${widget.productData?['vouchers']}');
+      } else {
+        print('No vouchers available');
+      }
+
     } catch (e) {
       print('Failed to load product data or image: $e');
     } finally {
@@ -64,7 +70,8 @@ class _CSProductCardVertical extends State<CSProductCardVertical> {
 
   Future<Uint8List?> _loadProductImage() async {
     try {
-      final String imageId = widget.productData['avatarBlob']?['id'] ?? '';
+      final String imageId = widget.productData['avatar']?['id'] ?? '';
+      print("String image "+imageId);
       if (imageId.isNotEmpty) {
         return await api_services.downloadProductImage(imageId);
       }
@@ -80,7 +87,7 @@ class _CSProductCardVertical extends State<CSProductCardVertical> {
 
     return GestureDetector(
       onTap: () => Get.to(() => ProductDetailScreen(
-        productData: productInfo ?? {},
+        productData: widget.productData ?? {},
         fileData: fileData,)
       ),
       child: Container(
@@ -113,7 +120,9 @@ class _CSProductCardVertical extends State<CSProductCardVertical> {
                       radius: CSSize.sm,
                       backgroundColor: CSColors.secondaryColor.withOpacity(0.8),
                       child: Text(
-                        '20% OFF',
+                        widget.productData['vouchers'] != null && widget.productData['vouchers'].isNotEmpty
+                            ? '${widget.productData['vouchers'][0]['value'] ?? 0}%'
+                            : '0%',
                         style: Theme.of(context).textTheme.labelLarge!.apply(color: CSColors.black),
                       ),
                     ),
