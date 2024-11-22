@@ -14,10 +14,14 @@ class APIConstants {
   static const String GET_PRODUCT_TYPE = 'api/getProductType';
   static const String GET_LINE_PRODUCT_PAGE = 'api/getProductLinesPage';
   static const String GET_PRODUCT_PAGE = 'api/getProductsPage';
-  static const String GET_PRODUCT_TYPE_PAGE = '/api/getProductTypesPage';
+  static const String GET_PRODUCT_TYPE_PAGE = 'api/getProductTypesPage';
 
   //====================API về Đơn hàng(CUSTOMER)====================//
   static const String GET_CART_ITEMS = 'api/getCartItem';
   static const String ADD_CART_ITEM = 'api/addCartItem';
   static const String REMOVE_CART_ITEM = 'api/removeCartItem';
+
+
+  //====================API về Review====================//
+  static const String GET_REVIEWS_BY_PRODUCT = 'api/getReviewsByProduct';
 }

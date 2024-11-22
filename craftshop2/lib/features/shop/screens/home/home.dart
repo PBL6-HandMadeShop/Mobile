@@ -52,12 +52,15 @@ class _HomeScreen extends State<HomeScreen>{
       String? token = await storage.read(key: 'session_token');
 
       Map<String, dynamic>? fetchedData = await api_services.fetchDataUser(token!);
+
       setState(() {
         userInfo = fetchedData;
         isLoading = false;
       });
       // fileData = await api_services.downloadFile("${userInfo?['avatar']?['id']}", token);
       print(userInfo);
+      Map<String, dynamic> fetchReviews = await api_services.fetchReviews(
+          '670ce6b4f6c452757d354192',token,rating: 0,page: 1, size: 5);
     } catch (e) {
       print('Failed to load user info: $e');
     }  finally {
@@ -77,72 +80,79 @@ class _HomeScreen extends State<HomeScreen>{
 
   @override
   Widget build(BuildContext context) {
+    // Kiểm tra nếu đang tải hoặc thông tin user chưa sẵn sàng
+    if (isLoading || userInfo == null) {
+      return const Center(
+        child: CircularProgressIndicator(), // Hiển thị spinner khi đang tải dữ liệu
+      );
+    }
+
+    // Khi dữ liệu đã sẵn sàng, hiển thị nội dung giao diện chính
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
-            //header
-            const CSPrimaryHeaderContainer(
+            // Header
+            CSPrimaryHeaderContainer(
               child: Column(
                 children: [
-                  CSHomeAppBar(),
+                  CSHomeAppBar(Subtitle: "${userInfo!['name']}"),
                   SizedBox(height: CSSize.spaceBtwSections),
 
                   /// ---SEARCH BAR
-                  CSSearchContainer(text: "Search something ..."),
+                  const CSSearchContainer(text: "Search something ..."),
                   SizedBox(height: CSSize.spaceBtwSections),
                   Padding(
-                    padding: EdgeInsets.only(left: CSSize.defaultSpace),
+                    padding: const EdgeInsets.only(left: CSSize.defaultSpace),
                     child: Column(
                       children: [
-                        CSSectionHeading(
-                          title: 'Popular Catagories',
+                        const CSSectionHeading(
+                          title: 'Popular Categories',
                           textColor: CSColors.white,
                         ),
                         SizedBox(height: CSSize.spaceBtwItems),
 
                         /// Categories
-                        CSHomeCategories(),
+                        const CSHomeCategories(),
                       ],
                     ),
                   )
-
-                  /// Categories
                 ],
               ),
             ),
+
             // Body
             Padding(
-                padding: const EdgeInsets.all(CSSize.defaultSpace),
-                child: Column(
-                  children: [
-
-                    /// Promo Slider
-                    const CSPromoSlider(banners: [
+              padding: const EdgeInsets.all(CSSize.defaultSpace),
+              child: Column(
+                children: [
+                  /// Promo Slider
+                  const CSPromoSlider(
+                    banners: [
                       CSImage.promoBanner1,
                       CSImage.promoBanner2,
                       CSImage.promoBanner3
-                    ],),
+                    ],
+                  ),
 
-                    /// popular pproduct
-                    const SizedBox(height: CSSize.spaceBtwSections),
+                  /// Popular product
+                  const SizedBox(height: CSSize.spaceBtwSections),
 
-                    CSSectionHeading(title: 'Popular Products', onPressed: () => Get.to(() => const AllProducts()),),
+                  CSSectionHeading(
+                    title: 'Popular Products',
+                    onPressed: () => Get.to(() => const AllProducts()),
+                  ),
 
-                    const SizedBox(height: CSSize.spaceBtwItems),
-                    // CSGridLayout(
-                    //   itemCount: 2,
-                    //   itemBuilder: (_,index) => const CSProductCardVertical(),
-                    // ),
-
-                  ],
-                )
+                  const SizedBox(height: CSSize.spaceBtwItems),
+                ],
+              ),
             ),
           ],
         ),
       ),
     );
   }
+
 }
 
 

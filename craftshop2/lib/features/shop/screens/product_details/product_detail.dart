@@ -13,6 +13,7 @@ import 'dart:typed_data';
 
 import '../../../../common/widgets/images/cs_rounded_image.dart';
 import '../../../../common/widgets/texts/section_heading.dart';
+import '../../../../utils/constants/image_string.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/helpers/helper_functions.dart';
 import '../product_reviews/product_reviews.dart';
@@ -31,7 +32,8 @@ class ProductDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dark = CSHelperFunctions.isDarkMode(context);
-
+    print(fileData);
+    print(productData);
     return Scaffold(
       bottomNavigationBar: CSBottomAddToCart(productData: productData,),
       body: SingleChildScrollView(
@@ -40,10 +42,10 @@ class ProductDetailScreen extends StatelessWidget {
             /// 1 - Product Image Slider
             fileData != null
                 ? CSProductImageSlider(avatarBlob:fileData, productData:productData , )
-                : CSRoundedImage(imageUrl: fileData, applyImageRadius: true),
+                : CSRoundedImage(imageUrl:  fileData ?? CSImage.product1, applyImageRadius: true),
             // fileData != null
             // ? CSRoundedImage(imageUrl: fileData, applyImageRadius: true)
-            // : CSProductImageSlider(avatarBlob:fileData, ),
+            // : CSProductImageSlider(avatarBlob:fileData, productData: productData, ),
 
             /// 2 - Product Details
             Padding(
@@ -61,13 +63,16 @@ class ProductDetailScreen extends StatelessWidget {
                   CSProductMetaData(
                     productName: productData['name'] ?? 'Product Name',
                     price: productData['currentPrice']?.toString() ?? '0',
-                    basePrice: productData['basePrice']?.toString() ?? '0',
+                    offPrice:  productData['vouchers'] != null && productData['vouchers'].isNotEmpty
+                        ? '${productData['vouchers'][0]['value'] ?? 0}%'
+                        : '0',
                     origin: productData['origin'] ?? 'From the VietNam Handcrafted',
-                    status: productData['status'] ?? 'Loading',
+                    status: "Loading",
+                    // status: productData['status'] ?? 'Loading',
                   ),
 
                   /// - Attributes
-                  CSProductAtributes(quantityRemain:productData["quantityRemain"] ?? "Loading",),
+                  CSProductAtributes(quantityRemain:productData["quantityRemain"] ?? 0,),
 
                   /// - Description
                   const SizedBox(height: CSSize.spaceBtwSections),
