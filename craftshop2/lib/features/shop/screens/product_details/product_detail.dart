@@ -57,7 +57,7 @@ class ProductDetailScreen extends StatelessWidget {
               child: Column(
                 children: [
                   /// - Rating & share
-                  CSRatingAndShare(),
+                  CSRatingAndShare(ratingScore: '', countRating: '',),
 
                   /// - Price, Title, Stock, Brand
                   CSProductMetaData(
