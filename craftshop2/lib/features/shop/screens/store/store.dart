@@ -43,8 +43,6 @@ class _Store extends State<Store> {
     try {
       String? token = await storage.read(key: 'session_token');
       Map<String, dynamic> fetchedData1 = await api_services.getProductTypesPage( size: 100, token: token!);
-      Map<String, dynamic> fetchedData5 = await api_services.fetchReviews(
-          '670ce6b4f6c452757d354192', 'token', rating: 0, page: 1, size: 5);
 
       if (!mounted) return; // Check if the widget is still mounted
 

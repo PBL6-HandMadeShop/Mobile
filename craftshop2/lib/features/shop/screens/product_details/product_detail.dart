@@ -20,20 +20,20 @@ import '../product_reviews/product_reviews.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   final Map<String, dynamic> productData;
+  final Map<String, dynamic> productReview;
   final Uint8List? fileData;
-
 
   const ProductDetailScreen({
     super.key,
     required this.productData,
-    this.fileData,
+    this.fileData, required this.productReview,
   });
 
   @override
   Widget build(BuildContext context) {
     final dark = CSHelperFunctions.isDarkMode(context);
     print(fileData);
-    print(productData);
+    print(productReview["content"]);
     return Scaffold(
       bottomNavigationBar: CSBottomAddToCart(productData: productData,),
       body: SingleChildScrollView(
@@ -57,7 +57,10 @@ class ProductDetailScreen extends StatelessWidget {
               child: Column(
                 children: [
                   /// - Rating & share
-                  CSRatingAndShare(ratingScore: '', countRating: '',),
+                  CSRatingAndShare(
+                    ratingScore: productReview["ratings"]?.toString() ?? '0',
+                    countRating: productReview["ratings"]?.length.toString() ?? '0',
+                  ),
 
                   /// - Price, Title, Stock, Brand
                   CSProductMetaData(

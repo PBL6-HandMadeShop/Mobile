@@ -22,7 +22,7 @@ class CSRatingAndShare extends StatelessWidget {
             Text.rich(TextSpan(
                 children: [
                   TextSpan(text: ratingScore , style: Theme.of(context).textTheme.bodyLarge),
-                  TextSpan(text: countRating),
+                  TextSpan(text: "($countRating)"),
                 ]
             )
             )

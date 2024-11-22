@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../../../features/shop/screens/product_details/product_detail.dart';
@@ -29,6 +30,8 @@ class CSProductCardVertical extends StatefulWidget {
 class _CSProductCardVertical extends State<CSProductCardVertical> {
   final API_Services api_services = API_Services();
   Map<String, dynamic>? productInfo;
+  Map<String, dynamic>? productReview;
+  final FlutterSecureStorage storage = FlutterSecureStorage();
   Uint8List? fileData;
   bool isLoading = true;
   @override
@@ -43,31 +46,45 @@ class _CSProductCardVertical extends State<CSProductCardVertical> {
     });
 
     try {
-      // Tải song song dữ liệu sản phẩm và ảnh
-      final productInfoFuture = Future.value(widget.productData); // Sử dụng dữ liệu có sẵn
-      final imageFuture = _loadProductImage();
+      String? token = await storage.read(key: 'session_token');
 
-      final results = await Future.wait([productInfoFuture, imageFuture]);
+      // Tải dữ liệu sản phẩm, hình ảnh và reviews song song
+      final productInfoFuture = Future.value(
+          widget.productData); // Sử dụng dữ liệu có sẵn
+      final imageFuture = _loadProductImage();
+      final reviewsFuture = api_services.fetchReviews(
+        widget.productData['id'],
+        token!,
+        rating: 0,
+        page: 1,
+        size: 5,
+      );
+
+      // Sử dụng Future.wait để chạy các tác vụ song song
+      final results = await Future.wait(
+          [productInfoFuture, imageFuture, reviewsFuture]);
 
       setState(() {
-        productInfo = results[0] as Map<String, dynamic>?;
-        fileData = results[1] as Uint8List?;
+        productInfo = results[0] as Map<String, dynamic>?; // Dữ liệu sản phẩm
+        fileData = results[1] as Uint8List?; // Dữ liệu ảnh
+        productReview = results[2] as Map<String, dynamic>?; // Dữ liệu review
       });
-      if (widget.productData?['vouchers'] != null && widget.productData!['vouchers'].isNotEmpty) {
-        print('discount ${widget.productData?['vouchers']}');
+
+      // Kiểm tra và in ra dữ liệu voucher nếu có
+      if (widget.productData['vouchers'] != null &&
+          widget.productData['vouchers'].isNotEmpty) {
+        print('discount ${widget.productData['vouchers']}');
       } else {
         print('No vouchers available');
       }
-
     } catch (e) {
-      print('Failed to load product data or image: $e');
+      print('Failed to load product data, image or reviews: $e');
     } finally {
       setState(() {
         isLoading = false;
       });
     }
   }
-
   Future<Uint8List?> _loadProductImage() async {
     try {
       final String imageId = widget.productData['avatar']?['id'] ?? '';
@@ -88,7 +105,8 @@ class _CSProductCardVertical extends State<CSProductCardVertical> {
     return GestureDetector(
       onTap: () => Get.to(() => ProductDetailScreen(
         productData: widget.productData ?? {},
-        fileData: fileData,)
+        fileData: fileData,
+        productReview: productReview ?? {},)
       ),
       child: Container(
         width: 180,

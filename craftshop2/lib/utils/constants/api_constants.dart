@@ -21,6 +21,7 @@ class APIConstants {
  static const String GET_PRODUCT = 'api/getProduct';
  static const String GET_PRODUCT_TYPE = 'api/getProductType';
  static const String GET_PRODUCT_LINES_PAGE = 'api/getProductLinesPage';
+ static const String GET_PRODUCT_TYPE_PAGE = 'api/getProductTypesPage';
  static const String GET_PRODUCT_LINE = 'api/getProductLine';
  static const String CREATE_PRODUCT = 'api/createProduct';
  static const String UPDATE_PRODUCT = 'api/updateProduct';
@@ -48,4 +49,7 @@ class APIConstants {
  static const String SUBMIT_ORDER = 'api/submitOrder';
  static const String CANCEL_ORDER = 'api/cancelOrder';
  static const String CONFIRM_PAYMENT_VNPAY = 'api/confirmPaymentUsingVNPAY';
+
+  // API Đánh giá
+ static const String GET_REVIEWS_BY_PRODUCT = 'api/getReviewsByProduct';
 }
