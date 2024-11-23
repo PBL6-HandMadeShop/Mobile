@@ -1,5 +1,4 @@
 class APIConstants {
-
  static const String BASE_URL = 'https://10.0.2.2:8080'; // URL base của hệ thống
 
  // API Người dùng
@@ -19,18 +18,24 @@ class APIConstants {
  // API Sản phẩm
  static const String GET_PRODUCTS_PAGE = 'api/getProductsPage';
  static const String GET_PRODUCT = 'api/getProduct';
- static const String GET_PRODUCT_TYPE = 'api/getProductType';
- static const String GET_PRODUCT_LINES_PAGE = 'api/getProductLinesPage';
- static const String GET_PRODUCT_TYPE_PAGE = 'api/getProductTypesPage';
- static const String GET_PRODUCT_LINE = 'api/getProductLine';
+ static const String SEARCH_PRODUCTS = 'api/searchProducts'; // Tìm kiếm sản phẩm
  static const String CREATE_PRODUCT = 'api/createProduct';
  static const String UPDATE_PRODUCT = 'api/updateProduct';
  static const String DELETE_PRODUCT = 'api/deleteProduct';
 
  // API Dòng sản phẩm
+ static const String GET_PRODUCT_LINES_PAGE = 'api/getProductLinesPage';
+ static const String GET_PRODUCT_LINE = 'api/getProductLine';
  static const String CREATE_PRODUCT_LINE = 'api/createProductLine';
  static const String UPDATE_PRODUCT_LINE = 'api/updateProductLine';
  static const String DELETE_PRODUCT_LINE = 'api/deleteProductLine';
+
+ // API Danh mục sản phẩm
+ static const String GET_PRODUCT_TYPE_PAGE = 'api/getProductTypesPage'; // Lấy danh sách danh mục
+ static const String GET_PRODUCT_TYPE = 'api/getProductType'; // Lấy thông tin danh mục cụ thể
+ static const String CREATE_PRODUCT_TYPE = 'api/createProductType'; // Thêm danh mục mới
+ static const String UPDATE_PRODUCT_TYPE = 'api/updateProductType'; // Cập nhật danh mục
+ static const String DELETE_PRODUCT_TYPE = 'api/deleteProductType'; // Xóa danh mục
 
  // API Voucher
  static const String GET_VOUCHERS_PAGE = 'api/getVouchersPage';
@@ -50,6 +55,6 @@ class APIConstants {
  static const String CANCEL_ORDER = 'api/cancelOrder';
  static const String CONFIRM_PAYMENT_VNPAY = 'api/confirmPaymentUsingVNPAY';
 
-  // API Đánh giá
+ // API Đánh giá
  static const String GET_REVIEWS_BY_PRODUCT = 'api/getReviewsByProduct';
 }

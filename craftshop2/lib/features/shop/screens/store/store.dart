@@ -26,6 +26,7 @@ class Store extends StatefulWidget {
 
 class _Store extends State<Store> {
   final API_Services api_services = API_Services();
+  Map<String, dynamic>? productPage;
   Map<String, dynamic>? productPage1;
   Map<String, dynamic>? productPage2;
   Map<String, dynamic>? productPage3;
@@ -33,18 +34,20 @@ class _Store extends State<Store> {
   bool isLoading = true;
   Map<String, dynamic>? reviews;
   final FlutterSecureStorage storage = FlutterSecureStorage();
+
   @override
   void initState() {
     super.initState();
     _loadProductTypes();
   }
 
+  // Hàm load các loại sản phẩm từ API
   Future<void> _loadProductTypes() async {
     try {
       String? token = await storage.read(key: 'session_token');
-      Map<String, dynamic> fetchedData1 = await api_services.getProductTypesPage( size: 100, token: token!);
+      Map<String, dynamic> fetchedData1 = await api_services.getProductTypesPage(size: 100, token: token!);
 
-      if (!mounted) return; // Check if the widget is still mounted
+      if (!mounted) return; // Kiểm tra nếu widget còn tồn tại
 
       setState(() {
         productPage1 = fetchedData1?['content']?[0];
@@ -52,15 +55,48 @@ class _Store extends State<Store> {
         productPage3 = fetchedData1?['content']?[2];
         productPage4 = fetchedData1?['content']?[3];
       });
-      print('DSP ${productPage1?['name']}');
-      print('DSP ${productPage1?['name']}');
-      print('DSP ${productPage1?['name']}');
-      print('DSP ${productPage1?['name']}');
     } catch (e) {
-      if (!mounted) return; // Check if the widget is still mounted
+      if (!mounted) return; // Kiểm tra nếu widget còn tồn tại
       print('Error fetching products: $e');
     }
   }
+
+  // Hàm tìm kiếm sản phẩm khi người dùng nhập từ khóa vào
+  Future<void> _searchProducts(String query) async {
+    try {
+      String? token = await storage.read(key: 'session_token'); // Đọc token từ FlutterSecureStorage
+      if (token == null) {
+        print('No token found!');
+        return; // Nếu không có token, không thực hiện tìm kiếm
+      }
+
+      // Gọi API tìm kiếm sản phẩm với token, query và các tham số khác
+      Map<String, dynamic> result = await api_services.searchProducts(
+        token,  // Truyền token vào
+        query,  // Truyền query vào
+        page: 0,  // Trang 0
+        size: 20,  // Kích thước 20
+      );
+
+      // Xử lý kết quả tìm kiếm ở đây
+      print("Search Results: $result");
+
+      // Cập nhật giao diện hoặc dữ liệu sau khi nhận được kết quả
+      if (result['status'] == 'success') {
+        setState(() {
+          productPage = result['data']; // Giả sử dữ liệu sản phẩm nằm trong 'data'
+        });
+      } else {
+        print('Failed to fetch products');
+      }
+
+    } catch (e) {
+      print("Error in searching products: $e");
+    }
+  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -91,54 +127,37 @@ class _Store extends State<Store> {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     children: [
-                      // search bar
+                      // Thanh tìm kiếm
                       const SizedBox(height: CSSize.spaceBtwSections),
-                      const CSSearchContainer(
+                      CSSearchContainer(
                         text: "Search in store",
                         showBorder: true,
                         showBackground: false,
                         padding: EdgeInsets.zero,
+                        onSearch: _searchProducts, // Sử dụng hàm _searchProducts khi người dùng nhập tìm kiếm
                       ),
-                      // const SizedBox(height: CSSize.spaceBtwSections),
-
-                      // // featured brand
-                      // CSSectionHeading(
-                      //   title: "Featured Brands",
-                      //   onPressed: () => Get.to(() => const AllBrandsScreen()),
-                      // ),
-                      // const SizedBox(height: CSSize.spaceBtwItems / 1.5),
-
-                      // CSGridLayout(
-                      //   itemCount: 4,
-                      //   mainAxisExtent: 80,
-                      //   itemBuilder: (_, index) {
-                      //     return const CSBrandCard(
-                      //       showBorder: false,
-                      //     );
-                      //   },
-                      // ),
                     ],
                   ),
                 ),
-                // tab-bar
+                // Tab-bar
                 bottom: CSTabBar(tabs: [
                   Tab(child: Text('${productPage1?['name']}')),
                   Tab(child: Text('${productPage2?['name']}')),
                   Tab(child: Text('${productPage3?['name']}')),
                   Tab(child: Text('${productPage4?['name']}')),
-
                 ]),
               ),
             ];
           },
           body: productPage1 == null || productPage2 == null || productPage3 == null || productPage4 == null
-              ? const Center(child: CircularProgressIndicator()) // Show loading indicator while data is being fetched
+              ? const Center(child: CircularProgressIndicator()) // Hiển thị chỉ báo khi dữ liệu đang được tải
               : TabBarView(
             children: [
-              CsCategoryTab(productPage: productPage1),  // Pass the data for Default Name tab
-              CsCategoryTab(productPage: productPage2),  // Pass the data for Sculpture tab
-              CsCategoryTab(productPage: productPage3),  // Pass the data for Painting tab
-              CsCategoryTab(productPage: productPage4),  // Pass the data for Weaving tab
+              CsCategoryTab(productPage: productPage1),  // Pass data cho tab Default Name
+              CsCategoryTab(productPage: productPage2),  // Pass data cho tab Sculpture
+              CsCategoryTab(productPage: productPage3),  // Pass data cho tab Painting
+              CsCategoryTab(productPage: productPage4),  // Pass data cho tab Weaving
+              CsCategoryTab(productPage:  productPage),
             ],
           ),
         ),
