@@ -2,24 +2,27 @@ import 'package:craftshop2/features/shop/screens/product_reviews/widgets/progres
 import 'package:flutter/material.dart';
 
 class CSOverallProductRating extends StatelessWidget {
+  final Map<String, dynamic> productReview;
   const CSOverallProductRating({
-    super.key,
+    super.key, required this.productReview,
   });
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(flex:3, child: Text('4.8', style: Theme.of(context).textTheme.displayLarge)),
+        Expanded(flex:3, child: Text(
+            productReview["ratings"]?["average"]?.toString() ?? '0',
+            style: Theme.of(context).textTheme.displayLarge)),
         Expanded(
           flex: 7,
           child: Column(
             children: [
-              CSRatingProgressIndicator(text: '5', value: 1.0,),
-              CSRatingProgressIndicator(text: '4', value: 0.8,),
-              CSRatingProgressIndicator(text: '3', value: 0.6,),
-              CSRatingProgressIndicator(text: '2', value: 0.4,),
-              CSRatingProgressIndicator(text: '1', value: 0.2,),
+              CSRatingProgressIndicator(text: '5', value:(productReview["ratings"]?["1"] ?? 0).toDouble(),),
+              CSRatingProgressIndicator(text: '4', value:(productReview["ratings"]?["4"] ?? 0).toDouble()),
+              CSRatingProgressIndicator(text: '3', value:(productReview["ratings"]?["3"] ?? 0).toDouble()),
+              CSRatingProgressIndicator(text: '2', value:(productReview["ratings"]?["2"] ?? 0).toDouble()),
+              CSRatingProgressIndicator(text: '1', value:(productReview["ratings"]?["1"] ?? 0).toDouble()),
             ],
           ),
         ),

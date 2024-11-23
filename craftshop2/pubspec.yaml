@@ -48,7 +48,11 @@ dependencies:
   carousel_slider: ^5.0.0
   shared_preferences: ^2.3.2
   cached_network_image: ^3.4.1
+  flutter_html: ^3.0.0-beta.2
+  webview_flutter: ^4.10.0
 
+  webview_flutter_android: ^4.1.0
+  webview_flutter_wkwebview: ^3.16.3
   # Icons
   iconsax: ^0.0.8
   cupertino_icons: ^1.0.8
@@ -90,6 +94,9 @@ flutter:
     - assets/images/user/
     - assets/images/
     - assets/images/banners/
+    - assets/images/banners/Banner-lang-da.jpg
+    - assets/images/banners/brand-gom.png
+    - assets/images/banners/lang-chieu-cam-ne.jpg
     - assets/images/products/
     - assets/logos/logo_google.png
     - assets/images/user/default_user_image.png

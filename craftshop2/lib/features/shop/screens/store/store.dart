@@ -26,13 +26,10 @@ class Store extends StatefulWidget {
 
 class _Store extends State<Store> {
   final API_Services api_services = API_Services();
-  Map<String, dynamic>? productPage1;
-  Map<String, dynamic>? productPage2;
-  Map<String, dynamic>? productPage3;
-  Map<String, dynamic>? productPage4;
+  List<Map<String, dynamic>> productPages = []; // List to hold product pages
   bool isLoading = true;
-  Map<String, dynamic>? reviews;
   final FlutterSecureStorage storage = FlutterSecureStorage();
+
   @override
   void initState() {
     super.initState();
@@ -42,20 +39,14 @@ class _Store extends State<Store> {
   Future<void> _loadProductTypes() async {
     try {
       String? token = await storage.read(key: 'session_token');
-      Map<String, dynamic> fetchedData1 = await api_services.getProductTypesPage( size: 100, token: token!);
+      Map<String, dynamic> fetchedData1 = await api_services.getProductTypesPage(size: 100, token: token!);
 
       if (!mounted) return; // Check if the widget is still mounted
 
       setState(() {
-        productPage1 = fetchedData1?['content']?[0];
-        productPage2 = fetchedData1?['content']?[1];
-        productPage3 = fetchedData1?['content']?[2];
-        productPage4 = fetchedData1?['content']?[3];
+        // Load all the 'content' from fetchedData1 into productPages list
+        productPages = List<Map<String, dynamic>>.from(fetchedData1['content'] ?? []);
       });
-      print('DSP ${productPage1?['name']}');
-      print('DSP ${productPage1?['name']}');
-      print('DSP ${productPage1?['name']}');
-      print('DSP ${productPage1?['name']}');
     } catch (e) {
       if (!mounted) return; // Check if the widget is still mounted
       print('Error fetching products: $e');
@@ -65,7 +56,7 @@ class _Store extends State<Store> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: productPages.length, // Dynamically set the number of tabs based on productPages length
       child: Scaffold(
         appBar: CSAppBar(
           title: Text(
@@ -91,7 +82,6 @@ class _Store extends State<Store> {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     children: [
-                      // search bar
                       const SizedBox(height: CSSize.spaceBtwSections),
                       const CSSearchContainer(
                         text: "Search in store",
@@ -99,50 +89,27 @@ class _Store extends State<Store> {
                         showBackground: false,
                         padding: EdgeInsets.zero,
                       ),
-                      // const SizedBox(height: CSSize.spaceBtwSections),
-
-                      // // featured brand
-                      // CSSectionHeading(
-                      //   title: "Featured Brands",
-                      //   onPressed: () => Get.to(() => const AllBrandsScreen()),
-                      // ),
-                      // const SizedBox(height: CSSize.spaceBtwItems / 1.5),
-
-                      // CSGridLayout(
-                      //   itemCount: 4,
-                      //   mainAxisExtent: 80,
-                      //   itemBuilder: (_, index) {
-                      //     return const CSBrandCard(
-                      //       showBorder: false,
-                      //     );
-                      //   },
-                      // ),
                     ],
                   ),
                 ),
-                // tab-bar
-                bottom: CSTabBar(tabs: [
-                  Tab(child: Text('${productPage1?['name']}')),
-                  Tab(child: Text('${productPage2?['name']}')),
-                  Tab(child: Text('${productPage3?['name']}')),
-                  Tab(child: Text('${productPage4?['name']}')),
-
-                ]),
+                bottom: CSTabBar(
+                  tabs: productPages.map<Widget>((productPage) {
+                    return Tab(child: Text('${productPage['name']}' ?? 'Unnamed Tab'));
+                  }).toList(), // Dynamically create tabs from productPages
+                ),
               ),
             ];
           },
-          body: productPage1 == null || productPage2 == null || productPage3 == null || productPage4 == null
+          body: productPages.isEmpty
               ? const Center(child: CircularProgressIndicator()) // Show loading indicator while data is being fetched
               : TabBarView(
-            children: [
-              CsCategoryTab(productPage: productPage1),  // Pass the data for Default Name tab
-              CsCategoryTab(productPage: productPage2),  // Pass the data for Sculpture tab
-              CsCategoryTab(productPage: productPage3),  // Pass the data for Painting tab
-              CsCategoryTab(productPage: productPage4),  // Pass the data for Weaving tab
-            ],
+            children: productPages.map<Widget>((productPage) {
+              return CsCategoryTab(productPage: productPage); // Pass each productPage to CsCategoryTab
+            }).toList(), // Dynamically create TabBarView content
           ),
         ),
       ),
     );
   }
 }
+
