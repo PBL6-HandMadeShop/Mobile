@@ -26,7 +26,9 @@ class Store extends StatefulWidget {
 
 class _Store extends State<Store> {
   final API_Services api_services = API_Services();
+
   List<Map<String, dynamic>> productPages = []; // List to hold product pages
+
   bool isLoading = true;
   final FlutterSecureStorage storage = FlutterSecureStorage();
 
@@ -36,22 +38,60 @@ class _Store extends State<Store> {
     _loadProductTypes();
   }
 
+  // Hàm load các loại sản phẩm từ API
   Future<void> _loadProductTypes() async {
     try {
       String? token = await storage.read(key: 'session_token');
       Map<String, dynamic> fetchedData1 = await api_services.getProductTypesPage(size: 100, token: token!);
 
-      if (!mounted) return; // Check if the widget is still mounted
+      if (!mounted) return; // Kiểm tra nếu widget còn tồn tại
 
       setState(() {
         // Load all the 'content' from fetchedData1 into productPages list
         productPages = List<Map<String, dynamic>>.from(fetchedData1['content'] ?? []);
       });
     } catch (e) {
-      if (!mounted) return; // Check if the widget is still mounted
+      if (!mounted) return; // Kiểm tra nếu widget còn tồn tại
       print('Error fetching products: $e');
     }
   }
+
+  // Hàm tìm kiếm sản phẩm khi người dùng nhập từ khóa vào
+  Future<void> _searchProducts(String query) async {
+    try {
+      String? token = await storage.read(key: 'session_token'); // Đọc token từ FlutterSecureStorage
+      if (token == null) {
+        print('No token found!');
+        return; // Nếu không có token, không thực hiện tìm kiếm
+      }
+
+      // Gọi API tìm kiếm sản phẩm với token, query và các tham số khác
+      Map<String, dynamic> result = await api_services.searchProducts(
+        token,  // Truyền token vào
+        query,  // Truyền query vào
+        page: 0,  // Trang 0
+        size: 20,  // Kích thước 20
+      );
+
+      // Xử lý kết quả tìm kiếm ở đây
+      print("Search Results: $result");
+
+      // Cập nhật giao diện hoặc dữ liệu sau khi nhận được kết quả
+      if (result['status'] == 'success') {
+        setState(() {
+          productPage = result['data']; // Giả sử dữ liệu sản phẩm nằm trong 'data'
+        });
+      } else {
+        print('Failed to fetch products');
+      }
+
+    } catch (e) {
+      print("Error in searching products: $e");
+    }
+  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -83,15 +123,17 @@ class _Store extends State<Store> {
                     physics: const NeverScrollableScrollPhysics(),
                     children: [
                       const SizedBox(height: CSSize.spaceBtwSections),
-                      const CSSearchContainer(
+                      CSSearchContainer(
                         text: "Search in store",
                         showBorder: true,
                         showBackground: false,
                         padding: EdgeInsets.zero,
+                        onSearch: _searchProducts, // Sử dụng hàm _searchProducts khi người dùng nhập tìm kiếm
                       ),
                     ],
                   ),
                 ),
+
                 bottom: CSTabBar(
                   tabs: productPages.map<Widget>((productPage) {
                     return Tab(child: Text('${productPage['name']}' ?? 'Unnamed Tab'));
@@ -106,6 +148,7 @@ class _Store extends State<Store> {
             children: productPages.map<Widget>((productPage) {
               return CsCategoryTab(productPage: productPage); // Pass each productPage to CsCategoryTab
             }).toList(), // Dynamically create TabBarView content
+
           ),
         ),
       ),
