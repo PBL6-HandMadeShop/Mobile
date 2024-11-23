@@ -1,27 +1,21 @@
-import 'dart:convert';
-
 import 'package:craftshop2/features/shop/screens/home/widgets/home_categories.dart';
 import 'package:craftshop2/features/shop/screens/home/widgets/promo_slider.dart';
-import 'package:craftshop2/utils/constants/colors.dart';
-import 'package:craftshop2/utils/constants/image_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 import '../../../../common/widgets/custom_shape/containers/primary_header_container.dart';
 import '../../../../common/widgets/custom_shape/containers/search_container.dart';
 import '../../../../common/widgets/layouts/grid_layout.dart';
 import '../../../../common/widgets/products/product_cart/product_cart_vertical.dart';
 import '../../../../common/widgets/texts/section_heading.dart';
+import '../../../../utils/constants/colors.dart';
+import '../../../../utils/constants/image_string.dart';
 import '../../../../utils/constants/sizes.dart';
-
 import '../../../../utils/http/api_service.dart';
 import '../../../../utils/local_storage/storage_utility.dart';
 import '../../../authencation/models/user_model.dart';
-
 import '../all_products/all_products.dart';
-
 import 'widgets/home_appbar.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -30,12 +24,12 @@ class HomeScreen extends StatefulWidget {
   @override
   _HomeScreen createState() => _HomeScreen();
 }
-class _HomeScreen extends State<HomeScreen>{
+
+class _HomeScreen extends State<HomeScreen> {
   bool isLoading = true;
   final API_Services api_services = API_Services();
   final FlutterSecureStorage storage = FlutterSecureStorage();
   Map<String, dynamic>? userInfo;
-
 
   @override
   void initState() {
@@ -50,40 +44,59 @@ class _HomeScreen extends State<HomeScreen>{
 
     try {
       String? token = await storage.read(key: 'session_token');
-
       Map<String, dynamic>? fetchedData = await api_services.fetchDataUser(token!);
 
       setState(() {
         userInfo = fetchedData;
         isLoading = false;
       });
-      // fileData = await api_services.downloadFile("${userInfo?['avatar']?['id']}", token);
+
       print(userInfo);
       Map<String, dynamic> fetchReviews = await api_services.fetchReviews(
-          '670ce6b4f6c452757d354192',token,rating: 0,page: 1, size: 5);
+          '670ce6b4f6c452757d354192', token, rating: 0, page: 1, size: 5);
     } catch (e) {
       print('Failed to load user info: $e');
-    }  finally {
+    } finally {
       setState(() {
         isLoading = false;
       });
     }
+
     if (userInfo != null) {
-      // Access userInfo fields
       String? name = "${userInfo!['name']}"; // Make sure this field is not null
-    } else {
-      // Handle the case where userInfo is null
     }
   }
 
+  Future<void> _searchProducts(String query) async {
+    try {
+      String? token = await storage.read(key: 'session_token');
+      if (token == null) {
+        print('No token found!');
+        return;
+      }
 
+      Map<String, dynamic> result = await api_services.searchProducts(
+        token, // Truyền token vào
+        query, // Truyền query vào
+        page: 0, // Trang 0
+        size: 20, // Kích thước 20
+      );
+
+      // Xử lý kết quả tìm kiếm
+      print("Search Results: $result");
+
+      // Cập nhật giao diện hoặc dữ liệu sau khi nhận được kết quả
+    } catch (e) {
+      print("Error in searching products: $e");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     // Kiểm tra nếu đang tải hoặc thông tin user chưa sẵn sàng
     if (isLoading || userInfo == null) {
       return const Center(
-        child: CircularProgressIndicator(), // Hiển thị spinner khi đang tải dữ liệu
+        child: CircularProgressIndicator(),
       );
     }
 
@@ -99,8 +112,11 @@ class _HomeScreen extends State<HomeScreen>{
                   CSHomeAppBar(Subtitle: "${userInfo!['name']}"),
                   SizedBox(height: CSSize.spaceBtwSections),
 
-                  /// ---SEARCH BAR
-                  const CSSearchContainer(text: "Search something ..."),
+                  // ---SEARCH BAR
+                  CSSearchContainer(
+                    text: "Search something ...",
+                    onSearch: (query) => _searchProducts(query), // Gọi hàm tìm kiếm khi người dùng nhập vào
+                  ),
                   SizedBox(height: CSSize.spaceBtwSections),
                   Padding(
                     padding: const EdgeInsets.only(left: CSSize.defaultSpace),
@@ -112,7 +128,7 @@ class _HomeScreen extends State<HomeScreen>{
                         ),
                         SizedBox(height: CSSize.spaceBtwItems),
 
-                        /// Categories
+                        // Categories
                         const CSHomeCategories(),
                       ],
                     ),
@@ -126,7 +142,7 @@ class _HomeScreen extends State<HomeScreen>{
               padding: const EdgeInsets.all(CSSize.defaultSpace),
               child: Column(
                 children: [
-                  /// Promo Slider
+                  // Promo Slider
                   const CSPromoSlider(
                     banners: [
                       CSImage.promoBanner1,
@@ -135,7 +151,7 @@ class _HomeScreen extends State<HomeScreen>{
                     ],
                   ),
 
-                  /// Popular product
+                  // Popular product
                   const SizedBox(height: CSSize.spaceBtwSections),
 
                   CSSectionHeading(
@@ -152,8 +168,4 @@ class _HomeScreen extends State<HomeScreen>{
       ),
     );
   }
-
 }
-
-
-

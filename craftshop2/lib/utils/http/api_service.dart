@@ -537,5 +537,55 @@ class API_Services {
     }
   }
 
+  Future<Map<String, dynamic>> searchProducts(
+      String token, String query, {
+        int page = 0,
+        int size = 10,
+        double? minPrice,
+        double? maxPrice,
+        String? productTypeId,
+        String? origin,
+      }) async {
+    try {
+      // In URL để kiểm tra nếu cần
+      print('Searching products with query: $query');
+
+      final response = await _dio.get(
+        '$_baseUrl/${APIConstants.SEARCH_PRODUCTS}', // Endpoint cho tìm kiếm sản phẩm
+        queryParameters: {
+          'page': page,
+          'size': size,
+          'searchKey': query, // Từ khóa tìm kiếm
+          'minPrice': minPrice ?? 0,
+          'maxPrice': maxPrice ?? 1000000, // Giá tối đa mặc định là 1 triệu
+          'origin': origin ?? '',
+          'productTypeId': productTypeId ?? '',
+        },
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Session-Code': token,
+            'ngrok-skip-browser-warning': 'true',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        print('Products fetched successfully: ${response.data}');
+        return response.data;
+      } else {
+        throw Exception('Failed to fetch products: ${response.statusMessage}');
+      }
+    } catch (e) {
+      if (e is DioError) {
+        print('DioError: ${e.response?.data ?? e.message}');
+      } else {
+        print('Unexpected Error: $e');
+      }
+      return {'status': 'error', 'message': 'Failed to fetch products'};
+    }
+  }
+
+
 }
 

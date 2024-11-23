@@ -1,45 +1,61 @@
-
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
 
-import '../../../../utils/constants/colors.dart';
-import '../../../../utils/constants/sizes.dart';
-import '../../../../utils/device/device_utility.dart';
-import '../../../../utils/helpers/helper_functions.dart';
-
-class CSSearchContainer extends StatelessWidget {
-  const CSSearchContainer({
-    super.key, required this.text, this.icon = Iconsax.search_normal,  this.showBackground = true,  this.showBorder = true, this.onTap,
-    this.padding = const EdgeInsets.symmetric(horizontal: CSSize.defaultSpace),
-  });
+class CSSearchContainer extends StatefulWidget {
   final String text;
-  final IconData? icon;
-  final bool showBackground, showBorder;
-  final VoidCallback? onTap;
-  final EdgeInsetsGeometry padding;
+  final bool showBorder;
+  final bool showBackground;
+  final EdgeInsets padding;
+  final ValueChanged<String> onSearch;
+
+  const CSSearchContainer({
+    Key? key,
+    required this.text,
+    this.showBorder = true,
+    this.showBackground = false,
+    this.padding = const EdgeInsets.all(8.0),
+    required this.onSearch,
+  }) : super(key: key);
+
+  @override
+  _CSSearchContainerState createState() => _CSSearchContainerState();
+}
+
+class _CSSearchContainerState extends State<CSSearchContainer> {
+  final TextEditingController _searchController = TextEditingController();
+
+  void _performSearch() {
+    if (_searchController.text.trim().isNotEmpty) {
+      widget.onSearch(_searchController.text.trim());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final dark = CSHelperFunctions.isDarkMode(context);
-    return GestureDetector(
-      onTap: onTap,
-      child: Padding(
-        padding: padding,
-        child: Container(
-          width: CSDeviceUtils.getScreenWidth(context),
-          padding: const EdgeInsets.all(CSSize.md),
-          decoration: BoxDecoration(
-            color:showBackground ? dark? CSColors.dark : CSColors.light : Colors.transparent,
-            borderRadius: BorderRadius.circular(CSSize.cardRadiusLg),
-            border:showBorder? Border.all(color: CSColors.grey) : null,
+    return Container(
+      padding: widget.padding,
+      decoration: BoxDecoration(
+        color: widget.showBackground ? Colors.grey[200] : Colors.transparent,
+        border: widget.showBorder ? Border.all(color: Colors.grey) : null,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              controller: _searchController,
+              decoration: InputDecoration(
+                hintText: widget.text,
+                border: InputBorder.none,
+                prefixIcon: Icon(Icons.search),
+              ),
+              onSubmitted: (_) => _performSearch(), // Kích hoạt tìm kiếm khi nhấn Enter
+            ),
           ),
-          child: Row(
-            children: [
-              Icon(icon, color: CSColors.black,),
-              const SizedBox(width: CSSize.spaceBtwItems,),
-              Text(text, style: Theme.of(context).textTheme.bodySmall!.apply(color: CSColors.darkgrey),),
-            ],
+          IconButton(
+            icon: Icon(Icons.search, color: Colors.blue),
+            onPressed: _performSearch, // Kích hoạt tìm kiếm khi nhấn nút
           ),
-        ),
+        ],
       ),
     );
   }
