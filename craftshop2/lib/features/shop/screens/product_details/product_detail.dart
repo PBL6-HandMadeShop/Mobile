@@ -28,12 +28,24 @@ class ProductDetailScreen extends StatelessWidget {
     required this.productData,
     this.fileData, required this.productReview,
   });
-
+  String _getAmountReview({
+    required Map<String, dynamic> productReview,
+  }) {
+    final count = productReview['content']?.length ?? 0;
+    return count == 0 ? 'No review' : '$count review';
+  }
+  String _getAmountRating({
+    required Map<String, dynamic> productReview,
+  }) {
+    final count = productReview['content']?.length ?? 0;
+    return count == 0 ? 'No rating' : '$count rating';
+  }
   @override
   Widget build(BuildContext context) {
     final dark = CSHelperFunctions.isDarkMode(context);
     print(fileData);
-    print(productReview["content"]);
+    print("review: ${productReview["content"]}");
+    print("review: ${productReview}");
     return Scaffold(
       bottomNavigationBar: CSBottomAddToCart(productData: productData,),
       body: SingleChildScrollView(
@@ -58,8 +70,12 @@ class ProductDetailScreen extends StatelessWidget {
                 children: [
                   /// - Rating & share
                   CSRatingAndShare(
-                    ratingScore: productReview["ratings"]?.toString() ?? '0',
-                    countRating: productReview["ratings"]?.length.toString() ?? '0',
+                    ratingScore: (productReview["ratings"]?["average"] != 'NaN' &&
+                        double.tryParse(productReview["ratings"]!["average"].toString()) != null)
+                        ? double.tryParse(productReview["ratings"]!["average"].toString())?.toString() ?? '0'
+                        : '0',
+
+                    countRating: '${_getAmountRating(productReview: productReview)}',
                   ),
 
                   /// - Price, Title, Stock, Brand
@@ -97,9 +113,9 @@ class ProductDetailScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const CSSectionHeading(title: 'Review(199)', showActionButton: false),
+                       CSSectionHeading(title: 'Review(${_getAmountReview(productReview: productReview)})', showActionButton: false),
                       IconButton(
-                        onPressed: () => Get.to(() => const ProductReviewScreen()),
+                        onPressed: () => Get.to(() =>  ProductReviewScreen(productReview: productReview ?? {},)),
                         icon: const Icon(Iconsax.arrow_right_3, size: 18),
                       ),
                     ],

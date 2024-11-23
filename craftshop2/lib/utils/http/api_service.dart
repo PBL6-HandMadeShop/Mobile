@@ -499,7 +499,7 @@ class API_Services {
 
   Future<Map<String, dynamic>> fetchReviews(
       String productId, String token,
-      {int rating = 0, int page = 0, int size = 10}) async {
+      {int rating = 0,}) async {
     try {
       // In URL để kiểm tra nếu cần
       print('Fetching reviews for productId: $productId');
@@ -509,8 +509,6 @@ class API_Services {
         queryParameters: {
           'productId': productId,
           'rating': rating,
-          'page': page,
-          'size': size,
         },
         options: Options(
           headers: {
@@ -520,12 +518,12 @@ class API_Services {
           },
         ),
       );
-
-      if (response.statusCode == 200 && response.data != null) {
-        print('Reviews fetched successfully: ${response.data}');
-        return response.data;
+      Map<String, dynamic> responseData = jsonDecode(response.data);
+      if (response.statusCode == 200 && responseData != null) {
+        print('Reviews fetched successfully:$productId ${responseData}');
+        return responseData;
       } else {
-        throw Exception('Failed to fetch reviews: ${response.statusMessage}');
+        throw Exception('Failed to fetch reviews:$productId ${response.statusMessage}');
       }
     } catch (e) {
       if (e is DioError) {

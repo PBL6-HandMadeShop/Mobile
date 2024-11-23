@@ -52,8 +52,6 @@ class _HomeScreen extends State<HomeScreen> {
       });
 
       print(userInfo);
-      Map<String, dynamic> fetchReviews = await api_services.fetchReviews(
-          '670ce6b4f6c452757d354192', token, rating: 0, page: 1, size: 5);
     } catch (e) {
       print('Failed to load user info: $e');
     } finally {

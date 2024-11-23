@@ -52,12 +52,11 @@ class _CSProductCardVertical extends State<CSProductCardVertical> {
       final productInfoFuture = Future.value(
           widget.productData); // Sử dụng dữ liệu có sẵn
       final imageFuture = _loadProductImage();
+
       final reviewsFuture = api_services.fetchReviews(
         widget.productData['id'],
         token!,
         rating: 0,
-        page: 1,
-        size: 5,
       );
 
       // Sử dụng Future.wait để chạy các tác vụ song song
@@ -69,7 +68,8 @@ class _CSProductCardVertical extends State<CSProductCardVertical> {
         fileData = results[1] as Uint8List?; // Dữ liệu ảnh
         productReview = results[2] as Map<String, dynamic>?; // Dữ liệu review
       });
-
+         print("product ID ${widget.productData['id']}");
+        print("product cart vertical ${productReview?['content']}");
       // Kiểm tra và in ra dữ liệu voucher nếu có
       if (widget.productData['vouchers'] != null &&
           widget.productData['vouchers'].isNotEmpty) {
