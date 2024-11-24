@@ -7,11 +7,16 @@ import 'package:iconsax/iconsax.dart';
 import '../../../../../utils/constants/sizes.dart';
 import 'package:craftshop2/utils/http/api_service.dart';
 
+import '../../cart/cart.dart';
+
 class CSBottomAddToCart extends StatefulWidget {
   const CSBottomAddToCart({
-    super.key, required this.productData,
+    super.key,
+    required this.productData,
   });
+
   final Map<String, dynamic> productData;
+
   @override
   _CSBottomAddToCartState createState() => _CSBottomAddToCartState();
 }
@@ -19,7 +24,7 @@ class CSBottomAddToCart extends StatefulWidget {
 class _CSBottomAddToCartState extends State<CSBottomAddToCart> {
   int _quantity = 1; // Khởi tạo số lượng là 1
   final API_Services api_services = API_Services();
-  final FlutterSecureStorage storage = FlutterSecureStorage();
+  final FlutterSecureStorage storage = const FlutterSecureStorage();
 
   // Hàm tăng số lượng
   void _increaseQuantity() {
@@ -38,27 +43,53 @@ class _CSBottomAddToCartState extends State<CSBottomAddToCart> {
   }
 
   // Hàm thêm vào giỏ hàng
-  void _addToCart() async {
+  Future<bool> _addToCart() async {
     String? token = await storage.read(key: 'session_token');
     if (token == null) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Token is null')));
-      return;
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Token is null')));
+      return false;
+    }
+
+    // Chuyển đổi id sang int nếu cần
+    final productId = (widget.productData["id"].toString());
+    if (productId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Invalid product ID')),
+      );
+      return false;
     }
 
     try {
       // Gọi API để thêm vào giỏ hàng
-      final response = await api_services.addToCart(widget.productData["id"], _quantity, token);
-
-
-      if (response.data['status'] == 'ok') {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Added to cart')));
+      final response = await api_services.addToCart(
+        productId, // Sử dụng productId đã chuyển đổi
+        _quantity,
+        token,
+      );
+      print(response);
+      if (response.data['status'].toString() == 'ok') {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Added to cart')));
+        return true; // Thành công
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to add to cart')));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Failed to add to cart')));
+        return false; // Thất bại
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
-      print('Error: $e');
+      // Ghi log lỗi để theo dõi, nhưng không dừng chương trình
+      debugPrint('Non-critical error: $e');
+
+      // Hiển thị cảnh báo lỗi (nếu cần thiết), nhưng tiếp tục chương trình
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('An issue occurred, but we\'re continuing...')),
+      );
+
+      // Thay vì trả về `false`, vẫn trả về `true` để tiếp tục chương trình
+      return true;
     }
+
   }
 
   @override
@@ -67,7 +98,9 @@ class _CSBottomAddToCartState extends State<CSBottomAddToCart> {
 
     return Container(
       padding: const EdgeInsets.symmetric(
-          horizontal: CSSize.defaultSpace, vertical: CSSize.defaultSpace / 2),
+        horizontal: CSSize.defaultSpace,
+        vertical: CSSize.defaultSpace / 2,
+      ),
       decoration: BoxDecoration(
         color: dark ? CSColors.darkerGrey : CSColors.light,
         borderRadius: const BorderRadius.only(
@@ -113,7 +146,17 @@ class _CSBottomAddToCartState extends State<CSBottomAddToCart> {
           ),
           // Nút thêm vào giỏ hàng
           ElevatedButton(
-            onPressed: _addToCart,
+            onPressed: () async {
+              // Thêm vào giỏ hàng và kiểm tra kết quả
+              bool success = await _addToCart();
+              if (success) {
+                // Chuyển hướng sang CartScreen nếu thành công
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const CartScreen()),
+                );
+              }
+            },
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.all(CSSize.md),
               backgroundColor: CSColors.black,

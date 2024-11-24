@@ -45,7 +45,7 @@ class APIConstants {
  static const String DELETE_VOUCHER = 'api/deleteVoucher';
 
  // API Đơn hàng
- static const String GET_CART_ITEMS = 'api/getCartItem';
+ static const String GET_CART_ITEMS = 'api/getCart';
  static const String ADD_CART_ITEM = 'api/addCartItem';
  static const String REMOVE_CART_ITEM = 'api/removeCartItem';
  static const String GET_ORDERS = 'api/getOrder';
