@@ -554,8 +554,8 @@ class API_Services {
           'page': page,
           'size': size,
           'searchKey': query, // Từ khóa tìm kiếm
-          'minPrice': minPrice ?? 0,
-          'maxPrice': maxPrice ?? 1000000, // Giá tối đa mặc định là 1 triệu
+          'minPrice': minPrice ,
+          'maxPrice': maxPrice , // Giá tối đa mặc định là 1 triệu
           'origin': origin ?? '',
           'productTypeId': productTypeId ?? '',
         },
@@ -567,10 +567,10 @@ class API_Services {
           },
         ),
       );
-
-      if (response.statusCode == 200 && response.data != null) {
-        print('Products fetched successfully: ${response.data}');
-        return response.data;
+      Map<String, dynamic> responseData = jsonDecode(response.data);
+      if (response.statusCode == 200 && responseData != null) {
+        print('Products fetched successfully: ${responseData}');
+        return responseData;
       } else {
         throw Exception('Failed to fetch products: ${response.statusMessage}');
       }
@@ -587,9 +587,7 @@ class API_Services {
   ///Don Hang
   Future<Map<String, dynamic>> fetchCartItems(String token) async {
     try {
-      // In URL để kiểm tra nếu cần
       print('Fetching cart items for the user');
-
       final response = await _dio.get(
         '$_baseUrl/${APIConstants.GET_CART_ITEMS}',
         options: Options(
@@ -601,14 +599,18 @@ class API_Services {
         ),
       );
 
-      if (response.statusCode == 200 && response.data != null) {
-        print('Response data: ${response.data}'); // In ra cấu trúc dữ liệu để kiểm tra
+      final responseData = response.data is String
+          ? jsonDecode(response.data)
+          : response.data;
 
-        if (response.data['content'] != null && response.data['content'] is List) {
-          print('Cart items fetched successfully: ${response.data['content']}');
+      if (response.statusCode == 200 && responseData != null) {
+        print('Response data: $responseData');
+
+        if (responseData['content'] != null && responseData['content'] is List) {
+          print('Cart items fetched successfully: ${responseData['content']}');
           return {
             'status': 'ok',
-            'content': response.data['content'],
+            'content': responseData['content'],
           };
         } else {
           print('Content is null or not found');
@@ -626,6 +628,7 @@ class API_Services {
       return {'status': 'error', 'message': 'Failed to fetch cart items'};
     }
   }
+
 
 
 

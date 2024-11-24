@@ -11,7 +11,7 @@ class CSSearchContainer extends StatefulWidget {
     Key? key,
     required this.text,
     this.showBorder = true,
-    this.showBackground = false,
+    this.showBackground = true,
     this.padding = const EdgeInsets.all(8.0),
     required this.onSearch,
   }) : super(key: key);
@@ -46,7 +46,6 @@ class _CSSearchContainerState extends State<CSSearchContainer> {
               decoration: InputDecoration(
                 hintText: widget.text,
                 border: InputBorder.none,
-                prefixIcon: Icon(Icons.search),
               ),
               onSubmitted: (_) => _performSearch(), // Kích hoạt tìm kiếm khi nhấn Enter
             ),

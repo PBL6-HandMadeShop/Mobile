@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 
 import '../../../../utils/http/api_service.dart';
 import '../checkout/checkout.dart';
+import 'dart:typed_data';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -22,6 +23,7 @@ class _CartScreenState extends State<CartScreen> {
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
   bool isLoading = true;
   List<dynamic> cartItems = [];
+  List<Uint8List?> fileDataList = []; // Danh sách lưu dữ liệu tệp
   double totalAmount = 0.0;
 
   @override
@@ -36,36 +38,42 @@ class _CartScreenState extends State<CartScreen> {
     });
 
     try {
-      // Đọc token người dùng từ FlutterSecureStorage
       String? token = await _storage.read(key: 'session_token');
+
       if (token == null) {
         throw Exception("Bạn chưa đăng nhập. Vui lòng đăng nhập để tiếp tục.");
       }
 
-      // Gọi API để lấy dữ liệu giỏ hàng
       final response = await _apiServices.fetchCartItems(token);
 
       if (response['status'] == 'ok') {
         setState(() {
-          cartItems = response['content'] ?? []; // Cập nhật giỏ hàng
+          cartItems = response['content'] ?? [];
+          fileDataList = List<Uint8List?>.filled(cartItems.length, null);
+
           totalAmount = cartItems.fold(
             0.0,
                 (sum, item) {
               final currentPrice = double.tryParse(item['product']['currentPrice'].toString()) ?? 0.0;
-              final quantity = int.tryParse(item['quantity'].toString()) ?? 0;
+              final quantity = item['quantity'] is int
+                  ? item['quantity']
+                  : int.tryParse(item['quantity'].toString()) ?? 0;
               return sum + (currentPrice * quantity);
             },
           );
-
         });
 
-        // Lưu giỏ hàng mới nhất vào storage
+        // Tải từng tệp dựa trên `avatarBlob.id`
+        for (int i = 0; i < cartItems.length; i++) {
+          final avatarId = cartItems[i]['product']['avatarBlob']['id'];
+          _fetchFileData(i, avatarId, token);
+        }
+
         await _storage.write(key: 'cart_items', value: jsonEncode(cartItems));
       } else {
         throw Exception(response['message'] ?? "Không thể tải giỏ hàng.");
       }
     } catch (e) {
-      // Hiển thị lỗi nếu không lấy được dữ liệu
       Get.snackbar(
         "Lỗi",
         e.toString(),
@@ -75,8 +83,20 @@ class _CartScreenState extends State<CartScreen> {
       );
     } finally {
       setState(() {
-        isLoading = false; // Tắt trạng thái tải
+        isLoading = false;
       });
+    }
+  }
+
+  Future<void> _fetchFileData(int index, String avatarId, String token) async {
+    try {
+      final data = await _apiServices.downloadFile(avatarId, token);
+      setState(() {
+        fileDataList[index] = data;
+      });
+    } catch (e) {
+      print("Failed to fetch file for index $index: $e");
+      fileDataList[index] = null;
     }
   }
 
@@ -95,10 +115,12 @@ class _CartScreenState extends State<CartScreen> {
         padding: const EdgeInsets.all(CSSize.defaultSpace),
         itemCount: cartItems.length,
         itemBuilder: (context, index) {
-          final item = cartItems[index];
+          final item = cartItems![index];
+          final fileData = fileDataList![index];
+
           return CSCartItem(
             productName: item['product']['name'],
-            productImage: item['product']['avatarBlob']['name'],
+            productImage: fileData,
             productPrice: item['product']['currentPrice'],
             productQuantity: item['quantity'],
           );
@@ -109,7 +131,6 @@ class _CartScreenState extends State<CartScreen> {
         padding: const EdgeInsets.all(CSSize.defaultSpace),
         child: ElevatedButton(
           onPressed: () {
-            // Điều hướng sang màn hình thanh toán
             Get.to(() => const CheckoutScreen());
           },
           child: Text('Thanh Toán (${totalAmount.toStringAsFixed(0)}₫)'),
@@ -119,3 +140,4 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 }
+

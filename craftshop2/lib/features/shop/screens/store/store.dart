@@ -26,7 +26,7 @@ class Store extends StatefulWidget {
 
 class _Store extends State<Store> {
   final API_Services api_services = API_Services();
-
+  Map<String, dynamic> productPage = {}; // Map to hold product page data
   List<Map<String, dynamic>> productPages = []; // List to hold product pages
 
   bool isLoading = true;
@@ -79,7 +79,7 @@ class _Store extends State<Store> {
       // Cập nhật giao diện hoặc dữ liệu sau khi nhận được kết quả
       if (result['status'] == 'success') {
         setState(() {
-          productPage = result['data']; // Giả sử dữ liệu sản phẩm nằm trong 'data'
+          productPage = result['content']; // Giả sử dữ liệu sản phẩm nằm trong 'data'
         });
       } else {
         print('Failed to fetch products');
@@ -115,24 +115,24 @@ class _Store extends State<Store> {
                 backgroundColor: CSHelperFunctions.isDarkMode(context)
                     ? CSColors.dark
                     : CSColors.white,
-                expandedHeight: 200,
-                flexibleSpace: Padding(
-                  padding: const EdgeInsets.all(CSSize.defaultSpace),
-                  child: ListView(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      const SizedBox(height: CSSize.spaceBtwSections),
-                      CSSearchContainer(
-                        text: "Search in store",
-                        showBorder: true,
-                        showBackground: false,
-                        padding: EdgeInsets.zero,
-                        onSearch: _searchProducts, // Sử dụng hàm _searchProducts khi người dùng nhập tìm kiếm
-                      ),
-                    ],
-                  ),
-                ),
+                expandedHeight: 100,
+                // flexibleSpace: Padding(
+                //   padding: const EdgeInsets.all(CSSize.defaultSpace),
+                //   child: ListView(
+                //     shrinkWrap: true,
+                //     physics: const NeverScrollableScrollPhysics(),
+                //     children: [
+                //       const SizedBox(height: CSSize.spaceBtwSections),
+                //       // CSSearchContainer(
+                //       //   text: "Search in store",
+                //       //   showBorder: true,
+                //       //   showBackground: false,
+                //       //   padding: EdgeInsets.zero,
+                //       //   onSearch: _searchProducts, // Sử dụng hàm _searchProducts khi người dùng nhập tìm kiếm
+                //       // ),
+                //     ],
+                //   ),
+                // ),
 
                 bottom: CSTabBar(
                   tabs: productPages.map<Widget>((productPage) {

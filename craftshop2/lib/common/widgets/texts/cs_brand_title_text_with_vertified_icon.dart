@@ -10,7 +10,7 @@ class CsBrandTitleTextWithVertifiedIcon extends StatelessWidget {
   const CsBrandTitleTextWithVertifiedIcon(
       {super.key,
       required this.title,
-      this.maxLines = 1,
+      this.maxLines = 2,
       this.textColor,
       this.iconColor = CSColors.primaryColor,
       this.textAlign = TextAlign.center,

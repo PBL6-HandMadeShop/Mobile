@@ -9,7 +9,7 @@ import '../../texts/product_title.dart';
 
 class CSCartItem extends StatelessWidget {
   final String productName;
-  final String productImage;
+  final dynamic productImage;
   final double productPrice;
   final int productQuantity;
 
