@@ -655,7 +655,17 @@ class API_Services {
 
       if (response.statusCode == 200 && response.data != null) {
         print('Product added to cart: ${response.data}');
-        return response.data;
+
+        // Check if the response is already a Map<String, dynamic>
+        if (response.data is Map<String, dynamic>) {
+          return response.data;
+        }
+
+        // If the response is a String, wrap it into a map
+        return {
+          'status': 'ok',
+          'message': response.data.toString(),
+        };
       } else {
         throw Exception('Failed to add product to cart: ${response.statusMessage}');
       }
@@ -665,9 +675,11 @@ class API_Services {
       } else {
         print('Unexpected Error: $e');
       }
-      return {'status': 'error', 'message': 'Failed to add product to cart'};
+      // Return an error map to handle it properly in UI
+      return {'status': 'error', 'message': 'An error occurred while adding the product.'};
     }
   }
+
 
   Future<Map<String, dynamic>> removeCartItem(String productId, String token) async {
     try {

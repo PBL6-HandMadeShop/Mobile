@@ -63,19 +63,18 @@ class _CSBottomAddToCartState extends State<CSBottomAddToCart> {
       // Gọi API thêm sản phẩm vào giỏ hàng
       final response = await api_services.addCartItem(productId, _quantity, token);
 
-      if (response['status'] == 'success') {
+      if (response != null && response['status'] == 'ok') {
+        // Hiển thị thông báo thành công
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Product added to cart successfully!')),
         );
-
-        // Chuyển hướng sang CartScreen
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const CartScreen()),
-        );
       } else {
+        // Hiển thị thông báo lỗi từ server
+
+        print("Loi tai ScaffoldMessenger else");
+        String errorMessage = response?['message'] ?? 'An unknown error occurred.';
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(response['message'] ?? 'Failed to add product to cart')),
+          SnackBar(content: Text('Failed to add product: $errorMessage')),
         );
       }
     } catch (e) {
@@ -84,6 +83,7 @@ class _CSBottomAddToCartState extends State<CSBottomAddToCart> {
       );
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
