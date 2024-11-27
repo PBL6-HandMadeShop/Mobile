@@ -67,7 +67,7 @@ class CSProductMetaData extends StatelessWidget{
                 height: 32,
                 overlayColor: darkMode ? CSColors.white : CSColors.black,
             ),
-            CsBrandTitleTextWithVertifiedIcon(title: productName, brandTextSize: TextSizes.medium),
+            CsBrandTitleTextWithVertifiedIcon(title: productName, brandTextSize: TextSizes.small, textColor: CSColors.black,),
           ],
         ),
       ],

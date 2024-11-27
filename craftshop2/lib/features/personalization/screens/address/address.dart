@@ -1,12 +1,17 @@
+import 'dart:convert';
+
+import 'package:craftshop2/features/personalization/models/delivery_infor.dart';
 import 'package:craftshop2/features/personalization/screens/address/widgets/single_address.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../common/widgets/appbar/appbar.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/http/api_service.dart';
+import '../../controllers/address_controller.dart';
 import 'add_new_address.dart';
 
 class UserAddressScreen extends StatefulWidget {
@@ -17,65 +22,98 @@ class UserAddressScreen extends StatefulWidget {
 }
 
 class _UserAddressScreenState extends State<UserAddressScreen> {
-  final API_Services apiServices = API_Services();
-  Map<String, dynamic>? userInfo;
-  bool isLoading = true;
+  final DeliveryController _deliveryController = DeliveryController();
+  List<DeliveryInfo> _addresses = [];
+  int? _selectedIndex; // Chỉ số của địa chỉ đang được chọn
+
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    _loadUserInfo();
+    _loadAddresses();
   }
 
-  Future<void> _loadUserInfo() async {
+
+  Future<void> _loadAddresses() async {
     try {
-      String? token = await apiServices.storage.read(key: 'session_token');
-      if (token == null) {
-        print("User is not logged in");
-        return;
-      }
-
-      Map<String, dynamic>? fetchedUserInfo = await apiServices.fetchDataUser(token);
-      if (!mounted) return; // Check if widget is still in the tree
+      final addresses = await _deliveryController.getAddressList();
+      final mainDelivery = await _deliveryController.getMainDelivery();
+      if (!mounted) return;
 
       setState(() {
-        userInfo = fetchedUserInfo;
-        isLoading = false;
+        _addresses = addresses;
+        _isLoading = false;
+        // Xác định chỉ số của địa chỉ giao hàng chính nếu có
+        _selectedIndex = mainDelivery != null
+            ? _addresses.indexWhere((address) =>
+        address.address == mainDelivery.address &&
+            address.city == mainDelivery.city)
+            : null;
       });
-      print("User Info Loaded: $userInfo");
     } catch (e) {
-      print("Error loading user info: $e");
+      print("Error loading addresses: $e");
       setState(() {
-        isLoading = false;
+        _isLoading = false;
       });
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: CSColors.primaryColor,
-        onPressed: () => Get.to(() => const AddNewAddressScreen()),
+        onPressed: () async {
+          // Navigate đến màn hình thêm địa chỉ mới và refresh danh sách khi quay lại
+          await Get.to(() => const AddNewAddressScreen());
+          _loadAddresses();
+        },
         child: const Icon(Iconsax.add, color: CSColors.white),
-      ), // FloatingActionButton
+      ),
       appBar: CSAppBar(
         showBackArrow: true,
         title: Text('Addresses', style: Theme.of(context).textTheme.headlineSmall),
-      ), // TAppBar
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(CSSize.defaultSpace),
-          child: Column(
-            children: [
-              CSSingleAddress(selectedAddress: true,infouser: userInfo,),
-              CSSingleAddress(selectedAddress: false,infouser: userInfo),
-              CSSingleAddress(selectedAddress: false,infouser: userInfo),
-              CSSingleAddress(selectedAddress: false,infouser: userInfo),
-            ],
-          ), // Column
-        ), // Padding
-      ), // SingleChildScrollView
-    ); // Scaffold
+      ),
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator()) // Hiển thị loading
+          : _addresses.isEmpty
+          ? const Center(child: Text('No addresses found.')) // Hiển thị khi danh sách rỗng
+          : ListView.builder(
+        padding: const EdgeInsets.all(CSSize.defaultSpace),
+        itemCount: _addresses.length,
+        itemBuilder: (context, index) {
+          final isSelected = index == _selectedIndex;
+
+          return GestureDetector(
+            onTap: () async {
+              // Lưu địa chỉ được chọn làm chính
+              setState(() {
+                _selectedIndex = index;
+              });
+              await _deliveryController.setMainDelivery(_addresses[index]);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Set as main delivery address: ${_addresses[index].address}')),
+              );
+            },
+
+            child: SizedBox(
+              width: CSSize.spaceBtwItems,
+              child: CSSingleAddress(
+                selectedAddress: isSelected,
+                info: _addresses[index],
+              ),
+            ),
+
+          );
+
+        },
+      ),
+
+    );
   }
 }
+
+
