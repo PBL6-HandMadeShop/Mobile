@@ -57,5 +57,4 @@ class APIConstants {
 
  // API Đánh giá
  static const String GET_REVIEWS_BY_PRODUCT = 'api/getReviewsByProduct';
- static const String POST_REVIEWS_BY_USER = 'api/getReviewsByUser';
 }

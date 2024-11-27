@@ -394,7 +394,7 @@ class API_Services {
         throw Exception("Failed to fetch products: ${response.statusMessage}");
       }
     } catch (e) {
-      throw Exception("Error occurred while fetching products: $e");
+      throw Exception("Error occurred while fetching products 555: $e");
     }
   }
 
@@ -554,8 +554,8 @@ class API_Services {
           'page': page,
           'size': size,
           'searchKey': query, // Từ khóa tìm kiếm
-          'minPrice': minPrice ,
-          'maxPrice': maxPrice , // Giá tối đa mặc định là 1 triệu
+          'minPrice': minPrice ?? 0,
+          'maxPrice': maxPrice ?? 1000000, // Giá tối đa mặc định là 1 triệu
           'origin': origin ?? '',
           'productTypeId': productTypeId ?? '',
         },
@@ -567,10 +567,10 @@ class API_Services {
           },
         ),
       );
-      Map<String, dynamic> responseData = jsonDecode(response.data);
-      if (response.statusCode == 200 && responseData != null) {
-        print('Products fetched successfully: ${responseData}');
-        return responseData;
+
+      if (response.statusCode == 200 && response.data != null) {
+        print('Products fetched successfully: ${response.data}');
+        return response.data;
       } else {
         throw Exception('Failed to fetch products: ${response.statusMessage}');
       }
