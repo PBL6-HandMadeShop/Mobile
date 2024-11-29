@@ -37,7 +37,7 @@ class CSProductMetaData extends StatelessWidget{
               radius: CSSize.sm,
               backgroundColor: CSColors.secondaryColor.withOpacity(0.8),
               padding: const EdgeInsets.symmetric(horizontal: CSSize.sm, vertical: CSSize.xs),
-              child: Text( offPrice+'%', style: Theme.of(context).textTheme.labelLarge!.apply(color: CSColors.white)),
+              child: Text( '$offPrice%', style: Theme.of(context).textTheme.labelLarge!.apply(color: CSColors.white)),
             ),
             const SizedBox(width: CSSize.spaceBtwItems),
             ///Price
@@ -52,7 +52,7 @@ class CSProductMetaData extends StatelessWidget{
         /// Stock
         Row(
           children: [
-            CSProductTitleText(title: "Status"),
+            const CSProductTitleText(title: "Status"),
             const SizedBox(width: CSSize.spaceBtwItems),
             Text(status, style: Theme.of(context).textTheme.titleMedium),
           ],

@@ -1,7 +1,6 @@
 import 'package:craftshop2/common/widgets/texts/cs_brand_title_text.dart';
 import 'package:craftshop2/utils/constants/enums.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
 
 import '../../../utils/constants/colors.dart';
 import '../../../utils/constants/sizes.dart';

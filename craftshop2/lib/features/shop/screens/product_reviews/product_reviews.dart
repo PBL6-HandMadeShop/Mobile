@@ -1,13 +1,8 @@
-import 'package:craftshop2/features/shop/screens/product_reviews/widgets/progress_indicator_and_rating.dart';
 import 'package:craftshop2/features/shop/screens/product_reviews/widgets/rating_progrss_indicator.dart';
 import 'package:craftshop2/features/shop/screens/product_reviews/widgets/user_review_card.dart';
-import 'package:craftshop2/utils/device/device_utility.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:iconsax/iconsax.dart';
 import '../../../../common/widgets/appbar/appbar.dart';
 import '../../../../common/widgets/products/ratings/rating_indicator.dart';
-import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/sizes.dart';
 
 
@@ -36,9 +31,9 @@ class ProductReviewScreen extends StatelessWidget {
 
     // If productReview is empty or contains no content, display an empty state
     if (productReview.isEmpty || reviews.isEmpty) {
-      return Scaffold(
-        appBar: const CSAppBar(title: Text('Reviews & Ratings'), showBackArrow: true),
-        body: const Center(
+      return const Scaffold(
+        appBar: CSAppBar(title: Text('Reviews & Ratings'), showBackArrow: true),
+        body: Center(
           child: Text('No reviews or ratings available for this product.'),
         ),
       );
@@ -62,7 +57,7 @@ class ProductReviewScreen extends StatelessWidget {
               CSOverallProductRating(productReview: productReview ?? {}),
               CSRatingBarIndicator(rating: (productReview["ratings"]?["average"]).toDouble() ?? 0,), // RatingBarIndicator
               Text(
-                '${_getAmountRating(productReview: productReview)}' ?? '0',
+                _getAmountRating(productReview: productReview) ?? '0',
                 style: Theme.of(context).textTheme.bodySmall,
               ),
               const SizedBox(height: CSSize.spaceBtwSections),

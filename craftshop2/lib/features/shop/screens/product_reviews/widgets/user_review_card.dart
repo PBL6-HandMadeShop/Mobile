@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:readmore/readmore.dart';
 
-import '../../../../../common/widgets/custom_shape/containers/rounded_container.dart';
 import '../../../../../common/widgets/images/cs_circular_image.dart';
 import '../../../../../common/widgets/products/ratings/rating_indicator.dart';
-import '../../../../../utils/constants/colors.dart';
 import '../../../../../utils/constants/image_string.dart';
 import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/helpers/helper_functions.dart';
@@ -13,7 +10,7 @@ import '../../../../../utils/http/api_service.dart';
 import 'dart:typed_data';
 
 class UserReviewCard extends StatefulWidget {
-  const UserReviewCard({Key? key, required this.productReview}) : super(key: key);
+  const UserReviewCard({super.key, required this.productReview});
   final List<dynamic> productReview;
 
   @override
@@ -22,7 +19,7 @@ class UserReviewCard extends StatefulWidget {
 
 class _UserReviewCardState extends State<UserReviewCard> {
   final API_Services api_services = API_Services();
-  final FlutterSecureStorage storage = FlutterSecureStorage();
+  final FlutterSecureStorage storage = const FlutterSecureStorage();
 
   Map<String, dynamic>? review;
   Uint8List? fileData;
@@ -67,7 +64,7 @@ class _UserReviewCardState extends State<UserReviewCard> {
     final RegExp brTagRegExp = RegExp(r'<br\s*/?>');
     if (content.trim().isEmpty || brTagRegExp.hasMatch(content)) {
       // Return a widget with 'No review content available' if the content is empty or just <br>
-      widgets.add(Text('No review content available.'));
+      widgets.add(const Text('No review content available.'));
       return widgets;
     }
 
@@ -79,7 +76,7 @@ class _UserReviewCardState extends State<UserReviewCard> {
     for (final match in pMatches) {
       widgets.add(Text(
         match.group(1)?.trim() ?? '',
-        style: TextStyle(fontSize: 16), // Customize text style as needed
+        style: const TextStyle(fontSize: 16), // Customize text style as needed
       ));
     }
 

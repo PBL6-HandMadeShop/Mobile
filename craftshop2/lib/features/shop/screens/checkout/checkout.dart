@@ -1,9 +1,8 @@
 import 'package:craftshop2/features/shop/screens/checkout/widgets/billing_address_section.dart';
 import 'package:craftshop2/features/shop/screens/checkout/widgets/billing_amount_section.dart';
-import 'package:craftshop2/features/shop/screens/checkout/widgets/billing_payment_section.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:craftshop2/features/authencation/models/user_model.dart'; // Import UserInfo model
+// Import UserInfo model
 import '../../../../common/widgets/appbar/appbar.dart';
 import '../../../../common/widgets/custom_shape/containers/rounded_container.dart';
 import '../../../../common/widgets/products/cart/coupoun_widget.dart';
@@ -16,10 +15,10 @@ import '../../../../utils/helpers/helper_functions.dart';
 import '../../../../utils/http/api_service.dart';
 import '../../../personalization/models/user_info.dart';
 import '../cart/widgets/cart_items.dart';
-import 'package:craftshop2/api_services/api_services.dart'; // Import API service
+// Import API service
 
 class CheckoutScreen extends StatelessWidget {
-  const CheckoutScreen({Key? key}) : super(key: key);
+  const CheckoutScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +38,7 @@ class CheckoutScreen extends StatelessWidget {
               const SizedBox(height: CSSize.spaceBtwSections),
 
               /// -- Coupon TextField
-              CSCouponCode(),
+              const CSCouponCode(),
               const SizedBox(height: CSSize.spaceBtwSections),
 
               /// -- Billing Section
@@ -49,7 +48,7 @@ class CheckoutScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     /// Pricing
-                    CSBillingAmountSection(),
+                    const CSBillingAmountSection(),
                     const SizedBox(height: CSSize.spaceBtwItems),
 
                     /// Divider
@@ -91,7 +90,7 @@ class CheckoutScreen extends StatelessWidget {
               onPressed: () => Get.offAll(() => const NavigationMenu()),
             ),
           ),
-          child: Text('Checkout \$256.0'),
+          child: const Text('Checkout \$256.0'),
         ),
       ),
     );

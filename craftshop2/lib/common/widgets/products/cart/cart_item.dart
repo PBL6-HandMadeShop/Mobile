@@ -36,8 +36,8 @@ class CSCartItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const CsBrandTitleTextWithVertifiedIcon(title: 'Nike'),
-              Flexible(
-                child: const CSProductTitleText(
+              const Flexible(
+                child: CSProductTitleText(
                   title: 'Black Sports shoes ',
                   maxLines: 1,
                 ),

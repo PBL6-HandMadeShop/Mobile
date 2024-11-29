@@ -8,13 +8,13 @@ class CSSearchContainer extends StatefulWidget {
   final ValueChanged<String> onSearch;
 
   const CSSearchContainer({
-    Key? key,
+    super.key,
     required this.text,
     this.showBorder = true,
     this.showBackground = false,
     this.padding = const EdgeInsets.all(8.0),
     required this.onSearch,
-  }) : super(key: key);
+  });
 
   @override
   _CSSearchContainerState createState() => _CSSearchContainerState();
@@ -46,13 +46,13 @@ class _CSSearchContainerState extends State<CSSearchContainer> {
               decoration: InputDecoration(
                 hintText: widget.text,
                 border: InputBorder.none,
-                prefixIcon: Icon(Icons.search),
+                prefixIcon: const Icon(Icons.search),
               ),
               onSubmitted: (_) => _performSearch(), // Kích hoạt tìm kiếm khi nhấn Enter
             ),
           ),
           IconButton(
-            icon: Icon(Icons.search, color: Colors.blue),
+            icon: const Icon(Icons.search, color: Colors.blue),
             onPressed: _performSearch, // Kích hoạt tìm kiếm khi nhấn nút
           ),
         ],

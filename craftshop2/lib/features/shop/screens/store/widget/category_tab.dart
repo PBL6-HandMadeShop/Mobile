@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 
-import '../../../../../common/brand/brand_showcase.dart';
 import '../../../../../common/widgets/layouts/grid_layout.dart';
 import '../../../../../common/widgets/products/product_cart/product_cart_vertical.dart';
 import '../../../../../common/widgets/texts/section_heading.dart';
-import '../../../../../utils/constants/image_string.dart';
 import '../../../../../utils/constants/sizes.dart';
 
 class CsCategoryTab extends StatefulWidget {

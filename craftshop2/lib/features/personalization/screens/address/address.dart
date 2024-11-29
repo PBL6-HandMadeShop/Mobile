@@ -10,7 +10,7 @@ import '../../../../utils/http/api_service.dart';
 import 'add_new_address.dart';
 
 class UserAddressScreen extends StatefulWidget {
-  const UserAddressScreen({Key? key}) : super(key: key);
+  const UserAddressScreen({super.key});
 
   @override
   _UserAddressScreenState createState() => _UserAddressScreenState();

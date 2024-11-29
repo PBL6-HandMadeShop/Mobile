@@ -1,7 +1,6 @@
 import 'package:HandcraftShop/src/feature/dashboard/screen/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 import '../../../../constants/colors.dart';
 import '../../../../constants/size.dart';
@@ -103,7 +102,6 @@ class LoginForm extends StatelessWidget {
                     onPressed: () {
                       Get.to(() => const DashBoard());
                     },
-                    child: Text(loginButton.toUpperCase()),
                     style: OutlinedButton.styleFrom(
                         elevation: 0,
                         shape: RoundedRectangleBorder(),
@@ -111,6 +109,7 @@ class LoginForm extends StatelessWidget {
                         backgroundColor: secondaryColor,
                         side: BorderSide(color: secondaryColor),
                         padding: EdgeInsets.symmetric(vertical: buttonHeight)),
+                    child: Text(loginButton.toUpperCase()),
                   )),
             ])));
   }

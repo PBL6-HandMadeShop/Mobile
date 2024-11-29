@@ -19,7 +19,7 @@ class CSBottomAddToCart extends StatefulWidget {
 class _CSBottomAddToCartState extends State<CSBottomAddToCart> {
   int _quantity = 1; // Khởi tạo số lượng là 1
   final API_Services api_services = API_Services();
-  final FlutterSecureStorage storage = FlutterSecureStorage();
+  final FlutterSecureStorage storage = const FlutterSecureStorage();
 
   // Hàm tăng số lượng
   void _increaseQuantity() {
@@ -41,7 +41,7 @@ class _CSBottomAddToCartState extends State<CSBottomAddToCart> {
   void _addToCart() async {
     String? token = await storage.read(key: 'session_token');
     if (token == null) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Token is null')));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Token is null')));
       return;
     }
 
@@ -51,9 +51,9 @@ class _CSBottomAddToCartState extends State<CSBottomAddToCart> {
 
 
       if (response.data['status'] == 'ok') {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Added to cart')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Added to cart')));
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to add to cart')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Failed to add to cart')));
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));

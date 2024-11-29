@@ -20,12 +20,12 @@ class CSCartItems extends StatelessWidget{
       separatorBuilder: (_, __) => const SizedBox(height: CSSize.spaceBtwSections),
       itemBuilder: (_, index) => Column(
         children: [
-          CSCartItem(),
+          const CSCartItem(),
           if(showAddRemoveButton)
           const SizedBox(height: CSSize.spaceBtwItems,),
 
           if(showAddRemoveButton)
-          Row(
+          const Row(
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

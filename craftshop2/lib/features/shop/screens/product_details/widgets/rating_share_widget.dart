@@ -17,8 +17,8 @@ class CSRatingAndShare extends StatelessWidget {
         /// Rating
         Row(
           children: [
-            Icon(Iconsax.star5, color: Colors.amber, size: 24),
-            SizedBox(width: CSSize.spaceBtwItems/2),
+            const Icon(Iconsax.star5, color: Colors.amber, size: 24),
+            const SizedBox(width: CSSize.spaceBtwItems/2),
             Text.rich(TextSpan(
                 children: [
                   TextSpan(text: ratingScore , style: Theme.of(context).textTheme.bodyLarge),

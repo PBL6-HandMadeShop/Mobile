@@ -25,7 +25,7 @@ class _CSUserProfileTile extends State<CSUserProfileTile> {
   User? _userData;
   bool isLoading = true;
   final API_Services api_services = API_Services();
-  final FlutterSecureStorage storage = FlutterSecureStorage();
+  final FlutterSecureStorage storage = const FlutterSecureStorage();
   Map<String, dynamic>? userInfo;
   Uint8List? fileData;
 

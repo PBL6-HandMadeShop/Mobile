@@ -1,6 +1,5 @@
 import 'package:HandcraftShop/src/feature/dashboard/model/rive_asset.dart';
 import 'package:HandcraftShop/src/feature/dashboard/screen/side_menu/side_menu_title.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 
@@ -9,7 +8,7 @@ import '../../../../utils/rive/rive_utils.dart';
 import 'infor_card.dart';
 
 class SideMenu extends StatefulWidget {
-  const SideMenu({Key? key}) : super(key: key);
+  const SideMenu({super.key});
 
   @override
   _SideMenuState createState() => _SideMenuState();
