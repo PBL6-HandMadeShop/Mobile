@@ -6,12 +6,16 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../../../../utils/constants/sizes.dart';
 import 'package:craftshop2/utils/http/api_service.dart';
+import '../../cart/cart.dart';
 
 class CSBottomAddToCart extends StatefulWidget {
   const CSBottomAddToCart({
-    super.key, required this.productData,
+    super.key,
+    required this.productData,
   });
+
   final Map<String, dynamic> productData;
+
   @override
   _CSBottomAddToCartState createState() => _CSBottomAddToCartState();
 }
@@ -38,28 +42,48 @@ class _CSBottomAddToCartState extends State<CSBottomAddToCart> {
   }
 
   // Hàm thêm vào giỏ hàng
-  void _addToCart() async {
+  Future<void> _addToCart() async {
     String? token = await storage.read(key: 'session_token');
     if (token == null) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Token is null')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('You need to log in to add items to your cart.')),
+      );
+      return;
+    }
+
+    final productId = widget.productData["id"].toString();
+    if (productId.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Invalid product ID')),
+      );
       return;
     }
 
     try {
-      // Gọi API để thêm vào giỏ hàng
-      final response = await api_services.addToCart(widget.productData["id"], _quantity, token);
+      // Gọi API thêm sản phẩm vào giỏ hàng
+      final response = await api_services.addCartItem(productId, _quantity, token);
 
-
-      if (response.data['status'] == 'ok') {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Added to cart')));
+      if (response != null && response['status'] == 'ok') {
+        // Hiển thị thông báo thành công
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Product added to cart successfully!')),
+        );
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Failed to add to cart')));
+        // Hiển thị thông báo lỗi từ server
+
+        print("Loi tai ScaffoldMessenger else");
+        String errorMessage = response?['message'] ?? 'An unknown error occurred.';
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to add product: $errorMessage')),
+        );
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
-      print('Error: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('An error occurred while adding product to cart.')),
+      );
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +91,9 @@ class _CSBottomAddToCartState extends State<CSBottomAddToCart> {
 
     return Container(
       padding: const EdgeInsets.symmetric(
-          horizontal: CSSize.defaultSpace, vertical: CSSize.defaultSpace / 2),
+        horizontal: CSSize.defaultSpace,
+        vertical: CSSize.defaultSpace / 2,
+      ),
       decoration: BoxDecoration(
         color: dark ? CSColors.darkerGrey : CSColors.light,
         borderRadius: const BorderRadius.only(

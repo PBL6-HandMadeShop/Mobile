@@ -390,7 +390,7 @@ class API_Services {
         throw Exception("Failed to fetch products: ${response.statusMessage}");
       }
     } catch (e) {
-      throw Exception("Error occurred while fetching products: $e");
+      throw Exception("Error occurred while fetching products 555: $e");
     }
   }
 
@@ -451,7 +451,7 @@ class API_Services {
         throw Exception('Failed to add item to cart');
       }
     } catch (e) {
-      print('Error: $e');
+      print('Error5: $e');
       return dio.Response(
         requestOptions: dio.RequestOptions(
             path: '$_baseUrl/${APIConstants.ADD_CART_ITEM}'),
@@ -580,6 +580,328 @@ class API_Services {
     }
   }
 
+  ///Don Hang
+  Future<Map<String, dynamic>> fetchCartItems(String token) async {
+    try {
+      print('Fetching cart items for the user');
+      final response = await _dio.get(
+        '$_baseUrl/${APIConstants.GET_CART_ITEMS}',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Session-Code': token,
+            'ngrok-skip-browser-warning': 'true',
+          },
+        ),
+      );
+
+      final responseData = response.data is String
+          ? jsonDecode(response.data)
+          : response.data;
+
+      if (response.statusCode == 200 && responseData != null) {
+        print('Response data: $responseData');
+
+        if (responseData['content'] != null && responseData['content'] is List) {
+          print('Cart items fetched successfully: ${responseData['content']}');
+          return {
+            'status': 'ok',
+            'content': responseData['content'],
+          };
+        } else {
+          print('Content is null or not found');
+          return {'status': 'ok', 'message': 'No items in cart', 'content': []};
+        }
+      } else {
+        throw Exception('Failed to fetch cart items: ${response.statusMessage}');
+      }
+    } catch (e) {
+      if (e is DioError) {
+        print('DioError: ${e.response?.data ?? e.message}');
+      } else {
+        print('Unexpected Error in api: $e');
+      }
+      return {'status': 'error', 'message': 'Failed to fetch cart items'};
+    }
+  }
+
+
+
+
+  Future<Map<String, dynamic>> addCartItem(String productId, int quantity, String token) async {
+    try {
+      print('Adding product to cart: $productId');
+
+      var formData = FormData.fromMap({
+        'productId': productId,
+        'quantity': quantity,
+      });
+
+      final response = await _dio.post(
+        '$_baseUrl/${APIConstants.ADD_CART_ITEM}',
+        data: formData,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Session-Code': token,
+            'ngrok-skip-browser-warning': 'true',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        print('Product added to cart: ${response.data}');
+
+        // Check if the response is already a Map<String, dynamic>
+        if (response.data is Map<String, dynamic>) {
+          return response.data;
+        }
+
+        // If the response is a String, wrap it into a map
+        return {
+          'status': 'ok',
+          'message': response.data.toString(),
+        };
+      } else {
+        throw Exception('Failed to add product to cart: ${response.statusMessage}');
+      }
+    } catch (e) {
+      if (e is DioError) {
+        print('DioError: ${e.response?.data ?? e.message}');
+      } else {
+        print('Unexpected Error: $e');
+      }
+      // Return an error map to handle it properly in UI
+      return {'status': 'error', 'message': 'An error occurred while adding the product.'};
+    }
+  }
+
+
+  Future<Map<String, dynamic>> removeCartItem(String productId, String token) async {
+    try {
+      print('Removing product from cart: $productId');
+
+      final response = await _dio.post(
+        '$_baseUrl/${APIConstants.REMOVE_CART_ITEM}',
+        data: {'productId': productId},
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Session-Code': token,
+            'ngrok-skip-browser-warning': 'true',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        print('Product removed from cart: ${response.data}');
+        return response.data;
+      } else {
+        throw Exception('Failed to remove product from cart: ${response.statusMessage}');
+      }
+    } catch (e) {
+      if (e is DioError) {
+        print('DioError: ${e.response?.data ?? e.message}');
+      } else {
+        print('Unexpected Error: $e');
+      }
+      return {'status': 'error', 'message': 'Failed to remove product from cart'};
+    }
+  }
+
+  Future<Map<String, dynamic>> fetchOrders(String token) async {
+    try {
+      print('Fetching orders');
+
+      final response = await _dio.get(
+        '$_baseUrl/${APIConstants.GET_ORDERS}', // Endpoint GET_ORDERS
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Session-Code': token,
+            'ngrok-skip-browser-warning': 'true',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        print('Orders fetched successfully: ${response.data}');
+        return response.data;
+      } else {
+        throw Exception('Failed to fetch orders: ${response.statusMessage}');
+      }
+    } catch (e) {
+      if (e is DioError) {
+        print('DioError: ${e.response?.data ?? e.message}');
+      } else {
+        print('Unexpected Error: $e');
+      }
+      return {'status': 'error', 'message': 'Failed to fetch orders'};
+    }
+  }
+
+  Future<Map<String, dynamic>> createOrder(Map<String, dynamic> orderDetails, String token) async {
+    try {
+      print('Creating order');
+
+      final response = await _dio.post(
+        '$_baseUrl/${APIConstants.CREATE_ORDER}',
+        data: orderDetails,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Session-Code': token,
+            'ngrok-skip-browser-warning': 'true',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        print('Order created successfully: ${response.data}');
+        return response.data;
+      } else {
+        throw Exception('Failed to create order: ${response.statusMessage}');
+      }
+    } catch (e) {
+      if (e is DioError) {
+        print('DioError: ${e.response?.data ?? e.message}');
+      } else {
+        print('Unexpected Error: $e');
+      }
+      return {'status': 'error', 'message': 'Failed to create order'};
+    }
+  }
+
+  Future<Map<String, dynamic>> updateOrder(String orderId, Map<String, dynamic> updates, String token) async {
+    try {
+      print('Updating order: $orderId');
+
+      final response = await _dio.post(
+        '$_baseUrl/${APIConstants.UPDATE_ORDER}',
+        data: {
+          'orderId': orderId,
+          ...updates,
+        },
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Session-Code': token,
+            'ngrok-skip-browser-warning': 'true',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        print('Order updated successfully: ${response.data}');
+        return response.data;
+      } else {
+        throw Exception('Failed to update order: ${response.statusMessage}');
+      }
+    } catch (e) {
+      if (e is DioError) {
+        print('DioError: ${e.response?.data ?? e.message}');
+      } else {
+        print('Unexpected Error: $e');
+      }
+      return {'status': 'error', 'message': 'Failed to update order'};
+    }
+  }
+
+  Future<Map<String, dynamic>> submitOrder(String orderId, String token) async {
+    try {
+      print('Submitting order: $orderId');
+
+      final response = await _dio.post(
+        '$_baseUrl/${APIConstants.SUBMIT_ORDER}',
+        data: {'orderId': orderId},
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Session-Code': token,
+            'ngrok-skip-browser-warning': 'true',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        print('Order submitted successfully: ${response.data}');
+        return response.data;
+      } else {
+        throw Exception('Failed to submit order: ${response.statusMessage}');
+      }
+    } catch (e) {
+      if (e is DioError) {
+        print('DioError: ${e.response?.data ?? e.message}');
+      } else {
+        print('Unexpected Error: $e');
+      }
+      return {'status': 'error', 'message': 'Failed to submit order'};
+    }
+  }
+
+  Future<Map<String, dynamic>> cancelOrder(String orderId, String token) async {
+    try {
+      print('Cancelling order: $orderId');
+
+      final response = await _dio.post(
+        '$_baseUrl/${APIConstants.CANCEL_ORDER}',
+        data: {'orderId': orderId},
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Session-Code': token,
+            'ngrok-skip-browser-warning': 'true',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        print('Order cancelled successfully: ${response.data}');
+        return response.data;
+      } else {
+        throw Exception('Failed to cancel order: ${response.statusMessage}');
+      }
+    } catch (e) {
+      if (e is DioError) {
+        print('DioError: ${e.response?.data ?? e.message}');
+      } else {
+        print('Unexpected Error: $e');
+      }
+      return {'status': 'error', 'message': 'Failed to cancel order'};
+    }
+  }
+
+  Future<Map<String, dynamic>> confirmPaymentVNPAY(String orderId, String token) async {
+    try {
+      print('Confirming payment for order: $orderId');
+
+      final response = await _dio.post(
+        '$_baseUrl/${APIConstants.CONFIRM_PAYMENT_VNPAY}',
+        data: {'orderId': orderId},
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Session-Code': token,
+            'ngrok-skip-browser-warning': 'true',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        print('Payment confirmed successfully: ${response.data}');
+        return response.data;
+      } else {
+        throw Exception('Failed to confirm payment: ${response.statusMessage}');
+      }
+    } catch (e) {
+      if (e is DioError) {
+        print('DioError: ${e.response?.data ?? e.message}');
+      } else {
+        print('Unexpected Error: $e');
+      }
+      return {'status': 'error', 'message': 'Failed to confirm payment'};
+    }
+  }
 
 }
 

@@ -68,8 +68,8 @@ class _CSProductCardVertical extends State<CSProductCardVertical> {
         fileData = results[1] as Uint8List?; // Dữ liệu ảnh
         productReview = results[2] as Map<String, dynamic>?; // Dữ liệu review
       });
-         print("product ID ${widget.productData['id']}");
-        print("product cart vertical ${productReview?['content']}");
+      print("product ID ${widget.productData['id']}");
+      print("product cart vertical ${productReview?['content']}");
       // Kiểm tra và in ra dữ liệu voucher nếu có
       if (widget.productData['vouchers'] != null &&
           widget.productData['vouchers'].isNotEmpty) {

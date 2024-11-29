@@ -20,7 +20,7 @@ class Store extends StatefulWidget {
 
 class _Store extends State<Store> {
   final API_Services api_services = API_Services();
-
+  Map<String, dynamic> productPage = {}; // Map to hold product page
   List<Map<String, dynamic>> productPages = []; // List to hold product pages
 
   bool isLoading = true;
@@ -114,4 +114,3 @@ class _Store extends State<Store> {
     );
   }
 }
-

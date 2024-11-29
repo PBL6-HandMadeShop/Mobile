@@ -1,3 +1,4 @@
+import 'package:craftshop2/features/personalization/models/delivery_infor.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -7,24 +8,18 @@ import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/helpers/helper_functions.dart';
 
 class CSSingleAddress extends StatelessWidget {
-  const CSSingleAddress({
-    super.key,
-    required this.selectedAddress,
-    required this.infouser,
-  });
-
+  final DeliveryInfo info;
   final bool selectedAddress;
-  final Map<String, dynamic>? infouser;
+
+  const CSSingleAddress({
+    Key? key,
+    required this.info,
+    this.selectedAddress = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final dark = CSHelperFunctions.isDarkMode(context);
-
-    // Extract user details
-    final String userName = infouser?['name'] ?? 'N/A';
-    final String userPhone = infouser?['phoneNumber'] ?? 'N/A';
-    final String userAddress = infouser?['address'] ?? 'N/A';
-
     return CSRoundedContainer(
       width: double.infinity,
       showBorder: true,
@@ -35,44 +30,25 @@ class CSSingleAddress extends StatelessWidget {
       borderColor: selectedAddress
           ? Colors.transparent
           : dark
-          ? CSColors.darkerGrey
-          : CSColors.grey,
+              ? CSColors.darkerGrey
+              : CSColors.grey,
       margin: const EdgeInsets.only(bottom: CSSize.spaceBtwItems),
-      child: Stack(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Positioned(
-            right: 5,
-            top: 0,
-            child: Icon(
-              selectedAddress ? Iconsax.tick_circle5 : null,
-              color: selectedAddress
-                  ? dark
-                  ? CSColors.light
-                  : CSColors.dark
-                  : null,
-            ),
+          Text(
+            info.address,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.titleLarge,
+            softWrap: true,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                userName,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.titleLarge,
-              ), // Text
-              const SizedBox(height: CSSize.sm / 2),
-              Text(
-                userPhone,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              const SizedBox(height: CSSize.sm / 2),
-              Text(
-                userAddress,
-                softWrap: true,
-              ),
-            ], // Column
+          const SizedBox(height: CSSize.sm / 2),
+          Text(
+            '${info.ward}, ${info.district}, ${info.city}, ${info.province}',
+            softWrap: true,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),
