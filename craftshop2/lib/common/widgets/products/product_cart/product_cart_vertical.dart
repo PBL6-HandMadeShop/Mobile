@@ -31,7 +31,7 @@ class _CSProductCardVertical extends State<CSProductCardVertical> {
   final API_Services api_services = API_Services();
   Map<String, dynamic>? productInfo;
   Map<String, dynamic>? productReview;
-  final FlutterSecureStorage storage = FlutterSecureStorage();
+  final FlutterSecureStorage storage = const FlutterSecureStorage();
   Uint8List? fileData;
   bool isLoading = true;
   @override
@@ -68,12 +68,12 @@ class _CSProductCardVertical extends State<CSProductCardVertical> {
         fileData = results[1] as Uint8List?; // Dữ liệu ảnh
         productReview = results[2] as Map<String, dynamic>?; // Dữ liệu review
       });
-      print("product ID ${widget.productData['id']}");
-      print("product cart vertical ${productReview?['content']}");
+      // print("product ID ${widget.productData['id']}");
+      // print("product cart vertical ${productReview?['content']}");
       // Kiểm tra và in ra dữ liệu voucher nếu có
       if (widget.productData['vouchers'] != null &&
           widget.productData['vouchers'].isNotEmpty) {
-        print('discount ${widget.productData['vouchers']}');
+        // print('discount ${widget.productData['vouchers']}');
       } else {
         print('No vouchers available');
       }
@@ -88,7 +88,7 @@ class _CSProductCardVertical extends State<CSProductCardVertical> {
   Future<Uint8List?> _loadProductImage() async {
     try {
       final String imageId = widget.productData['avatar']?['id'] ?? '';
-      print("String image "+imageId);
+      print("String image $imageId");
       if (imageId.isNotEmpty) {
         return await api_services.downloadProductImage(imageId);
       }
@@ -145,7 +145,7 @@ class _CSProductCardVertical extends State<CSProductCardVertical> {
                       ),
                     ),
                   ),
-                  Positioned(
+                  const Positioned(
                     top: 0,
                     right: 0,
                     child: CSCircularlIcon(
@@ -158,7 +158,7 @@ class _CSProductCardVertical extends State<CSProductCardVertical> {
             ),
             const SizedBox(height: CSSize.spaceBtwItems / 2),
             Padding(
-              padding: EdgeInsets.only(left: CSSize.sm),
+              padding: const EdgeInsets.only(left: CSSize.sm),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -166,7 +166,7 @@ class _CSProductCardVertical extends State<CSProductCardVertical> {
                     title: productInfo?['name'] ?? 'Product Name',
                     smallSize: true,
                   ),
-                  SizedBox(height: CSSize.spaceBtwItems / 2),
+                  const SizedBox(height: CSSize.spaceBtwItems / 2),
                   CsBrandTitleTextWithVertifiedIcon(
                     title: productInfo?['description'] ?? 'Product Description',
                   ),

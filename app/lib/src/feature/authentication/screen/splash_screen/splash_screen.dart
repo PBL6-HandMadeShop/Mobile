@@ -1,11 +1,11 @@
-import 'package:HandcraftShop/src/constants/colors.dart';
 import 'package:HandcraftShop/src/constants/image_string.dart';
 import 'package:HandcraftShop/src/constants/size.dart';
 import 'package:HandcraftShop/src/constants/text_string.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }

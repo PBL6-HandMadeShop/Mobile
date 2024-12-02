@@ -12,7 +12,7 @@ import 'package:iconsax/iconsax.dart';
 import '../../../../../utils/constants/sizes.dart';
 
 class CSLoginForm extends StatefulWidget {
-  const CSLoginForm({Key? key}) : super(key: key);
+  const CSLoginForm({super.key});
 
   @override
   State<CSLoginForm> createState() => _CSLoginFormState();
@@ -32,7 +32,7 @@ class _CSLoginFormState extends State<CSLoginForm> {
 
       if (username.isEmpty || password.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Username and password cannot be empty')),
+          const SnackBar(content: Text('Username and password cannot be empty')),
         );
         return;
       }
@@ -40,7 +40,7 @@ class _CSLoginFormState extends State<CSLoginForm> {
         // Call the login method from LoginController
         await _api_services.login(username, password);
         // Assuming the response is handled inside the controller
-        Get.to(() => NavigationMenu());
+        Get.to(() => const NavigationMenu());
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Login failed: $e')),

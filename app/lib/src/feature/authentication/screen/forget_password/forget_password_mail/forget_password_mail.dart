@@ -9,7 +9,7 @@ import '../../../../../constants/image_string.dart';
 import '../../../../../constants/text_string.dart';
 
 class ForgetPasswordMailScreen extends StatelessWidget {
-  const ForgetPasswordMailScreen({Key? key}) : super(key: key);
+  const ForgetPasswordMailScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -50,13 +50,13 @@ class ForgetPasswordMailScreen extends StatelessWidget {
                           onPressed: () {
                             Get.to(()=> const OTPScreen());
                           },
-                          child: Text("NEXT"),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: secondaryColor,
                             foregroundColor: Colors.white,
                             textStyle: const TextStyle(fontSize: 20),
                             shape: RoundedRectangleBorder(),
                           ),
+                          child: Text("NEXT"),
                         )),
                   ],
                 ))

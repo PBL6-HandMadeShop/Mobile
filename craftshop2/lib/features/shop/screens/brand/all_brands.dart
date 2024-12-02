@@ -1,7 +1,5 @@
-import 'package:craftshop2/common/widgets/products/sortable/sortable_products.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 import '../../../../common/brand/card_brand.dart';
 import '../../../../common/widgets/appbar/appbar.dart';

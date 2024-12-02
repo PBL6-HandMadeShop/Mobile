@@ -5,7 +5,7 @@ import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class OTPScreen extends StatelessWidget{
-  const OTPScreen({Key? key}) : super(key: key);
+  const OTPScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

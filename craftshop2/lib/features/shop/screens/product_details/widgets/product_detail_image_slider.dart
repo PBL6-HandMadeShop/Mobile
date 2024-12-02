@@ -78,7 +78,7 @@ class _CSProductImageSliderState extends State<CSProductImageSlider> {
             SizedBox(
               height: 400,
               child: Padding(
-                padding: EdgeInsets.all(CSSize.productImageRadius * 2),
+                padding: const EdgeInsets.all(CSSize.productImageRadius * 2),
                 child: Center(
                   child: CSRoundedImage(
                     imageUrl: widget.avatarBlob,

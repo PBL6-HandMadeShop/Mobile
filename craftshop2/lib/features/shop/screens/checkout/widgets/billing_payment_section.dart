@@ -8,7 +8,7 @@ import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/helpers/helper_functions.dart';
 
 class CSBillingPaymentSection extends StatelessWidget {
-  const CSBillingPaymentSection({Key? key}) : super(key: key);
+  const CSBillingPaymentSection({super.key});
 
   @override
   Widget build(BuildContext context) {

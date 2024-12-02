@@ -1,8 +1,6 @@
 import 'package:craftshop2/common/widgets/appbar/appbar.dart';
 import 'package:craftshop2/utils/constants/sizes.dart';
-import 'package:craftshop2/utils/validators/validation.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
 
 class ChangeGender extends StatefulWidget {
   const ChangeGender({super.key});

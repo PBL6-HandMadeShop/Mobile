@@ -10,11 +10,8 @@ import '../../../../common/widgets/layouts/grid_layout.dart';
 import '../../../../common/widgets/products/product_cart/product_cart_vertical.dart';
 import '../../../../common/widgets/texts/section_heading.dart';
 import '../../../../utils/constants/colors.dart';
-import '../../../../utils/constants/image_string.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/http/api_service.dart';
-import '../../../../utils/local_storage/storage_utility.dart';
-import '../../../authencation/models/user_model.dart';
 import '../all_products/all_products.dart';
 import 'widgets/home_appbar.dart';
 import 'dart:typed_data';
@@ -29,9 +26,10 @@ class _HomeScreen extends State<HomeScreen> {
   bool isUserLoading = true; // Trạng thái tải thông tin người dùng
   bool isProductLoading = true; // Trạng thái tải dữ liệu sản phẩm
   final API_Services api_services = API_Services();
-  final FlutterSecureStorage storage = FlutterSecureStorage();
+  final FlutterSecureStorage storage = const FlutterSecureStorage();
   Map<String, dynamic>? userInfo;
   List<Uint8List?> productImages = [];
+  List<Map<String, dynamic>> productPages = [];
   List<dynamic>? productPagePopular;
 
   @override
@@ -80,6 +78,7 @@ class _HomeScreen extends State<HomeScreen> {
       }
 
       setState(() {
+        productPages = List<Map<String, dynamic>>.from(fetchedData1['content'] ?? []);
         productPagePopular = allProducts;
       });
 
@@ -133,12 +132,12 @@ class _HomeScreen extends State<HomeScreen> {
               child: Column(
                 children: [
                   CSHomeAppBar(Subtitle: "${userInfo!['name']}"),
-                  SizedBox(height: CSSize.spaceBtwSections),
+                  const SizedBox(height: CSSize.spaceBtwSections),
                   CSSearchContainer(
                     text: "Search something ...",
                     onSearch: (String value) {  },
                   ),
-                  SizedBox(height: CSSize.spaceBtwSections),
+                  const SizedBox(height: CSSize.spaceBtwSections),
                   Padding(
                     padding: const EdgeInsets.only(left: CSSize.defaultSpace),
                     child: Column(
@@ -146,12 +145,19 @@ class _HomeScreen extends State<HomeScreen> {
                         const CSSectionHeading(
                           title: 'Popular Categories',
                           textColor: CSColors.white,
+                          showActionButton: false,
                         ),
-                        SizedBox(height: CSSize.spaceBtwItems),
-                        const CSHomeCategories(),
+                        const SizedBox(height: CSSize.spaceBtwItems),
+                        if (productPagePopular != null && productPagePopular!.isNotEmpty)
+                          CSHomeCategories(
+                            productPages: productPages,
+                          ),
+                        if (productPagePopular == null || productPagePopular!.isEmpty)
+                          const Text('No categories available'),
                       ],
                     ),
                   ),
+
                 ],
               ),
             ),

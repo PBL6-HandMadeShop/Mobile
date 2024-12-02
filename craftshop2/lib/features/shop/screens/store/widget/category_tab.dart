@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 
-import '../../../../../common/brand/brand_showcase.dart';
 import '../../../../../common/widgets/layouts/grid_layout.dart';
 import '../../../../../common/widgets/products/product_cart/product_cart_vertical.dart';
 import '../../../../../common/widgets/texts/section_heading.dart';
-import '../../../../../utils/constants/image_string.dart';
 import '../../../../../utils/constants/sizes.dart';
 
 class CsCategoryTab extends StatefulWidget {
@@ -22,7 +20,7 @@ class _CsCategoryTabState extends State<CsCategoryTab> {
   @override
   void initState() {
     super.initState();
-    print(widget.productPage?["producs"][1]);
+    // print(widget.productPage?["producs"][1]);
     // The data is passed directly to the widget, so no need to fetch again
   }
 

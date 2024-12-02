@@ -1,6 +1,4 @@
 import 'package:HandcraftShop/src/feature/authentication/screen/onboarding_screen/onboarding_screen.dart';
-import 'package:HandcraftShop/src/feature/authentication/screen/splash_screen/splash_screen.dart';
-import 'package:HandcraftShop/src/feature/authentication/screen/welcome_screen/welcome_screen.dart';
 import 'package:HandcraftShop/src/utils/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../../utils/constants/sizes.dart';
-import '../../layouts/grid_layout.dart';
-import '../product_cart/product_cart_vertical.dart';
 
 class CSSortableProducts extends StatelessWidget {
   const CSSortableProducts({

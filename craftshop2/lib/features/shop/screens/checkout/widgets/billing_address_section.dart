@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../../common/widgets/texts/section_heading.dart';
 import '../../../../../utils/constants/sizes.dart';
-import '../../../../../features/authencation/models/user_model.dart';
 import '../../../../personalization/models/user_info.dart';
 
 class CSBillingAddressSection extends StatelessWidget {

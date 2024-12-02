@@ -1,10 +1,6 @@
 import 'package:craftshop2/common/styles/spacing_styles.dart';
-import 'package:craftshop2/features/authencation/screens/login/login.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
-import '../../../utils/constants/image_string.dart';
 import '../../../utils/constants/sizes.dart';
 import '../../../utils/constants/texts.dart';
 import '../../../utils/helpers/helper_functions.dart';

@@ -45,10 +45,10 @@ class CSCircularImage extends StatelessWidget {
         )
             : CachedNetworkImage(
           imageUrl: isNetworkImage ? image as String : '',
-          placeholder: (context, url) => Center(
+          placeholder: (context, url) => const Center(
             child: CircularProgressIndicator(),
           ),
-          errorWidget: (context, url, error) => Icon(Icons.error, color: Colors.red),
+          errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.red),
           fit: fit ?? BoxFit.cover,
           color: overlayColor,
         ),

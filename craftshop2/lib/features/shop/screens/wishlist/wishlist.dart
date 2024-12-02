@@ -1,6 +1,5 @@
 import 'package:craftshop2/common/widgets/appbar/appbar.dart';
 import 'package:craftshop2/common/widgets/icons/cs_circular_icon.dart';
-import 'package:craftshop2/common/widgets/layouts/grid_layout.dart';
 import 'package:craftshop2/features/shop/screens/home/home.dart';
 import 'package:craftshop2/utils/constants/sizes.dart';
 import 'package:craftshop2/utils/helpers/helper_functions.dart';
@@ -8,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '../../../../common/widgets/products/product_cart/product_cart_vertical.dart';
 
 class FavoriteScreen extends StatelessWidget {
   const FavoriteScreen({super.key});
@@ -23,8 +21,8 @@ class FavoriteScreen extends StatelessWidget {
           CSCircularlIcon( icon: Iconsax.add, onPressed: () => Get.to(const HomeScreen())),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(padding: const EdgeInsets.all(CSSize.defaultSpace),
+      body: const SingleChildScrollView(
+        child: Padding(padding: EdgeInsets.all(CSSize.defaultSpace),
         child: Column(
           children: [
             // CSGridLayout(itemCount: 4, itemBuilder: (_,index) => const CSProductCardVertical()),
