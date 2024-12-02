@@ -5,100 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89b5fc05-a9a9-4469-9dbe-30bb688fefe7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/E-commerce-Complete-Flutter-UI/assets/icons/phone.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/E-commerce-Complete-Flutter-UI/assets/images/login_image.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/E-commerce-Complete-Flutter-UI/assets/images/login_image2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/E-commerce-Complete-Flutter-UI/lib/controller/login_controller.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/E-commerce-Complete-Flutter-UI/lib/controller/register_controller.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/E-commerce-Complete-Flutter-UI/lib/controller/user_info_controller.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/E-commerce-Complete-Flutter-UI/lib/models/user_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Mobile.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Mobile.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/E-commerce-Complete-Flutter-UI" beforeDir="false" afterPath="$PROJECT_DIR$/E-commerce-Complete-Flutter-UI" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/E-commerce-Complete-Flutter-UI/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/E-commerce-Complete-Flutter-UI/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/E-commerce-Complete-Flutter-UI/lib/screens/auth/views/components/login_form.dart" beforeDir="false" afterPath="$PROJECT_DIR$/E-commerce-Complete-Flutter-UI/lib/screens/auth/views/components/login_form.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/E-commerce-Complete-Flutter-UI/lib/screens/auth/views/components/sign_up_form.dart" beforeDir="false" afterPath="$PROJECT_DIR$/E-commerce-Complete-Flutter-UI/lib/screens/auth/views/components/sign_up_form.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/E-commerce-Complete-Flutter-UI/lib/screens/auth/views/login_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/E-commerce-Complete-Flutter-UI/lib/screens/auth/views/login_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/E-commerce-Complete-Flutter-UI/lib/screens/auth/views/signup_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/E-commerce-Complete-Flutter-UI/lib/screens/auth/views/signup_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/E-commerce-Complete-Flutter-UI/lib/screens/profile/views/profile_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/E-commerce-Complete-Flutter-UI/lib/screens/profile/views/profile_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/E-commerce-Complete-Flutter-UI/lib/theme/checkbox_themedata.dart" beforeDir="false" afterPath="$PROJECT_DIR$/E-commerce-Complete-Flutter-UI/lib/theme/checkbox_themedata.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/E-commerce-Complete-Flutter-UI/lib/theme/theme_data.dart" beforeDir="false" afterPath="$PROJECT_DIR$/E-commerce-Complete-Flutter-UI/lib/theme/theme_data.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/E-commerce-Complete-Flutter-UI/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/E-commerce-Complete-Flutter-UI/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/E-commerce-Complete-Flutter-UI/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/E-commerce-Complete-Flutter-UI/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/android/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/android/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/app/android/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/src/feature/authentication/screen/forget_password/forget_password_mail/forget_password_mail.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/src/feature/authentication/screen/forget_password/forget_password_mail/forget_password_mail.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/src/feature/authentication/screen/forget_password/forget_password_otp/otp_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/src/feature/authentication/screen/forget_password/forget_password_otp/otp_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/src/feature/authentication/screen/forget_password/forget_password_phone/forget_password_phone.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/src/feature/authentication/screen/forget_password/forget_password_phone/forget_password_phone.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/src/feature/authentication/screen/login/login_form_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/src/feature/authentication/screen/login/login_form_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/src/feature/authentication/screen/login/login_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/src/feature/authentication/screen/login/login_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/src/feature/authentication/screen/signup/signup_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/src/feature/authentication/screen/signup/signup_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/src/feature/authentication/screen/splash_screen/splash_animation_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/src/feature/authentication/screen/splash_screen/splash_animation_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/src/feature/authentication/screen/splash_screen/splash_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/src/feature/authentication/screen/splash_screen/splash_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/src/feature/authentication/screen/welcome_screen/welcome_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/src/feature/authentication/screen/welcome_screen/welcome_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/src/feature/dashboard/screen/bottomWidget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/src/feature/dashboard/screen/bottomWidget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/src/feature/dashboard/screen/dashboard.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/src/feature/dashboard/screen/dashboard.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/src/feature/dashboard/screen/side_menu/side_menu.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/src/feature/dashboard/screen/side_menu/side_menu.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/src/feature/dashboard/screen/side_menu/side_menu_title.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/src/feature/dashboard/screen/side_menu/side_menu_title.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/src/utils/theme/theme.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/src/utils/theme/theme.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/linux/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/app/linux/flutter/generated_plugin_registrant.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/linux/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/app/linux/flutter/generated_plugins.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/app/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/windows/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/app/windows/flutter/generated_plugin_registrant.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/app/windows/flutter/generated_plugins.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/app.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/app.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/biindings/general_bindings.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/biindings/general_bindings.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/common/widgets/custom_shape/containers/search_container.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/common/widgets/custom_shape/containers/search_container.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/common/widgets/images/cs_circular_image.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/common/widgets/images/cs_circular_image.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/common/widgets/images/cs_rounded_image.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/common/widgets/images/cs_rounded_image.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/common/widgets/list_tiles/user_profile_tile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/common/widgets/list_tiles/user_profile_tile.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/common/widgets/products/cart/cart_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/common/widgets/products/cart/cart_item.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/common/widgets/products/cart/cart_menu_icon.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/common/widgets/products/cart/cart_menu_icon.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/app/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/app/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/craftshop2/lib/common/widgets/image_text_widgets/vertical_img_text.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/common/widgets/image_text_widgets/vertical_img_text.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/craftshop2/lib/common/widgets/products/product_cart/product_card_horizontal.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/common/widgets/products/product_cart/product_card_horizontal.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/craftshop2/lib/common/widgets/products/product_cart/product_cart_vertical.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/common/widgets/products/product_cart/product_cart_vertical.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/common/widgets/products/sortable/sortable_products.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/common/widgets/products/sortable/sortable_products.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/common/widgets/success_screen/success_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/common/widgets/success_screen/success_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/common/widgets/texts/cs_brand_title_text_with_vertified_icon.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/common/widgets/texts/cs_brand_title_text_with_vertified_icon.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/authencation/controllers/registration/register_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/authencation/controllers/registration/register_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/authencation/screens/Loader/full_screen_loader.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/authencation/screens/Loader/full_screen_loader.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/authencation/screens/login/widget/login_form.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/authencation/screens/login/widget/login_form.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/authencation/screens/signUp/widgets/sign_up_form.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/authencation/screens/signUp/widgets/sign_up_form.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/craftshop2/lib/common/widgets/texts/section_heading.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/common/widgets/texts/section_heading.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/personalization/screens/address/address.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/personalization/screens/address/address.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/personalization/screens/profile/change_infor/change_gender.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/personalization/screens/profile/change_infor/change_gender.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/personalization/screens/profile/change_infor/change_name.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/personalization/screens/profile/change_infor/change_name.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/personalization/screens/profile/change_infor/change_picture.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/personalization/screens/profile/change_infor/change_picture.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/personalization/screens/profile/profile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/personalization/screens/profile/profile.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/models/product_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/models/product_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/all_products/all_products.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/all_products/all_products.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/brand/all_brands.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/brand/all_brands.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/cart/cart.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/cart/cart.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/cart/widgets/cart_items.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/cart/widgets/cart_items.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/checkout/checkout.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/checkout/checkout.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/checkout/widgets/billing_address_section.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/checkout/widgets/billing_address_section.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/checkout/widgets/billing_amount_section.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/checkout/widgets/billing_amount_section.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/checkout/widgets/billing_payment_section.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/checkout/widgets/billing_payment_section.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/home/home.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/home/home.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/home/widgets/home_categories.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/home/widgets/home_categories.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/order/order.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/order/order.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_details/product_detail.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_details/product_detail.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_details/widgets/bottom_add_to_cart_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_details/widgets/bottom_add_to_cart_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_details/widgets/product_atributes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_details/widgets/product_atributes.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_details/widgets/product_detail_image_slider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_details/widgets/product_detail_image_slider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_details/widgets/product_meta_data.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_details/widgets/product_meta_data.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_details/widgets/rating_share_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_details/widgets/rating_share_widget.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_reviews/product_reviews.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_reviews/product_reviews.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_reviews/widgets/user_review_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_reviews/widgets/user_review_card.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/store/store.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/store/store.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/store/widget/category_tab.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/store/widget/category_tab.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/wishlist/wishlist.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/wishlist/wishlist.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/navigation_menu.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/navigation_menu.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/sub_category/sub_categories.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/sub_category/sub_categories.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/craftshop2/lib/utils/http/api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/utils/http/api_service.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/utils/http/http_client.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/utils/http/http_client.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,6 +39,12 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/abuanwar072/E-commerce-Complete-Flutter-UI.git",
+    "accountId": "095aabda-3756-45ad-bbfa-84b615c12904"
+  }
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
 }</component>
@@ -123,7 +56,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Dart Test.app.executor": "Debug",
-    "Flutter.main.dart.executor": "Run",
+    "Flutter.main.dart.executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",

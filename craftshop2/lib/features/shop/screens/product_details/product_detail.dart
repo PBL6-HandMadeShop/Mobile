@@ -41,9 +41,9 @@ class ProductDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dark = CSHelperFunctions.isDarkMode(context);
-    print(fileData);
-    print("review: ${productReview["content"]}");
-    print("review: $productReview");
+    // print(fileData);
+    // print("review: ${productReview["content"]}");
+    // print("review: $productReview");
     return Scaffold(
       bottomNavigationBar: CSBottomAddToCart(productData: productData,),
       body: SingleChildScrollView(

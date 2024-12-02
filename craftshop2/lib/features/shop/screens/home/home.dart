@@ -29,6 +29,7 @@ class _HomeScreen extends State<HomeScreen> {
   final FlutterSecureStorage storage = const FlutterSecureStorage();
   Map<String, dynamic>? userInfo;
   List<Uint8List?> productImages = [];
+  List<Map<String, dynamic>> productPages = [];
   List<dynamic>? productPagePopular;
 
   @override
@@ -77,6 +78,7 @@ class _HomeScreen extends State<HomeScreen> {
       }
 
       setState(() {
+        productPages = List<Map<String, dynamic>>.from(fetchedData1['content'] ?? []);
         productPagePopular = allProducts;
       });
 
@@ -136,19 +138,26 @@ class _HomeScreen extends State<HomeScreen> {
                     onSearch: (String value) {  },
                   ),
                   const SizedBox(height: CSSize.spaceBtwSections),
-                  const Padding(
-                    padding: EdgeInsets.only(left: CSSize.defaultSpace),
+                  Padding(
+                    padding: const EdgeInsets.only(left: CSSize.defaultSpace),
                     child: Column(
                       children: [
-                        CSSectionHeading(
+                        const CSSectionHeading(
                           title: 'Popular Categories',
                           textColor: CSColors.white,
+                          showActionButton: false,
                         ),
-                        SizedBox(height: CSSize.spaceBtwItems),
-                        CSHomeCategories(),
+                        const SizedBox(height: CSSize.spaceBtwItems),
+                        if (productPagePopular != null && productPagePopular!.isNotEmpty)
+                          CSHomeCategories(
+                            productPages: productPages,
+                          ),
+                        if (productPagePopular == null || productPagePopular!.isEmpty)
+                          const Text('No categories available'),
                       ],
                     ),
                   ),
+
                 ],
               ),
             ),

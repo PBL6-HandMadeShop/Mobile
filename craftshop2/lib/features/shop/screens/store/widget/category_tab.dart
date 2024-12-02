@@ -20,7 +20,7 @@ class _CsCategoryTabState extends State<CsCategoryTab> {
   @override
   void initState() {
     super.initState();
-    print(widget.productPage?["producs"][1]);
+    // print(widget.productPage?["producs"][1]);
     // The data is passed directly to the widget, so no need to fetch again
   }
 

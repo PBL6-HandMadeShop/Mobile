@@ -8,39 +8,45 @@ import '../../../../utils/constants/image_string.dart';
 import '../../../../utils/constants/sizes.dart';
 
 class SubCategoriesScreen extends StatelessWidget {
-  const SubCategoriesScreen({super.key});
-
+  const SubCategoriesScreen({super.key, this.productPage});
+  final Map<String, dynamic>? productPage;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CSAppBar(title: Text('Sports'), showBackArrow: true),
+      appBar:  CSAppBar(title: Text("${productPage?["name"]}" ?? "No name"), showBackArrow: true),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(CSSize.defaultSpace),
           child: Column(
             children: [
               /// Banner
-              const CSRoundedImage(
-                width: double.infinity,
-                imageUrl: CSImage.promoBanner3,
-                applyImageRadius: true,
-              ),
+              // const CSRoundedImage(
+              //   width: double.infinity,
+              //   imageUrl: CSImage.promoBanner3,
+              //   applyImageRadius: true,
+              // ),
               const SizedBox(height: CSSize.spaceBtwSections),
 
               /// Sub-Categories
               Column(
                 children: [
                   /// Heading
-                  CSSectionHeading(title: 'Sports shirts', onPressed: () {}),
+                  CSSectionHeading(title: "${productPage?["name"]}" ?? "No name", onPressed: () {}),
                   const SizedBox(height: CSSize.spaceBtwItems / 2),
 
                   SizedBox(
                     height: 120,
                     child: ListView.separated(
-                      itemCount: 4,
+                      itemCount: productPage?["producs"].length ?? 0,
+
                       scrollDirection: Axis.horizontal,
                       separatorBuilder: (context, index) => const SizedBox(width: CSSize.spaceBtwItems,),
-                      itemBuilder: (context, index) => const CSProductCardHorizontal(),
+                      itemBuilder: (_, index) {
+                        final productData = productPage?["producs"][index];
+                        return productData != null
+                            ? CSProductCardHorizontal(productData: productData)
+                            :const SizedBox.shrink(); // In case no data is found
+                      },
                     ),
                   ), // ListView.builder
                 ], // Column children
