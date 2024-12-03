@@ -1,4 +1,4 @@
-import 'dart:typed_data';  // To work with Uint8List
+// To work with Uint8List
 import 'package:craftshop2/features/personalization/screens/profile/widgets/profile_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -28,7 +28,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   bool isLoading = true;
   final API_Services api_services = API_Services();
-  final FlutterSecureStorage storage = FlutterSecureStorage();
+  final FlutterSecureStorage storage = const FlutterSecureStorage();
   Map<String, dynamic>? userInfo;
   Uint8List? fileData;
 
@@ -137,7 +137,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                     // Show confirmation to user
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('User ID copied to clipboard')),
+                      const SnackBar(content: Text('User ID copied to clipboard')),
                     );
                   },
                   title: 'User ID',
@@ -152,7 +152,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                     // Show confirmation to user
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Email copied to clipboard')),
+                      const SnackBar(content: Text('Email copied to clipboard')),
                     );
                   },
                   icon: Iconsax.copy,
@@ -173,17 +173,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   onPressed: () async{
                     if ("${userInfo!['accountStatus']}" != 'ACTIVE') {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Account is not active. Logout denied.')),
+                        const SnackBar(content: Text('Account is not active. Logout denied.')),
                       );
                       return;
                     }
                     final response = await api_services.logout();
                     Get.to(() => const LoginScreen());
                   },
-                  child: const Text('Close Account'),
                   style: TextButton.styleFrom(
                     foregroundColor: Colors.red, // Set the text color to red
                   ),
+                  child: const Text('Close Account'),
                 ),
               ),
             ],

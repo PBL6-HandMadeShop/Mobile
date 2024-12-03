@@ -3,14 +3,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../../../utils/http/api_service.dart';
 
 class ChangePicture extends StatefulWidget {
-  const ChangePicture({Key? key}) : super(key: key);
+  const ChangePicture({super.key});
 
   @override
   _UpdateAvatarPageState createState() => _UpdateAvatarPageState();
@@ -18,10 +17,11 @@ class ChangePicture extends StatefulWidget {
 
 class _UpdateAvatarPageState extends State<ChangePicture> {
   final API_Services api_services = API_Services();
-  final FlutterSecureStorage storage = FlutterSecureStorage();
+  final FlutterSecureStorage storage = const FlutterSecureStorage();
   final TextEditingController nameChange = TextEditingController();
   Map<String, dynamic>? userInfo;
   File? _avatarFile;
+  @override
   void initState() {
     super.initState();
   }
@@ -45,13 +45,9 @@ class _UpdateAvatarPageState extends State<ChangePicture> {
       setState(() {
         userInfo = fetchedData;
       });
-      if (token != null) {
-        await api_services.updateInformation(token: token, avatar: _avatarFile);
-        print('User info updated successfully');
-      } else {
-        print('User is not logged in or name is empty');
-      }
-    } catch (e) {
+      await api_services.updateInformation(token: token, avatar: _avatarFile);
+      print('User info updated successfully');
+        } catch (e) {
       print('Failed to update user info: $e');
     }
     Get.back();

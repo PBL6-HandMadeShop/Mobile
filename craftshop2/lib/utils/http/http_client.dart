@@ -2,8 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:craftshop2/utils/local_storage/storage_utility.dart';
 import 'package:dio/dio.dart';
-import 'package:dio/dio.dart';
-import 'package:dio/io.dart';
 import 'package:http/http.dart' as http;
 
 import '../constants/api_constants.dart';

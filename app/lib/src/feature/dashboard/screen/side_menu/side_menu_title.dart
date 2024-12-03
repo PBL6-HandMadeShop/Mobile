@@ -8,8 +8,8 @@ class SideMenuTitle extends StatelessWidget {
     required this.press,
     required this.riveOnInit,
     required this.isSelected,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final RiveAsset menu;
   final VoidCallback press;
@@ -54,7 +54,7 @@ class SideMenuTitle extends StatelessWidget {
                   onInit: riveOnInit,
                 ),
               ),
-              title: Text(menu.title, style: TextStyle(color: Colors.white)!.copyWith(
+              title: Text(menu.title, style: TextStyle(color: Colors.white).copyWith(
                 fontWeight: FontWeight.normal,
                 fontSize: 20,
               )),

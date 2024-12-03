@@ -5,14 +5,13 @@ import 'package:HandcraftShop/src/constants/text_string.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:get/get_core/src/get_main.dart';
 
 
 import '../login/login_screen.dart';
 import '../signup/signup_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
-  const WelcomeScreen({Key? key}) : super(key: key);
+  const WelcomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -7,12 +7,13 @@ import '../../../../common/widgets/success_screen/success_screen.dart';
 import '../../../../navigation_menu.dart';
 import '../../../../utils/constants/image_string.dart';
 import '../../../../utils/http/api_service.dart';
+import '../webview/web_view_screen.dart';
 
 class CheckoutScreen extends StatefulWidget {
   final List<dynamic> cartItems;
   final double totalAmount;
 
-  const CheckoutScreen({Key? key, required this.cartItems, required this.totalAmount}) : super(key: key);
+  const CheckoutScreen({super.key, required this.cartItems, required this.totalAmount});
 
   @override
   State<CheckoutScreen> createState() => _CheckoutScreenState();
@@ -91,16 +92,19 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               const SizedBox(height: 20),
               _buildTotalSummary(),
               const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _createOrder,
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _createOrder,
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    backgroundColor: Colors.lightBlue,
                   ),
-                  backgroundColor: Colors.lightBlue,
+                  child: const Text("Đặt hàng", style: TextStyle(fontSize: 16, color: Colors.white)),
                 ),
-                child: const Text("Đặt hàng", style: TextStyle(fontSize: 16, color: Colors.white)),
               ),
             ],
           ),
@@ -177,13 +181,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     _formKey.currentState!.save();
 
     try {
-      // Lấy token từ storage
+      print('Step 1: Đọc token từ storage');
       String? token = await _storage.read(key: 'session_token');
       if (token == null) {
         throw Exception("Bạn chưa đăng nhập. Vui lòng đăng nhập để tiếp tục.");
       }
 
-      // Tạo chi tiết đơn hàng
+      print('Step 2: Chuẩn bị dữ liệu đơn hàng');
       String orderDetails = jsonEncode(
         widget.cartItems.map((item) {
           return {
@@ -193,7 +197,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         }).toList(),
       );
 
-      // Gửi yêu cầu tạo đơn hàng
+      print('Step 3: Gửi yêu cầu tạo đơn hàng');
       final response = await _apiServices.createOrder(
         paymentMethod: paymentMethod,
         paymentPlan: paymentPlan,
@@ -209,65 +213,78 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         removeCartItems: removeCartItems,
         token: token,
       );
+      print('Step 3.1: Phản hồi từ API createOrder: $response');
 
       if (response['status'] == 'ok') {
-        // Lấy thông tin đơn hàng mới nhất
-        var ordersResponse = await _apiServices.getOrders(
+        print('Step 4: Gửi yêu cầu lấy danh sách đơn hàng');
+        final ordersResponse = await _apiServices.getOrders(
           token: token,
           page: 1,
           size: 1,
         );
+        print('Step 4.1: Phản hồi từ API getOrders: ${ordersResponse['status']}');
+        if (ordersResponse['status'] == 'ok' && ordersResponse['content'] != null) {
+          final orderData = ordersResponse['content'];
+          print('Step 5: Kiểm tra dữ liệu đơn hàng: ${orderData == null ? 'Empty' : "Not empty"}');
 
-        if (ordersResponse['status'] == 'ok' && ordersResponse['data'] != null) {
-          var orderData = ordersResponse['data'];
           if (orderData.isNotEmpty) {
-            String orderId = orderData.last['orderId'];
+            String orderId = orderData.last['id'];
+            print('Step 6: Xác nhận đơn hàng với ID: $orderId');
 
-            // Gửi yêu cầu submitOrder để xác nhận đơn hàng
             final submitResponse = await _apiServices.submitOrder(
               orderId: orderId,
               token: token,
             );
+            print('Step 6.1: Phản hồi từ API submitOrder: $submitResponse');
 
             if (submitResponse['status'] == 'ok') {
-              // Nếu thanh toán là Internet Banking + Prepay, thực hiện điều hướng đến trang thanh toán
+              print('Step 7: Xác nhận thanh toán nếu cần');
               if (paymentMethod == 'INTERNET_BANKING' && paymentPlan == 'PREPAY') {
                 final paymentResponse = await _apiServices.confirmPaymentUsingVNPAY(
                   orderId: orderId,
                   token: token,
                 );
+                print('Step 7.1: Phản hồi từ API confirmPaymentUsingVNPAY: $paymentResponse');
 
-                if (paymentResponse['status'] == 'ok' && paymentResponse['returnURL'] != null) {
-                  String returnURL = paymentResponse['returnURL'];
-                  _launchURL(returnURL);
-                  return;
+                if (paymentResponse['status'] == 'ok' && paymentResponse['returnUrl'] != null) {
+                  String returnURL = paymentResponse['returnUrl'];
+                  print("returnURL: $returnURL");
+                  print('Step 7.2: Điều hướng đến URL thanh toán: $returnURL');
+                  Get.to(() => VNpayPayment(paymentUrl: returnURL));
+                return;
                 } else {
                   throw Exception(paymentResponse['message'] ?? 'Payment failed.');
                 }
               } else {
-                // Chuyển đến SuccessScreen với `orderId` và `token`
+                print('Step 8: Chuyển đến màn hình thành công');
                 Get.offAll(() => SuccessScreen(
                   image: CSImage.sculpture,
                   title: 'Order Submitted!',
                   subTitle: 'Your order has been successfully submitted.',
                   onPressed: () => Get.offAll(() => const NavigationMenu()),
-                  orderId: orderId, // Truyền `orderId` vào SuccessScreen
+                  orderId: orderId, // Truyền orderId vào SuccessScreen
                   token: token,
                 ));
               }
             } else {
+              print('Order submission response: ${submitResponse}');
               throw Exception(submitResponse['message'] ?? 'Failed to submit the order.');
             }
           } else {
+            print('No orders found.');
             throw Exception('No orders found.');
           }
         } else {
+          print('11111111Failed to fetch orders:}');
           throw Exception('Failed to fetch orders: ${ordersResponse['message']}');
         }
       } else {
+        print('Order placement failed with response: ${response}');
         throw Exception(response['message'] ?? 'Đặt hàng thất bại.');
       }
+
     } catch (e) {
+      print('Error occurred: $e');
       Get.snackbar(
         'Lỗi',
         e.toString(),
@@ -276,21 +293,19 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         colorText: Colors.white,
       );
     }
+
   }
 
 // Hàm mở URL trong trình duyệt
   void _launchURL(String url) async {
-    final Uri _url = Uri.parse(url);
-    final String chromeUrl = 'googlechrome://navigate?url=$_url';
+    final Uri url0 = Uri.parse(url);
+    print('Attempting to launch URL: $url0');
 
-    if (await canLaunch(chromeUrl)) {
-      await launch(chromeUrl);
-    } else if (await canLaunch(_url.toString())) {
-      await launch(_url.toString());
+    // Check if the URL can be launched
+    if (await canLaunchUrl(url0)) {
+      await launchUrl(url0); // Launch the URL with the default browser
     } else {
-      throw 'Không thể mở URL: $url';
+      throw 'Cannot launch URL: $url';
     }
   }
-
-
 }

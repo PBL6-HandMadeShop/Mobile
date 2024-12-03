@@ -3,10 +3,8 @@ import 'package:craftshop2/features/shop/screens/product_details/widgets/product
 import 'package:craftshop2/features/shop/screens/product_details/widgets/product_detail_image_slider.dart';
 import 'package:craftshop2/features/shop/screens/product_details/widgets/product_meta_data.dart';
 import 'package:craftshop2/features/shop/screens/product_details/widgets/rating_share_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:readmore/readmore.dart';
 import 'dart:typed_data';
@@ -45,7 +43,7 @@ class ProductDetailScreen extends StatelessWidget {
     final dark = CSHelperFunctions.isDarkMode(context);
     print(fileData);
     print("review: ${productReview["content"]}");
-    print("review: ${productReview}");
+    print("review: $productReview");
     return Scaffold(
       bottomNavigationBar: CSBottomAddToCart(productData: productData,),
       body: SingleChildScrollView(
@@ -61,7 +59,7 @@ class ProductDetailScreen extends StatelessWidget {
 
             /// 2 - Product Details
             Padding(
-              padding: EdgeInsets.only(
+              padding: const EdgeInsets.only(
                 right: CSSize.defaultSpace,
                 left: CSSize.defaultSpace,
                 bottom: CSSize.defaultSpace,
@@ -75,7 +73,7 @@ class ProductDetailScreen extends StatelessWidget {
                         ? double.tryParse(productReview["ratings"]!["average"].toString())?.toString() ?? '0'
                         : '0',
 
-                    countRating: '${_getAmountRating(productReview: productReview)}',
+                    countRating: _getAmountRating(productReview: productReview),
                   ),
 
                   /// - Price, Title, Stock, Brand

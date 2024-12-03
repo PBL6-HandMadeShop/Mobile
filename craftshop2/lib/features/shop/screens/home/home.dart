@@ -6,15 +6,11 @@ import 'package:get/get.dart';
 
 import '../../../../common/widgets/custom_shape/containers/primary_header_container.dart';
 import '../../../../common/widgets/custom_shape/containers/search_container.dart';
-import '../../../../common/widgets/layouts/grid_layout.dart';
-import '../../../../common/widgets/products/product_cart/product_cart_vertical.dart';
 import '../../../../common/widgets/texts/section_heading.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/image_string.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/http/api_service.dart';
-import '../../../../utils/local_storage/storage_utility.dart';
-import '../../../authencation/models/user_model.dart';
 import '../all_products/all_products.dart';
 import 'widgets/home_appbar.dart';
 
@@ -28,7 +24,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreen extends State<HomeScreen> {
   bool isLoading = true;
   final API_Services api_services = API_Services();
-  final FlutterSecureStorage storage = FlutterSecureStorage();
+  final FlutterSecureStorage storage = const FlutterSecureStorage();
   Map<String, dynamic>? userInfo;
 
   @override
@@ -108,26 +104,26 @@ class _HomeScreen extends State<HomeScreen> {
               child: Column(
                 children: [
                   CSHomeAppBar(Subtitle: "${userInfo!['name']}"),
-                  SizedBox(height: CSSize.spaceBtwSections),
+                  const SizedBox(height: CSSize.spaceBtwSections),
 
                   // ---SEARCH BAR
                   CSSearchContainer(
                     text: "Search something ...",
                     onSearch: (query) => _searchProducts(query), // Gọi hàm tìm kiếm khi người dùng nhập vào
                   ),
-                  SizedBox(height: CSSize.spaceBtwSections),
-                  Padding(
-                    padding: const EdgeInsets.only(left: CSSize.defaultSpace),
+                  const SizedBox(height: CSSize.spaceBtwSections),
+                  const Padding(
+                    padding: EdgeInsets.only(left: CSSize.defaultSpace),
                     child: Column(
                       children: [
-                        const CSSectionHeading(
+                        CSSectionHeading(
                           title: 'Popular Categories',
                           textColor: CSColors.white,
                         ),
                         SizedBox(height: CSSize.spaceBtwItems),
 
                         // Categories
-                        const CSHomeCategories(),
+                        CSHomeCategories(),
                       ],
                     ),
                   )

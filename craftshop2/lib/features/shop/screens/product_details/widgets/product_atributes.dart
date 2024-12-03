@@ -1,11 +1,8 @@
 import 'package:craftshop2/common/widgets/custom_shape/containers/rounded_container.dart';
-import 'package:craftshop2/common/widgets/texts/product_price_text.dart';
 import 'package:craftshop2/common/widgets/texts/product_title.dart';
-import 'package:craftshop2/common/widgets/texts/section_heading.dart';
 import 'package:craftshop2/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../common/widgets/chips/choice_chip.dart';
 import '../../../../../utils/constants/colors.dart';
 import '../../../../../utils/constants/sizes.dart';
 

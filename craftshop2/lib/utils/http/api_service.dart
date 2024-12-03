@@ -14,10 +14,10 @@ import '../constants/api_constants.dart';
 class API_Services {
   final dio.Dio _dio = dio.Dio();
   final String _baseUrl = APIConstants.BASE_URL;
-  final FlutterSecureStorage storage = FlutterSecureStorage();
+  final FlutterSecureStorage storage = const FlutterSecureStorage();
 
   API_Services() {
-    (_dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+    (_dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate =
         (HttpClient client) {
       client.badCertificateCallback =
           (X509Certificate cert, String host, int port) => true;
@@ -51,7 +51,7 @@ class API_Services {
       );
       return response;
     } catch (e) {
-      if (e is dio.DioError) {
+      if (e is dio.DioException) {
         print('Status code: ${e.response?.statusCode}');
         print('Response data: ${e.response?.data}');
         return e.response!;
@@ -98,7 +98,7 @@ class API_Services {
         print("Login failed: ${responseData['message']}");
       }
     } catch (e) {
-      if (e is dio.DioError && e.response != null) {
+      if (e is dio.DioException && e.response != null) {
         print("Status Code: ${e.response?.statusCode}");
         print("Response Data: ${e.response?.data}");
       }
@@ -107,11 +107,6 @@ class API_Services {
 
   Future<Map<String, dynamic>?> fetchDataUser(String token) async {
     try {
-      if (token == null) {
-        print("User is not logged in");
-        return null;
-      }
-
       final response = await _dio.get(
         '$_baseUrl/${APIConstants.GET_INFO_USER}',
         options: dio.Options(
@@ -136,12 +131,13 @@ class API_Services {
         print("Error fetching data: ${responseData['message']}");
       }
     } catch (e) {
-      if (e is dio.DioError) {
+      if (e is dio.DioException) {
         print("Failed to fetch user info: ${e.response?.data ?? e.message}");
       } else {
         print("Failed to fetch user info: $e");
       }
     }
+    return null;
   }
 
   Future<Map<String, dynamic>?> generatePasswordCode(String email) async {
@@ -519,14 +515,14 @@ class API_Services {
         ),
       );
       Map<String, dynamic> responseData = jsonDecode(response.data);
-      if (response.statusCode == 200 && responseData != null) {
-        print('Reviews fetched successfully:$productId ${responseData}');
+      if (response.statusCode == 200) {
+        print('Reviews fetched successfully:$productId $responseData');
         return responseData;
       } else {
         throw Exception('Failed to fetch reviews:$productId ${response.statusMessage}');
       }
     } catch (e) {
-      if (e is DioError) {
+      if (e is DioException) {
         print('DioError: ${e.response?.data ?? e.message}');
       } else {
         print('Unexpected Error: $e');
@@ -575,7 +571,7 @@ class API_Services {
         throw Exception('Failed to fetch products: ${response.statusMessage}');
       }
     } catch (e) {
-      if (e is DioError) {
+      if (e is DioException) {
         print('DioError: ${e.response?.data ?? e.message}');
       } else {
         print('Unexpected Error: $e');
@@ -620,7 +616,7 @@ class API_Services {
         throw Exception('Failed to fetch cart items: ${response.statusMessage}');
       }
     } catch (e) {
-      if (e is DioError) {
+      if (e is DioException) {
         print('DioError: ${e.response?.data ?? e.message}');
       } else {
         print('Unexpected Error in api: $e');
@@ -670,7 +666,7 @@ class API_Services {
         throw Exception('Failed to add product to cart: ${response.statusMessage}');
       }
     } catch (e) {
-      if (e is DioError) {
+      if (e is DioException) {
         print('DioError: ${e.response?.data ?? e.message}');
       } else {
         print('Unexpected Error: $e');
@@ -718,7 +714,7 @@ class API_Services {
         throw Exception('Failed to remove product from cart: ${response.statusMessage}');
       }
     } catch (e) {
-      if (e is DioError) {
+      if (e is DioException) {
         print('DioError: ${e.response?.data ?? e.message}');
       } else {
         print('Unexpected Error: $e');
@@ -730,10 +726,10 @@ class API_Services {
 
 
   Future<Map<String, dynamic>> getOrders({
-    required String token,
-    required int page,
-    required int size,
-  }) async {
+      required String token,
+      required int page,
+      required int size,
+    }) async {
     try {
       print('Fetching customer orders...');
 
@@ -754,23 +750,26 @@ class API_Services {
           },
         ),
       );
+      Map<String, dynamic> responseData = jsonDecode(response.data);
+      print(response.statusCode);
+      if (response.statusCode == 200 && responseData != null) {
 
-      if (response.statusCode == 200 && response.data != null) {
-        print('Orders fetched successfully: ${response.data}');
+        print('Orders fetched successfully: ${responseData}');
 
-        if (response.data is Map<String, dynamic>) {
-          return response.data;
+        if (responseData is Map<String, dynamic>) {
+          return responseData;
         }
 
         return {
           'status': 'ok',
-          'message': response.data.toString(),
+          'message': responseData.toString(),
         };
       } else {
+        print("Failed to fetch orders:getOrder api}");
         throw Exception('Failed to fetch orders: ${response.statusMessage}');
       }
     } catch (e) {
-      if (e is DioError) {
+      if (e is DioException) {
         print('DioError: ${e.response?.data ?? e.message}');
       } else {
         print('Unexpected Error: $e');
@@ -842,7 +841,7 @@ class API_Services {
         throw Exception('Failed to create order: ${response.statusMessage}');
       }
     } catch (e) {
-      if (e is DioError) {
+      if (e is DioException) {
         print('DioError: ${e.response?.data ?? e.message}');
       } else {
         print('Unexpected Error: $e');
@@ -875,23 +874,23 @@ class API_Services {
           },
         ),
       );
+      Map<String, dynamic> responseData = jsonDecode(response.data);
+      if (response.statusCode == 200 && responseData != null) {
+        print('Order submitted successfully: ${responseData}');
 
-      if (response.statusCode == 200 && response.data != null) {
-        print('Order submitted successfully: ${response.data}');
-
-        if (response.data is Map<String, dynamic>) {
-          return response.data;
+        if (responseData is Map<String, dynamic>) {
+          return responseData;
         }
 
         return {
           'status': 'ok',
-          'message': response.data.toString(),
+          'message': responseData.toString(),
         };
       } else {
         throw Exception('Failed to submit order: ${response.statusMessage}');
       }
     } catch (e) {
-      if (e is DioError) {
+      if (e is DioException) {
         print('DioError: ${e.response?.data ?? e.message}');
       } else {
         print('Unexpected Error: $e');
@@ -926,24 +925,25 @@ class API_Services {
           },
         ),
       );
+      Map<String, dynamic> responseData = jsonDecode(response.data);
 
       if (response.statusCode == 200 && response.data != null) {
-        print('Payment confirmed successfully: ${response.data}');
+        print('Payment confirmed successfully: ${responseData}');
 
-        if (response.data is Map<String, dynamic>) {
-          return response.data;
+        if (responseData is Map<String, dynamic>) {
+          return responseData;
         }
 
         return {
           'status': 'ok',
-          'message': response.data.toString(),
-          'returnURL': response.data['returnURL'] ?? '',
+          'message': responseData.toString(),
+          'returnURL': responseData['returnURL'] ?? '',
         };
       } else {
         throw Exception('Failed to confirm payment: ${response.statusMessage}');
       }
     } catch (e) {
-      if (e is DioError) {
+      if (e is DioException) {
         print('DioError: ${e.response?.data ?? e.message}');
       } else {
         print('Unexpected Error: $e');
@@ -992,7 +992,7 @@ class API_Services {
         throw Exception('Failed to cancel order: ${response.statusMessage}');
       }
     } catch (e) {
-      if (e is DioError) {
+      if (e is DioException) {
         print('DioError: ${e.response?.data ?? e.message}');
       } else {
         print('Unexpected Error: $e');

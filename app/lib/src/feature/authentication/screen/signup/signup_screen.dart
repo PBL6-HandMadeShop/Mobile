@@ -8,7 +8,7 @@ import 'package:HandcraftShop/src/feature/authentication/screen/signup/sign_up_f
 import 'package:flutter/material.dart';
 
 class SignUpScreen extends StatelessWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+  const SignUpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,14 +1,12 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import '../../../../common/widgets/appbar/appbar.dart';
-import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/http/api_service.dart';
 import 'widgets/order_list.dart';
 
 class OrderScreen extends StatefulWidget {
-  const OrderScreen({Key? key}) : super(key: key);
+  const OrderScreen({super.key});
 
   @override
   State<OrderScreen> createState() => _OrderScreenState();
@@ -52,26 +50,32 @@ class _OrderScreenState extends State<OrderScreen> {
 
         // Nếu không còn dữ liệu, đặt flag hasMore = false
         if (data.isEmpty) {
-          setState(() {
-            hasMore = false;
-          });
+          if (mounted) {
+            setState(() {
+              hasMore = false;
+            });
+          }
         } else {
-          setState(() {
-            currentPage++;
-            orders.addAll(data.map((order) => Map<String, dynamic>.from(order)).toList());
-          });
+          if (mounted) {
+            setState(() {
+              currentPage++;
+              orders.addAll(data.map((order) => Map<String, dynamic>.from(order)).toList());
+            });
+          }
         }
       } else {
         throw Exception(response['message'] ?? "Không thể tải danh sách đơn hàng.");
       }
     } catch (e) {
-      Get.snackbar(
-        "Lỗi",
-        e.toString(),
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
+      if (mounted) {
+        Get.snackbar(
+          "Lỗi",
+          e.toString(),
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+      }
     } finally {
       setState(() {
         isLoading = false; // Ẩn trạng thái tải
@@ -87,27 +91,34 @@ class _OrderScreenState extends State<OrderScreen> {
         showBackArrow: true,
       ),
       body: isLoading && orders.isEmpty
-          ? const Center(child: CircularProgressIndicator()) // Hiển thị khi đang tải dữ liệu ban đầu
+          ? const Center(child: CircularProgressIndicator())
           : orders.isEmpty
           ? const Center(child: Text("Bạn chưa có đơn hàng nào"))
           : NotificationListener<ScrollNotification>(
         onNotification: (scrollInfo) {
-          // Kiểm tra nếu người dùng cuộn đến cuối thì tải thêm dữ liệu
           if (!isLoading && scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
             _fetchOrders();
           }
           return true;
         },
-        child: ListView.builder(
-          itemCount: orders.length + (hasMore ? 1 : 0), // Thêm 1 cho phần "đang tải thêm" nếu còn dữ liệu
-          itemBuilder: (context, index) {
-            if (index == orders.length) {
-              return const Center(child: CircularProgressIndicator()); // Hiển thị vòng quay tải thêm
-            }
-            return CSOrderListItems(order: orders[index]);
-          },
+        child: SingleChildScrollView( // Đảm bảo có thể cuộn nội dung
+          child: ListView.builder(
+            shrinkWrap: true, // Quan trọng để tránh lỗi chiều cao không xác định
+            physics: const NeverScrollableScrollPhysics(), // Vô hiệu hóa cuộn bên trong
+            itemCount: orders.length + (hasMore ? 1 : 0),
+            itemBuilder: (context, index) {
+              if (index == orders.length) {
+                return const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              }
+              return CSOrderListItems(order: orders[index]);
+            },
+          ),
         ),
       ),
+
     );
   }
 }

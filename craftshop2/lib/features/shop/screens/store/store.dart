@@ -1,21 +1,15 @@
 import 'package:craftshop2/features/shop/screens/store/widget/category_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
-import '../../../../common/brand/card_brand.dart';
 import '../../../../common/widgets/appbar/appbar.dart';
 import '../../../../common/widgets/appbar/tab_bar.dart';
 import '../../../../common/widgets/custom_shape/containers/search_container.dart';
-import '../../../../common/widgets/layouts/grid_layout.dart';
 import '../../../../common/widgets/products/cart/cart_menu_icon.dart';
-import '../../../../common/widgets/texts/section_heading.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/helpers/helper_functions.dart';
 import '../../../../utils/http/api_service.dart';
-import '../brand/all_brands.dart';
 
 class Store extends StatefulWidget {
   const Store({super.key});
@@ -30,7 +24,7 @@ class _Store extends State<Store> {
   List<Map<String, dynamic>> productPages = []; // List to hold product pages
 
   bool isLoading = true;
-  final FlutterSecureStorage storage = FlutterSecureStorage();
+  final FlutterSecureStorage storage = const FlutterSecureStorage();
 
   @override
   void initState() {

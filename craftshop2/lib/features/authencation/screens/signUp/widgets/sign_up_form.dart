@@ -1,20 +1,17 @@
-import 'dart:convert';
 
 import 'package:craftshop2/features/authencation/screens/login/login.dart';
 import 'package:craftshop2/features/authencation/screens/signUp/widgets/term_and_condition.dart';
 import 'package:craftshop2/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
-import 'package:craftshop2/utils/http/http_client.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/constants/texts.dart';
 import '../../../controllers/registration/register_controller.dart';
-import '../verify_email.dart';
 
 class CSSignupForm extends StatefulWidget {
   final bool dark;
-  const CSSignupForm({required this.dark, Key? key}) : super(key: key);
+  const CSSignupForm({required this.dark, super.key});
 
   @override
   _CSSignupFormState createState() => _CSSignupFormState();

@@ -4,11 +4,9 @@ import 'package:craftshop2/utils/validators/validation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../../../utils/http/api_service.dart';
-import '../profile.dart';
 
 class ChangeName extends StatefulWidget {
   const ChangeName({super.key});
@@ -62,7 +60,7 @@ class ChangeName extends StatefulWidget {
 
 class _ChangeName extends State<ChangeName> {
   final API_Services api_services = API_Services();
-  final FlutterSecureStorage storage = FlutterSecureStorage();
+  final FlutterSecureStorage storage = const FlutterSecureStorage();
   final TextEditingController nameChange = TextEditingController();
   Map<String, dynamic>? userInfo;
   @override
@@ -77,7 +75,7 @@ class _ChangeName extends State<ChangeName> {
       setState(() {
         userInfo = fetchedData;
       });
-      if (token != null && nameChange.text.trim().isNotEmpty) {
+      if (nameChange.text.trim().isNotEmpty) {
         await api_services.updateInformation(token: token, name: nameChange.text.trim());
         print('User info updated successfully');
       } else {

@@ -7,7 +7,7 @@ import '../../../../../constants/image_string.dart';
 import '../../../../../constants/text_string.dart';
 
 class ForgetPasswordPhoneScreen extends StatelessWidget {
-  const ForgetPasswordPhoneScreen({Key? key}) : super(key: key);
+  const ForgetPasswordPhoneScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -46,13 +46,13 @@ class ForgetPasswordPhoneScreen extends StatelessWidget {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {},
-                          child: Text("NEXT"),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: secondaryColor,
                             foregroundColor: Colors.white,
                             textStyle: const TextStyle(fontSize: 20),
                             shape: RoundedRectangleBorder(),
                           ),
+                          child: Text("NEXT"),
                         )),
                   ],
                 ))

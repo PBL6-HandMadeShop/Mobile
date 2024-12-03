@@ -1,21 +1,18 @@
-import 'dart:convert';
 
 import 'package:craftshop2/features/personalization/models/delivery_infor.dart';
 import 'package:craftshop2/features/personalization/screens/address/widgets/single_address.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../common/widgets/appbar/appbar.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/sizes.dart';
-import '../../../../utils/http/api_service.dart';
 import '../../controllers/address_controller.dart';
 import 'add_new_address.dart';
 
 class UserAddressScreen extends StatefulWidget {
-  const UserAddressScreen({Key? key}) : super(key: key);
+  const UserAddressScreen({super.key});
 
   @override
   _UserAddressScreenState createState() => _UserAddressScreenState();

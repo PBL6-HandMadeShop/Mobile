@@ -51,15 +51,15 @@ class CSRoundedImage extends StatelessWidget {
               : isNetworkImage && imageUrl is String && imageUrl.isNotEmpty
               ? CachedNetworkImage(
             imageUrl: imageUrl as String,
-            placeholder: (context, url) => Center(
+            placeholder: (context, url) => const Center(
               child: CircularProgressIndicator(),
             ),
-            errorWidget: (context, url, error) => Icon(Icons.error),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
             fit: fit ?? BoxFit.cover,
           )
               : imageUrl is String && !isNetworkImage
               ? Image.file(File(imageUrl), fit: fit ?? BoxFit.cover)
-              : Icon(Icons.error),
+              : const Icon(Icons.error),
         ),
       ),
     );

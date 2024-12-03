@@ -2,7 +2,6 @@ import 'dart:convert'; // Thư viện để mã hóa và giải mã JSON
 import 'dart:typed_data'; // Thư viện xử lý dữ liệu file
 import 'package:craftshop2/common/widgets/appbar/appbar.dart';
 import 'package:craftshop2/common/widgets/products/cart/cart_item.dart';
-import 'package:craftshop2/utils/constants/colors.dart';
 import 'package:craftshop2/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -11,7 +10,7 @@ import '../../../../utils/http/api_service.dart';
 import '../checkout/checkout.dart';
 
 class CartScreen extends StatefulWidget {
-  const CartScreen({Key? key}) : super(key: key);
+  const CartScreen({super.key});
 
   @override
   State<CartScreen> createState() => _CartScreenState();

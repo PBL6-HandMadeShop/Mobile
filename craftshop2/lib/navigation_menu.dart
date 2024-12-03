@@ -1,4 +1,3 @@
-import 'package:craftshop2/features/shop/screens/checkout/checkout.dart';
 import 'package:craftshop2/features/shop/screens/home/home.dart';
 import 'package:craftshop2/features/shop/screens/store/store.dart';
 import 'package:craftshop2/features/shop/screens/wishlist/wishlist.dart';
@@ -9,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 import 'features/personalization/screens/settings/settings.dart';
+import 'features/shop/screens/webview/web_view_screen.dart';
 
 class NavigationMenu extends StatelessWidget {
   const NavigationMenu({super.key});
@@ -43,5 +43,5 @@ class NavigationMenu extends StatelessWidget {
 class NavigatonController extends GetxController{
   final Rx<int> selectedIndex = 0.obs;
 
-  final screens =[const HomeScreen(), Store(), const FavoriteScreen(), const SettingsScreen()];
+  final screens =[const HomeScreen(), const Store(), const FavoriteScreen(), const SettingsScreen()];
 }

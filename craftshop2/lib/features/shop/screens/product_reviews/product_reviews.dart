@@ -1,7 +1,5 @@
-import 'package:craftshop2/features/shop/screens/product_reviews/widgets/progress_indicator_and_rating.dart';
 import 'package:craftshop2/features/shop/screens/product_reviews/widgets/rating_progrss_indicator.dart';
 import 'package:craftshop2/features/shop/screens/product_reviews/widgets/user_review_card.dart';
-import 'package:craftshop2/utils/device/device_utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:iconsax/iconsax.dart';
@@ -42,7 +40,7 @@ class ProductReviewScreen extends StatelessWidget {
             right: CSSize.defaultSpace,
             top: CSSize.defaultSpace,
           ),
-          child: FeedbackForm(),
+          child: const FeedbackForm(),
         );
       },
     );
@@ -85,7 +83,7 @@ class ProductReviewScreen extends StatelessWidget {
               CSOverallProductRating(productReview: productReview ?? {}),
               CSRatingBarIndicator(rating: (productReview["ratings"]?["average"]).toDouble() ?? 0,), // RatingBarIndicator
               Text(
-                '${_getAmountRating(productReview: productReview)}' ?? '0',
+                _getAmountRating(productReview: productReview) ?? '0',
                 style: Theme.of(context).textTheme.bodySmall,
               ),
               const SizedBox(height: CSSize.spaceBtwSections),
@@ -114,6 +112,8 @@ class ProductReviewScreen extends StatelessWidget {
 }
 
 class FeedbackForm extends StatefulWidget {
+  const FeedbackForm({super.key});
+
   @override
   _FeedbackFormState createState() => _FeedbackFormState();
 }

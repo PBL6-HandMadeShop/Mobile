@@ -3,12 +3,9 @@ import 'package:craftshop2/common/widgets/custom_shape/containers/rounded_contai
 import 'package:craftshop2/common/widgets/icons/cs_circular_icon.dart';
 import 'package:craftshop2/common/widgets/images/cs_rounded_image.dart';
 import 'package:craftshop2/common/widgets/texts/cs_brand_title_text_with_vertified_icon.dart';
-import 'package:craftshop2/features/shop/screens/product_details/product_detail.dart';
 import 'package:craftshop2/utils/constants/colors.dart';
 import 'package:craftshop2/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../../utils/constants/image_string.dart';

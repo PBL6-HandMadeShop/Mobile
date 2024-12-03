@@ -344,6 +344,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_webview_plugin_ios_android:
+    dependency: transitive
+    description:
+      name: flutter_webview_plugin_ios_android
+      sha256: "2a084ac5d2e9fd1788bd76794b79055199fe40621c306a14e29ab8fa7f96466b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.13+12"
   get:
     dependency: "direct main"
     description:
@@ -973,6 +981,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "14.2.5"
+  vnpay_flutter:
+    dependency: "direct main"
+    description:
+      name: vnpay_flutter
+      sha256: "236bae066f50c731fc52899267c5bf9dd3c5d8606cef2026f46526b926be1ff3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.3"
   web:
     dependency: transitive
     description:
