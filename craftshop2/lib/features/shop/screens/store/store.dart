@@ -50,41 +50,6 @@ class _Store extends State<Store> {
     }
   }
 
-  // Hàm tìm kiếm sản phẩm khi người dùng nhập từ khóa vào
-  Future<void> _searchProducts(String query) async {
-    try {
-      String? token = await storage.read(key: 'session_token'); // Đọc token từ FlutterSecureStorage
-      if (token == null) {
-        print('No token found!');
-        return; // Nếu không có token, không thực hiện tìm kiếm
-      }
-
-      // Gọi API tìm kiếm sản phẩm với token, query và các tham số khác
-      Map<String, dynamic> result = await api_services.searchProducts(
-        token,  // Truyền token vào
-        query,  // Truyền query vào
-        page: 0,  // Trang 0
-        size: 20,  // Kích thước 20
-      );
-
-      // Xử lý kết quả tìm kiếm ở đây
-      print("Search Results: $result");
-
-      // Cập nhật giao diện hoặc dữ liệu sau khi nhận được kết quả
-      if (result['status'] == 'success') {
-        setState(() {
-          productPage = result['data']; // Giả sử dữ liệu sản phẩm nằm trong 'data'
-        });
-      } else {
-        print('Failed to fetch products');
-      }
-
-    } catch (e) {
-      print("Error in searching products: $e");
-    }
-  }
-
-
 
 
   @override
@@ -121,8 +86,8 @@ class _Store extends State<Store> {
                         text: "Search in store",
                         showBorder: true,
                         showBackground: false,
-                        padding: EdgeInsets.zero,
-                        onSearch: _searchProducts, // Sử dụng hàm _searchProducts khi người dùng nhập tìm kiếm
+                        padding: EdgeInsets.zero, onSearch: (String value) {  },
+                        // Sử dụng hàm _searchProducts khi người dùng nhập tìm kiếm
                       ),
                     ],
                   ),

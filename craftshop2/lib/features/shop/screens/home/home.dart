@@ -6,14 +6,15 @@ import 'package:get/get.dart';
 
 import '../../../../common/widgets/custom_shape/containers/primary_header_container.dart';
 import '../../../../common/widgets/custom_shape/containers/search_container.dart';
+import '../../../../common/widgets/layouts/grid_layout.dart';
+import '../../../../common/widgets/products/product_cart/product_cart_vertical.dart';
 import '../../../../common/widgets/texts/section_heading.dart';
 import '../../../../utils/constants/colors.dart';
-import '../../../../utils/constants/image_string.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/http/api_service.dart';
 import '../all_products/all_products.dart';
 import 'widgets/home_appbar.dart';
-
+import 'dart:typed_data';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -22,79 +23,106 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreen extends State<HomeScreen> {
-  bool isLoading = true;
+  bool isUserLoading = true; // Trạng thái tải thông tin người dùng
+  bool isProductLoading = true; // Trạng thái tải dữ liệu sản phẩm
   final API_Services api_services = API_Services();
   final FlutterSecureStorage storage = const FlutterSecureStorage();
   Map<String, dynamic>? userInfo;
+  List<Uint8List?> productImages = [];
+  List<Map<String, dynamic>> productPages = [];
+  List<dynamic>? productPagePopular;
 
   @override
   void initState() {
     super.initState();
     _loadUserInfo();
+    _loadProductPage().then((_) => _loadProductImages());
   }
+  Future<void> _loadProductImages() async {
+    try {
+      if (productPagePopular != null) {
+        final List<dynamic> products = productPagePopular!;
+        final List<Future<Uint8List?>> futures = products.map((product) async {
+          final String? imageId = product['avatar']?['id'];
+          if (imageId != null && imageId.isNotEmpty) {
+            return await api_services.downloadProductImage(imageId);
+          }
+          return null;
+        }).toList();
+
+        final images = await Future.wait(futures); // Tải tất cả hình ảnh
+        setState(() {
+          productImages = images.where((image) => image != null).toList();
+        });
+      }
+    } catch (e) {
+      print("Error loading product images: $e");
+    }
+  }
+  Future<void> _loadProductPage() async {
+    setState(() {
+      isProductLoading = true;
+    });
+    try {
+      String? token = await storage.read(key: 'session_token');
+      Map<String, dynamic> fetchedData1 = await api_services.getProductTypesPage(size: 100, token: token!);
+
+      // Gộp tất cả sản phẩm từ content
+      List<dynamic> allProducts = [];
+      if (fetchedData1["content"] != null && fetchedData1["content"] is List) {
+        for (var item in fetchedData1["content"]) {
+          if (item["producs"] != null && item["producs"] is List) {
+            allProducts.addAll(item["producs"]);
+          }
+        }
+      }
+
+      setState(() {
+        productPages = List<Map<String, dynamic>>.from(fetchedData1['content'] ?? []);
+        productPagePopular = allProducts;
+      });
+
+      print("All products: $productPagePopular");
+    } catch (e) {
+      print('Error fetching products: $e');
+    } finally {
+      setState(() {
+        isProductLoading = false;
+      });
+    }
+  }
+
+
 
   Future<void> _loadUserInfo() async {
     setState(() {
-      isLoading = true;
+      isUserLoading = true;
     });
-
     try {
       String? token = await storage.read(key: 'session_token');
       Map<String, dynamic>? fetchedData = await api_services.fetchDataUser(token!);
-
       setState(() {
         userInfo = fetchedData;
-        isLoading = false;
       });
-
       print(userInfo);
     } catch (e) {
       print('Failed to load user info: $e');
     } finally {
       setState(() {
-        isLoading = false;
+        isUserLoading = false;
       });
-    }
-
-    if (userInfo != null) {
-      String? name = "${userInfo!['name']}"; // Make sure this field is not null
-    }
-  }
-
-  Future<void> _searchProducts(String query) async {
-    try {
-      String? token = await storage.read(key: 'session_token');
-      if (token == null) {
-        print('No token found!');
-        return;
-      }
-
-      Map<String, dynamic> result = await api_services.searchProducts(
-        token, // Truyền token vào
-        query, // Truyền query vào
-        page: 0, // Trang 0
-        size: 20, // Kích thước 20
-      );
-
-      // Xử lý kết quả tìm kiếm
-      print("Search Results: $result");
-
-      // Cập nhật giao diện hoặc dữ liệu sau khi nhận được kết quả
-    } catch (e) {
-      print("Error in searching products: $e");
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    // Kiểm tra nếu đang tải hoặc thông tin user chưa sẵn sàng
-    if (isLoading || userInfo == null) {
+    // Kiểm tra nếu đang tải thông tin user
+    if (isUserLoading || userInfo == null) {
       return const Center(
         child: CircularProgressIndicator(),
       );
     }
 
-    // Khi dữ liệu đã sẵn sàng, hiển thị nội dung giao diện chính
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -105,28 +133,31 @@ class _HomeScreen extends State<HomeScreen> {
                 children: [
                   CSHomeAppBar(Subtitle: "${userInfo!['name']}"),
                   const SizedBox(height: CSSize.spaceBtwSections),
-
-                  // ---SEARCH BAR
                   CSSearchContainer(
                     text: "Search something ...",
-                    onSearch: (query) => _searchProducts(query), // Gọi hàm tìm kiếm khi người dùng nhập vào
+                    onSearch: (String value) {  },
                   ),
                   const SizedBox(height: CSSize.spaceBtwSections),
-                  const Padding(
-                    padding: EdgeInsets.only(left: CSSize.defaultSpace),
+                  Padding(
+                    padding: const EdgeInsets.only(left: CSSize.defaultSpace),
                     child: Column(
                       children: [
-                        CSSectionHeading(
+                        const CSSectionHeading(
                           title: 'Popular Categories',
                           textColor: CSColors.white,
+                          showActionButton: false,
                         ),
-                        SizedBox(height: CSSize.spaceBtwItems),
-
-                        // Categories
-                        CSHomeCategories(),
+                        const SizedBox(height: CSSize.spaceBtwItems),
+                        if (productPagePopular != null && productPagePopular!.isNotEmpty)
+                          CSHomeCategories(
+                            productPages: productPages,
+                          ),
+                        if (productPagePopular == null || productPagePopular!.isEmpty)
+                          const Text('No categories available'),
                       ],
                     ),
-                  )
+                  ),
+
                 ],
               ),
             ),
@@ -137,23 +168,34 @@ class _HomeScreen extends State<HomeScreen> {
               child: Column(
                 children: [
                   // Promo Slider
-                  const CSPromoSlider(
-                    banners: [
-                      CSImage.promoBanner1,
-                      CSImage.promoBanner2,
-                      CSImage.promoBanner3
-                    ],
+                  productImages.isEmpty
+                      ? const CircularProgressIndicator() // Hiển thị loading nếu chưa tải xong
+                      : CSPromoSlider(
+                    banners: productImages, // Sử dụng hình ảnh tải được
                   ),
-
-                  // Popular product
                   const SizedBox(height: CSSize.spaceBtwSections),
 
+                  // Popular Products
                   CSSectionHeading(
                     title: 'Popular Products',
                     onPressed: () => Get.to(() => const AllProducts()),
                   ),
-
                   const SizedBox(height: CSSize.spaceBtwItems),
+
+                  // Kiểm tra nếu đang tải sản phẩm
+                  isProductLoading
+                      ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                      : CSGridLayout(
+                    itemCount: 8,
+                    itemBuilder: (_, index) {
+                      final productData = productPagePopular?[index];
+                      return productData != null
+                          ? CSProductCardVertical(productData: productData)
+                          : const SizedBox.shrink();
+                    },
+                  )
                 ],
               ),
             ),

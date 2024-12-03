@@ -12,7 +12,7 @@ class CSPromoSlider extends StatelessWidget {
   const CSPromoSlider({
     super.key, required this.banners,
   });
-  final List<String> banners;
+  final List<dynamic> banners;
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(HomeController());

@@ -726,10 +726,10 @@ class API_Services {
 
 
   Future<Map<String, dynamic>> getOrders({
-      required String token,
-      required int page,
-      required int size,
-    }) async {
+    required String token,
+    required int page,
+    required int size,
+  }) async {
     try {
       print('Fetching customer orders...');
 
@@ -757,7 +757,7 @@ class API_Services {
         print('Orders fetched successfully: $responseData');
 
         return responseData;
-      
+
         return {
           'status': 'ok',
           'message': responseData.toString(),
@@ -877,7 +877,7 @@ class API_Services {
         print('Order submitted successfully: $responseData');
 
         return responseData;
-      
+
         return {
           'status': 'ok',
           'message': responseData.toString(),
@@ -927,7 +927,7 @@ class API_Services {
         print('Payment confirmed successfully: $responseData');
 
         return responseData;
-      
+
         return {
           'status': 'ok',
           'message': responseData.toString(),
@@ -998,4 +998,3 @@ class API_Services {
 
 
 }
-
