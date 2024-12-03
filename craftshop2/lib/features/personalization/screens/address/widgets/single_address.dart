@@ -1,6 +1,5 @@
 import 'package:craftshop2/features/personalization/models/delivery_infor.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
 
 import '../../../../../common/widgets/custom_shape/containers/rounded_container.dart';
 import '../../../../../utils/constants/colors.dart';
@@ -12,10 +11,10 @@ class CSSingleAddress extends StatelessWidget {
   final bool selectedAddress;
 
   const CSSingleAddress({
-    Key? key,
+    super.key,
     required this.info,
     this.selectedAddress = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

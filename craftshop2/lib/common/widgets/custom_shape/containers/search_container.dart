@@ -8,13 +8,13 @@ class CSSearchContainer extends StatefulWidget {
   final ValueChanged<String> onSearch;
 
   const CSSearchContainer({
-    Key? key,
+    super.key,
     required this.text,
     this.showBorder = true,
     this.showBackground = true,
     this.padding = const EdgeInsets.all(8.0),
     required this.onSearch,
-  }) : super(key: key);
+  });
 
   @override
   _CSSearchContainerState createState() => _CSSearchContainerState();
@@ -51,7 +51,7 @@ class _CSSearchContainerState extends State<CSSearchContainer> {
             ),
           ),
           IconButton(
-            icon: Icon(Icons.search, color: Colors.blue),
+            icon: const Icon(Icons.search, color: Colors.blue),
             onPressed: _performSearch, // Kích hoạt tìm kiếm khi nhấn nút
           ),
         ],

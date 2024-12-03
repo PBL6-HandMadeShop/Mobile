@@ -3,8 +3,10 @@ import 'package:craftshop2/features/shop/screens/product_details/widgets/product
 import 'package:craftshop2/features/shop/screens/product_details/widgets/product_detail_image_slider.dart';
 import 'package:craftshop2/features/shop/screens/product_details/widgets/product_meta_data.dart';
 import 'package:craftshop2/features/shop/screens/product_details/widgets/rating_share_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:readmore/readmore.dart';
 import 'dart:typed_data';
