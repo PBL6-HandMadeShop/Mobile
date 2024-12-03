@@ -47,8 +47,8 @@ class APIConstants {
  // API Đơn hàng
  static const String GET_CART_ITEMS = 'api/getCart';
  static const String ADD_CART_ITEM = 'api/addCartItem';
- static const String REMOVE_CART_ITEM = 'api/removeCartItem';
- static const String GET_ORDERS = 'api/getOrder';
+ static const String REMOVE_CART_ITEM = 'api/deleteCartItem';
+ static const String GET_ORDERS = 'api/getOrders';
  static const String CREATE_ORDER = 'api/createOrder';
  static const String UPDATE_ORDER = 'api/updateOrder';
  static const String SUBMIT_ORDER = 'api/submitOrder';

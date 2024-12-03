@@ -6,7 +6,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../../../../utils/constants/sizes.dart';
 import 'package:craftshop2/utils/http/api_service.dart';
-import '../../cart/cart.dart';
 
 class CSBottomAddToCart extends StatefulWidget {
   const CSBottomAddToCart({
@@ -63,7 +62,7 @@ class _CSBottomAddToCartState extends State<CSBottomAddToCart> {
       // Gọi API thêm sản phẩm vào giỏ hàng
       final response = await api_services.addCartItem(productId, _quantity, token);
 
-      if (response != null && response['status'] == 'ok') {
+      if (response['status'] == 'ok') {
         // Hiển thị thông báo thành công
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Product added to cart successfully!')),
@@ -72,7 +71,7 @@ class _CSBottomAddToCartState extends State<CSBottomAddToCart> {
         // Hiển thị thông báo lỗi từ server
 
         print("Loi tai ScaffoldMessenger else");
-        String errorMessage = response?['message'] ?? 'An unknown error occurred.';
+        String errorMessage = response['message'] ?? 'An unknown error occurred.';
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to add product: $errorMessage')),
         );
