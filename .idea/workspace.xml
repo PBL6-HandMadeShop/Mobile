@@ -5,27 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89b5fc05-a9a9-4469-9dbe-30bb688fefe7" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/Mobile.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Mobile.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/android/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/android/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/android/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/app/android/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/app/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/app/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/common/widgets/image_text_widgets/vertical_img_text.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/common/widgets/image_text_widgets/vertical_img_text.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/common/widgets/products/product_cart/product_card_horizontal.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/common/widgets/products/product_cart/product_card_horizontal.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/common/widgets/products/product_cart/product_cart_vertical.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/common/widgets/products/product_cart/product_cart_vertical.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/common/widgets/texts/section_heading.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/common/widgets/texts/section_heading.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/personalization/screens/address/address.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/personalization/screens/address/address.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/cart/cart.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/cart/cart.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/cart/widgets/cart_items.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/cart/widgets/cart_items.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/home/home.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/home/home.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/home/widgets/home_categories.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/home/widgets/home_categories.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_details/product_detail.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_details/product_detail.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_details/widgets/bottom_add_to_cart_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_details/widgets/bottom_add_to_cart_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_reviews/product_reviews.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_reviews/product_reviews.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/store/widget/category_tab.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/store/widget/category_tab.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/sub_category/sub_categories.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/sub_category/sub_categories.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/utils/http/api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/utils/http/api_service.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,15 +17,20 @@
     <option name="formatViaClangd" value="false" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="TuanAnh3" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/abuanwar072/E-commerce-Complete-Flutter-UI.git",
-    "accountId": "095aabda-3756-45ad-bbfa-84b615c12904"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/abuanwar072/E-commerce-Complete-Flutter-UI.git&quot;,
+    &quot;accountId&quot;: &quot;095aabda-3756-45ad-bbfa-84b615c12904&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
 }</component>
@@ -55,7 +41,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Dart Test.app.executor": "Debug",
+    "Dart Test.app.executor": "Run",
     "Flutter.main.dart.executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -119,6 +105,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Flutter.main.dart" />
+        <item itemvalue="Flutter.main.dart" />
       </list>
     </recent_temporary>
   </component>
@@ -131,6 +118,15 @@
       <option name="presentableId" value="Default" />
       <updated>1727092041242</updated>
     </task>
+    <task id="LOCAL-00001" summary="merge main - Hanh">
+      <option name="closed" value="true" />
+      <created>1733245666913</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1733245666913</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="XDebuggerManager">
