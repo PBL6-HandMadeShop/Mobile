@@ -1,13 +1,12 @@
-import 'package:craftshop2/common/styles/spacing_styles.dart';
-import 'package:craftshop2/features/authencation/screens/login/login.dart';
+import 'package:craftshop2/utils/constants/image_string.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-
-import '../../../utils/constants/image_string.dart';
+import '../../../navigation_menu.dart';
 import '../../../utils/constants/sizes.dart';
 import '../../../utils/constants/texts.dart';
 import '../../../utils/helpers/helper_functions.dart';
+import '../../../utils/http/api_service.dart';
+import '../../styles/spacing_styles.dart'; // Giả sử đây là nơi chứa API submitOrder
 
 class SuccessScreen extends StatelessWidget {
   const SuccessScreen({
@@ -16,13 +15,54 @@ class SuccessScreen extends StatelessWidget {
     required this.title,
     required this.subTitle,
     required this.onPressed,
+    required this.orderId, // Thêm orderId
+    required this.token,   // Thêm token
   });
 
   final String image, title, subTitle;
   final VoidCallback onPressed;
+  final String orderId;  // Nhận orderId
+  final String token;    // Nhận token
+
+  Future<void> _submitOrder() async {
+    try {
+      // Gọi API submitOrder
+      final response = await API_Services().submitOrder(
+        orderId: orderId,
+        token: token,
+      );
+
+      if (response['status'] == 'ok') {
+        // Thành công: Hiển thị thông báo
+        Get.snackbar(
+          'Thành công',
+          'Đơn hàng đã được gửi!',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+        );
+      } else {
+        throw Exception(response['message'] ?? 'Lỗi không xác định.');
+      }
+    } catch (e) {
+      // Xử lý lỗi
+      Get.snackbar(
+        'Lỗi',
+        e.toString(),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    // Gọi _submitOrder ngay khi SuccessScreen được khởi tạo
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _submitOrder();
+    });
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(

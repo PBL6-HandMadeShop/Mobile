@@ -1,4 +1,5 @@
 import 'dart:convert'; // Thư viện để mã hóa và giải mã JSON
+import 'dart:typed_data'; // Thư viện xử lý dữ liệu file
 import 'package:craftshop2/common/widgets/appbar/appbar.dart';
 import 'package:craftshop2/common/widgets/products/cart/cart_item.dart';
 import 'package:craftshop2/utils/constants/colors.dart';
@@ -6,10 +7,8 @@ import 'package:craftshop2/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
-
 import '../../../../utils/http/api_service.dart';
 import '../checkout/checkout.dart';
-import 'dart:typed_data';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -100,6 +99,43 @@ class _CartScreenState extends State<CartScreen> {
     }
   }
 
+  Future<void> _removeItemFromCart(String productId, int index) async {
+    try {
+      String? token = await _storage.read(key: 'session_token');
+
+      if (token == null) {
+        throw Exception("Bạn chưa đăng nhập. Vui lòng đăng nhập để tiếp tục.");
+      }
+
+      final response = await _apiServices.removeCartItem(productId, token);
+
+      if (response['status'] == 'ok') {
+        // Hiển thị thông báo thành công
+        Get.snackbar(
+          "Thành công",
+          "Sản phẩm đã được xóa khỏi giỏ hàng.",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+        );
+
+        // Làm mới danh sách giỏ hàng
+        await _fetchCartItems();
+      } else {
+        throw Exception(response['message'] ?? "Không thể xóa sản phẩm.");
+      }
+    } catch (e) {
+      Get.snackbar(
+        "Lỗi",
+        e.toString(),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,14 +151,28 @@ class _CartScreenState extends State<CartScreen> {
         padding: const EdgeInsets.all(CSSize.defaultSpace),
         itemCount: cartItems.length,
         itemBuilder: (context, index) {
-          final item = cartItems![index];
-          final fileData = fileDataList![index];
+          final item = cartItems[index];
+          final fileData = fileDataList[index];
+          final productId = item['product']['id'];
 
-          return CSCartItem(
-            productName: item['product']['name'],
-            productImage: fileData,
-            productPrice: item['product']['currentPrice'],
-            productQuantity: item['quantity'],
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: CSCartItem(
+                  productName: item['product']['name'],
+                  productImage: fileData,
+                  productPrice: item['product']['currentPrice'],
+                  productQuantity: item['quantity'],
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.delete, color: Colors.red),
+                onPressed: () async {
+                  await _removeItemFromCart(productId, index);
+                },
+              ),
+            ],
           );
         },
       ),
@@ -131,7 +181,10 @@ class _CartScreenState extends State<CartScreen> {
         padding: const EdgeInsets.all(CSSize.defaultSpace),
         child: ElevatedButton(
           onPressed: () {
-            Get.to(() => const CheckoutScreen());
+            Get.to(() => CheckoutScreen(
+              cartItems: cartItems,
+              totalAmount: totalAmount,
+            ));
           },
           child: Text('Thanh Toán (${totalAmount.toStringAsFixed(0)}₫)'),
         ),
@@ -140,4 +193,3 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 }
-

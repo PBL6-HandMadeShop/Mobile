@@ -685,9 +685,13 @@ class API_Services {
     try {
       print('Removing product from cart: $productId');
 
+      var formData = FormData.fromMap({
+        'productId': productId,
+      });
+
       final response = await _dio.post(
         '$_baseUrl/${APIConstants.REMOVE_CART_ITEM}',
-        data: {'productId': productId},
+        data: formData,
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -699,7 +703,17 @@ class API_Services {
 
       if (response.statusCode == 200 && response.data != null) {
         print('Product removed from cart: ${response.data}');
-        return response.data;
+
+        // Check if the response is already a Map<String, dynamic>
+        if (response.data is Map<String, dynamic>) {
+          return response.data;
+        }
+
+        // If the response is a String, wrap it into a map
+        return {
+          'status': 'ok',
+          'message': response.data.toString(),
+        };
       } else {
         throw Exception('Failed to remove product from cart: ${response.statusMessage}');
       }
@@ -709,16 +723,29 @@ class API_Services {
       } else {
         print('Unexpected Error: $e');
       }
-      return {'status': 'error', 'message': 'Failed to remove product from cart'};
+      // Return an error map to handle it properly in UI
+      return {'status': 'error', 'message': 'An error occurred while removing the product.'};
     }
   }
 
-  Future<Map<String, dynamic>> fetchOrders(String token) async {
+
+  Future<Map<String, dynamic>> getOrders({
+    required String token,
+    required int page,
+    required int size,
+  }) async {
     try {
-      print('Fetching orders');
+      print('Fetching customer orders...');
+
+      // Tạo FormData với các tham số được yêu cầu
+      var params = {
+        'page': page.toString(),
+        'size': size.toString(),
+      };
 
       final response = await _dio.get(
-        '$_baseUrl/${APIConstants.GET_ORDERS}', // Endpoint GET_ORDERS
+        '$_baseUrl/${APIConstants.GET_ORDERS}',
+        queryParameters: params,
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -730,7 +757,15 @@ class API_Services {
 
       if (response.statusCode == 200 && response.data != null) {
         print('Orders fetched successfully: ${response.data}');
-        return response.data;
+
+        if (response.data is Map<String, dynamic>) {
+          return response.data;
+        }
+
+        return {
+          'status': 'ok',
+          'message': response.data.toString(),
+        };
       } else {
         throw Exception('Failed to fetch orders: ${response.statusMessage}');
       }
@@ -740,17 +775,49 @@ class API_Services {
       } else {
         print('Unexpected Error: $e');
       }
-      return {'status': 'error', 'message': 'Failed to fetch orders'};
+
+      return {'status': 'error', 'message': 'An error occurred while fetching orders.'};
     }
   }
 
-  Future<Map<String, dynamic>> createOrder(Map<String, dynamic> orderDetails, String token) async {
+
+  Future<Map<String, dynamic>> createOrder({
+    required String paymentMethod,
+    required String paymentPlan,
+    required String address,
+    required String province,
+    required String city,
+    required String district,
+    required String ward,
+    required double latitude,
+    required double longitude,
+    required String orderDetails,
+    required String receivingMethod,
+    required bool removeCartItems,
+    required String token,
+  }) async {
     try {
-      print('Creating order');
+      print('Creating new order...');
+
+      // Tạo FormData với các tham số được yêu cầu
+      var formData = FormData.fromMap({
+        'paymentMethod': paymentMethod,
+        'paymentPlan': paymentPlan,
+        'address': address,
+        'province': province,
+        'city': city,
+        'district': district,
+        'ward': ward,
+        'latitude': latitude,
+        'longitude': longitude,
+        'orderDetails': orderDetails,
+        'receivingMethod': receivingMethod,
+        'removeCartItems': removeCartItems.toString(),
+      });
 
       final response = await _dio.post(
-        '$_baseUrl/${APIConstants.CREATE_ORDER}',
-        data: orderDetails,
+        '$_baseUrl/api/createOrder',
+        data: formData,
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -762,7 +829,15 @@ class API_Services {
 
       if (response.statusCode == 200 && response.data != null) {
         print('Order created successfully: ${response.data}');
-        return response.data;
+
+        if (response.data is Map<String, dynamic>) {
+          return response.data;
+        }
+
+        return {
+          'status': 'ok',
+          'message': response.data.toString(),
+        };
       } else {
         throw Exception('Failed to create order: ${response.statusMessage}');
       }
@@ -772,52 +847,26 @@ class API_Services {
       } else {
         print('Unexpected Error: $e');
       }
-      return {'status': 'error', 'message': 'Failed to create order'};
+
+      return {'status': 'error', 'message': 'An error occurred while creating the order.'};
     }
   }
 
-  Future<Map<String, dynamic>> updateOrder(String orderId, Map<String, dynamic> updates, String token) async {
+  Future<Map<String, dynamic>> submitOrder({
+    required String orderId,
+    required String token,
+  }) async {
     try {
-      print('Updating order: $orderId');
+      print('Submitting order...');
+
+      // Tạo FormData với các tham số được yêu cầu
+      var formData = FormData.fromMap({
+        'id': orderId,
+      });
 
       final response = await _dio.post(
-        '$_baseUrl/${APIConstants.UPDATE_ORDER}',
-        data: {
-          'orderId': orderId,
-          ...updates,
-        },
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Session-Code': token,
-            'ngrok-skip-browser-warning': 'true',
-          },
-        ),
-      );
-
-      if (response.statusCode == 200 && response.data != null) {
-        print('Order updated successfully: ${response.data}');
-        return response.data;
-      } else {
-        throw Exception('Failed to update order: ${response.statusMessage}');
-      }
-    } catch (e) {
-      if (e is DioError) {
-        print('DioError: ${e.response?.data ?? e.message}');
-      } else {
-        print('Unexpected Error: $e');
-      }
-      return {'status': 'error', 'message': 'Failed to update order'};
-    }
-  }
-
-  Future<Map<String, dynamic>> submitOrder(String orderId, String token) async {
-    try {
-      print('Submitting order: $orderId');
-
-      final response = await _dio.post(
-        '$_baseUrl/${APIConstants.SUBMIT_ORDER}',
-        data: {'orderId': orderId},
+        '$_baseUrl/api/submitOrder',
+        data: formData,
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -829,7 +878,15 @@ class API_Services {
 
       if (response.statusCode == 200 && response.data != null) {
         print('Order submitted successfully: ${response.data}');
-        return response.data;
+
+        if (response.data is Map<String, dynamic>) {
+          return response.data;
+        }
+
+        return {
+          'status': 'ok',
+          'message': response.data.toString(),
+        };
       } else {
         throw Exception('Failed to submit order: ${response.statusMessage}');
       }
@@ -839,49 +896,28 @@ class API_Services {
       } else {
         print('Unexpected Error: $e');
       }
-      return {'status': 'error', 'message': 'Failed to submit order'};
+
+      return {'status': 'error', 'message': 'An error occurred while submitting the order.'};
     }
   }
 
-  Future<Map<String, dynamic>> cancelOrder(String orderId, String token) async {
+
+
+  Future<Map<String, dynamic>> confirmPaymentUsingVNPAY({
+    required String orderId,
+    required String token,
+  }) async {
     try {
-      print('Cancelling order: $orderId');
+      print('Confirming payment via VNPAY...');
+
+      // Tạo FormData với các tham số được yêu cầu
+      var formData = FormData.fromMap({
+        'id': orderId,
+      });
 
       final response = await _dio.post(
-        '$_baseUrl/${APIConstants.CANCEL_ORDER}',
-        data: {'orderId': orderId},
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Session-Code': token,
-            'ngrok-skip-browser-warning': 'true',
-          },
-        ),
-      );
-
-      if (response.statusCode == 200 && response.data != null) {
-        print('Order cancelled successfully: ${response.data}');
-        return response.data;
-      } else {
-        throw Exception('Failed to cancel order: ${response.statusMessage}');
-      }
-    } catch (e) {
-      if (e is DioError) {
-        print('DioError: ${e.response?.data ?? e.message}');
-      } else {
-        print('Unexpected Error: $e');
-      }
-      return {'status': 'error', 'message': 'Failed to cancel order'};
-    }
-  }
-
-  Future<Map<String, dynamic>> confirmPaymentVNPAY(String orderId, String token) async {
-    try {
-      print('Confirming payment for order: $orderId');
-
-      final response = await _dio.post(
-        '$_baseUrl/${APIConstants.CONFIRM_PAYMENT_VNPAY}',
-        data: {'orderId': orderId},
+        '$_baseUrl/api/confirmPaymentUsingVNPAY',
+        data: formData,
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -893,7 +929,16 @@ class API_Services {
 
       if (response.statusCode == 200 && response.data != null) {
         print('Payment confirmed successfully: ${response.data}');
-        return response.data;
+
+        if (response.data is Map<String, dynamic>) {
+          return response.data;
+        }
+
+        return {
+          'status': 'ok',
+          'message': response.data.toString(),
+          'returnURL': response.data['returnURL'] ?? '',
+        };
       } else {
         throw Exception('Failed to confirm payment: ${response.statusMessage}');
       }
@@ -903,9 +948,60 @@ class API_Services {
       } else {
         print('Unexpected Error: $e');
       }
-      return {'status': 'error', 'message': 'Failed to confirm payment'};
+
+      return {'status': 'error', 'message': 'An error occurred while confirming payment.'};
     }
   }
+
+  Future<Map<String, dynamic>> cancelOrder({
+    required String orderId,
+    required String token,
+  }) async {
+    try {
+      print('Canceling order...');
+
+      // Tạo FormData với các tham số được yêu cầu
+      var formData = FormData.fromMap({
+        'id': orderId,
+      });
+
+      final response = await _dio.post(
+        '$_baseUrl/api/cancelOrder', // URL API hủy đơn hàng
+        data: formData,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token', // Header với token người dùng
+            'Session-Code': token, // Đảm bảo xác thực phiên làm việc
+            'ngrok-skip-browser-warning': 'true', // Bỏ qua cảnh báo từ ngrok (nếu có)
+          },
+        ),
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        print('Order canceled successfully: ${response.data}');
+
+        if (response.data is Map<String, dynamic>) {
+          return response.data;
+        }
+
+        return {
+          'status': 'ok',
+          'message': response.data.toString(),
+        };
+      } else {
+        throw Exception('Failed to cancel order: ${response.statusMessage}');
+      }
+    } catch (e) {
+      if (e is DioError) {
+        print('DioError: ${e.response?.data ?? e.message}');
+      } else {
+        print('Unexpected Error: $e');
+      }
+
+      return {'status': 'error', 'message': 'An error occurred while canceling the order.'};
+    }
+  }
+
 
 }
 
