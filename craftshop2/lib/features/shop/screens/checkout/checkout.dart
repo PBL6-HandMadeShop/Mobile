@@ -267,7 +267,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 ));
               }
             } else {
-              print('Order submission response: ${submitResponse}');
+              print('Order submission response: $submitResponse');
               throw Exception(submitResponse['message'] ?? 'Failed to submit the order.');
             }
           } else {
@@ -279,7 +279,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           throw Exception('Failed to fetch orders: ${ordersResponse['message']}');
         }
       } else {
-        print('Order placement failed with response: ${response}');
+        print('Order placement failed with response: $response');
         throw Exception(response['message'] ?? 'Đặt hàng thất bại.');
       }
 

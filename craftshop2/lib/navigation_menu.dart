@@ -8,7 +8,6 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 import 'features/personalization/screens/settings/settings.dart';
-import 'features/shop/screens/webview/web_view_screen.dart';
 
 class NavigationMenu extends StatelessWidget {
   const NavigationMenu({super.key});

@@ -41,8 +41,8 @@ class _PaymentTestScreenState extends State<PaymentTestScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CSAppBar(
-        title: const Text("Checkout Payment"),
+      appBar:  AppBar(
+        title: Text("Checkout Payment"),
       ),
       body: WebViewWidget(controller: _controller),
     );

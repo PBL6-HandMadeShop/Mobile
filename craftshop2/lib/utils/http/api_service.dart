@@ -752,14 +752,12 @@ class API_Services {
       );
       Map<String, dynamic> responseData = jsonDecode(response.data);
       print(response.statusCode);
-      if (response.statusCode == 200 && responseData != null) {
+      if (response.statusCode == 200) {
 
-        print('Orders fetched successfully: ${responseData}');
+        print('Orders fetched successfully: $responseData');
 
-        if (responseData is Map<String, dynamic>) {
-          return responseData;
-        }
-
+        return responseData;
+      
         return {
           'status': 'ok',
           'message': responseData.toString(),
@@ -875,13 +873,11 @@ class API_Services {
         ),
       );
       Map<String, dynamic> responseData = jsonDecode(response.data);
-      if (response.statusCode == 200 && responseData != null) {
-        print('Order submitted successfully: ${responseData}');
+      if (response.statusCode == 200) {
+        print('Order submitted successfully: $responseData');
 
-        if (responseData is Map<String, dynamic>) {
-          return responseData;
-        }
-
+        return responseData;
+      
         return {
           'status': 'ok',
           'message': responseData.toString(),
@@ -928,12 +924,10 @@ class API_Services {
       Map<String, dynamic> responseData = jsonDecode(response.data);
 
       if (response.statusCode == 200 && response.data != null) {
-        print('Payment confirmed successfully: ${responseData}');
+        print('Payment confirmed successfully: $responseData');
 
-        if (responseData is Map<String, dynamic>) {
-          return responseData;
-        }
-
+        return responseData;
+      
         return {
           'status': 'ok',
           'message': responseData.toString(),
