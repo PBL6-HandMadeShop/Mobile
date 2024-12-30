@@ -122,7 +122,6 @@ class _HomeScreen extends State<HomeScreen> {
         child: CircularProgressIndicator(),
       );
     }
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -135,7 +134,6 @@ class _HomeScreen extends State<HomeScreen> {
                   const SizedBox(height: CSSize.spaceBtwSections),
                   CSSearchContainer(
                     text: "Search something ...",
-                    onSearch: (String value) {  },
                   ),
                   const SizedBox(height: CSSize.spaceBtwSections),
                   Padding(
@@ -178,7 +176,7 @@ class _HomeScreen extends State<HomeScreen> {
                   // Popular Products
                   CSSectionHeading(
                     title: 'Popular Products',
-                    onPressed: () => Get.to(() => const AllProducts()),
+                    onPressed: () => Get.to(() =>  AllProducts(productPagePopular: productPagePopular,)),
                   ),
                   const SizedBox(height: CSSize.spaceBtwItems),
 

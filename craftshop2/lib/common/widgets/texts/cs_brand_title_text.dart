@@ -7,8 +7,8 @@ class CSBrandTitleText extends StatelessWidget {
     super.key,
     this.color,
     required this.title,
-     this.maxLines = 1,
-    this.textAlign = TextAlign.center,
+     this.maxLines = 2,
+    this.textAlign = TextAlign.left,
     this.brandTextSize = TextSizes.small,
   });
   final Color? color;

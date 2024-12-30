@@ -1,19 +1,16 @@
+import 'package:craftshop2/features/shop/screens/search/search_screen.dart';
+import 'package:craftshop2/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+
 
 class CSSearchContainer extends StatefulWidget {
   final String text;
-  final bool showBorder;
-  final bool showBackground;
-  final EdgeInsets padding;
-  final ValueChanged<String> onSearch;
 
   const CSSearchContainer({
     super.key,
     required this.text,
-    this.showBorder = true,
-    this.showBackground = true,
-    this.padding = const EdgeInsets.all(8.0),
-    required this.onSearch,
   });
 
   @override
@@ -21,41 +18,61 @@ class CSSearchContainer extends StatefulWidget {
 }
 
 class _CSSearchContainerState extends State<CSSearchContainer> {
+  // Khởi tạo TextEditingController
   final TextEditingController _searchController = TextEditingController();
 
-  void _performSearch() {
-    if (_searchController.text.trim().isNotEmpty) {
-      widget.onSearch(_searchController.text.trim());
-    }
+  @override
+  void initState() {
+    super.initState();
+    // Đặt giá trị mặc định
+
+  }
+
+  @override
+  void dispose() {
+    // Đừng quên giải phóng TextEditingController khi không cần nữa
+    _searchController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: widget.padding,
+      padding: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
-        color: widget.showBackground ? Colors.grey[200] : Colors.transparent,
-        border: widget.showBorder ? Border.all(color: Colors.grey) : null,
-        borderRadius: BorderRadius.circular(8),
+        color: CSColors.white,
       ),
       child: Row(
         children: [
           Expanded(
             child: TextField(
-              controller: _searchController,
+              controller: _searchController, // Gắn controller
               decoration: InputDecoration(
                 hintText: widget.text,
                 border: InputBorder.none,
               ),
-              onSubmitted: (_) => _performSearch(), // Kích hoạt tìm kiếm khi nhấn Enter
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.search, color: Colors.blue),
-            onPressed: _performSearch, // Kích hoạt tìm kiếm khi nhấn nút
+            icon: const Icon(Icons.search),
+            // Khi nhấn vào nút search, lấy giá trị từ _searchController.text
+            onPressed: () {
+              final searchQuery = _searchController.text.trim();
+              if (searchQuery.isNotEmpty) {
+                Get.to(() => SearchResultScreen(searchQuery: searchQuery));
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Please enter a search query')),
+                );
+              }
+            },
           ),
         ],
       ),
     );
   }
 }
+
+
+
+

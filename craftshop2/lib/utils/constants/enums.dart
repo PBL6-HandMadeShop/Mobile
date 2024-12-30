@@ -3,8 +3,9 @@
 ///
 enum TextSizes{
   small,
+  base,
   medium,
-  large
+  large,
 }
 
 enum OrderStatus{

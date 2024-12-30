@@ -80,14 +80,10 @@ class _Store extends State<Store> {
                   child: ListView(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      const SizedBox(height: CSSize.spaceBtwSections),
+                    children: const [
+                      SizedBox(height: CSSize.spaceBtwSections),
                       CSSearchContainer(
-                        text: "Search in store",
-                        showBorder: true,
-                        showBackground: false,
-                        padding: EdgeInsets.zero, onSearch: (String value) {  },
-                        // Sử dụng hàm _searchProducts khi người dùng nhập tìm kiếm
+                        text: "Search something ...",
                       ),
                     ],
                   ),

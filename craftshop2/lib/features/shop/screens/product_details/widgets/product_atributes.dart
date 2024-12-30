@@ -57,7 +57,7 @@ class CSProductAtributes extends StatelessWidget{
               // ),
               Row(
                 children: [
-                  const CSProductTitleText(title: 'Stock', smallSize: true),
+                  const CSProductTitleText(title: 'Stock', smallSize: false),
                   const SizedBox(width: CSSize.spaceBtwItems),
                   Text("$quantityRemain", style:  Theme.of(context).textTheme.titleMedium),
                 ],

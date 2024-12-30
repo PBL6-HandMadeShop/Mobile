@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../../common/widgets/appbar/appbar.dart';
-import '../../../../common/widgets/images/cs_rounded_image.dart';
 import '../../../../common/widgets/products/product_cart/product_card_horizontal.dart';
 import '../../../../common/widgets/texts/section_heading.dart';
-import '../../../../utils/constants/image_string.dart';
 import '../../../../utils/constants/sizes.dart';
 
 class SubCategoriesScreen extends StatelessWidget {

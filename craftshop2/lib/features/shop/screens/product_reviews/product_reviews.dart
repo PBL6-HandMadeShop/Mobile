@@ -1,7 +1,10 @@
 import 'package:craftshop2/features/shop/screens/product_reviews/widgets/rating_progrss_indicator.dart';
 import 'package:craftshop2/features/shop/screens/product_reviews/widgets/user_review_card.dart';
+import 'package:craftshop2/utils/http/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:dio/dio.dart.';
 import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -11,9 +14,9 @@ import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/sizes.dart';
 
 class ProductReviewScreen extends StatelessWidget {
-  const ProductReviewScreen({super.key, required this.productReview});
+  const ProductReviewScreen({super.key, required this.productReview, required this.productId});
   final Map<String, dynamic> productReview;
-
+  final String productId;
   String _getAmountReview({
     required Map<String, dynamic> productReview,
   }) {
@@ -40,7 +43,7 @@ class ProductReviewScreen extends StatelessWidget {
             right: CSSize.defaultSpace,
             top: CSSize.defaultSpace,
           ),
-          child: const FeedbackForm(),
+          child:  FeedbackForm( productReview: productReview, productId: productId,),
         );
       },
     );
@@ -112,8 +115,9 @@ class ProductReviewScreen extends StatelessWidget {
 }
 
 class FeedbackForm extends StatefulWidget {
-  const FeedbackForm({super.key});
-
+  const FeedbackForm({super.key, required this.productReview, required this.productId});
+  final Map<String, dynamic> productReview;
+  final String productId;
   @override
   _FeedbackFormState createState() => _FeedbackFormState();
 }
@@ -123,7 +127,14 @@ class _FeedbackFormState extends State<FeedbackForm> {
   double _rating = 0;
   final TextEditingController _reviewController = TextEditingController();
   File? _image;
+  API_Services _apiServices = API_Services();
+  final FlutterSecureStorage storage = const FlutterSecureStorage();
 
+  @override
+  void initState() {
+    super.initState();
+ // Áp dụng bộ lọc ban đầu
+  }
   Future<void> _pickImage() async {
     final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
@@ -133,17 +144,72 @@ class _FeedbackFormState extends State<FeedbackForm> {
     }
   }
 
-  void _submitFeedback() {
+  void _submitFeedback() async {
+    debugPrint('Form validation: ${_formKey.currentState!.validate()}');
     if (_formKey.currentState!.validate()) {
-      // Handle feedback submission logic here
-      print('Rating: $_rating');
-      print('Review: ${_reviewController.text}');
-      if (_image != null) {
-        print('Image: ${_image!.path}');
+
+      try {
+        // Lấy token từ local hoặc state
+        final token = await storage.read(key: 'session_token');
+        String productId = widget.productId;
+        print(productId);
+        // Xử lý danh sách hình ảnh (tương tự ChangePicture)
+        List<MultipartFile> imageFiles = [];
+        if (_image != null) {
+          imageFiles.add(
+            await MultipartFile.fromFile(
+              _image!.path,
+              filename: _image!.path.split('/').last,
+            ),
+          );
+        }
+
+        // Gọi API
+        final response = await _apiServices.createReviewOnProduct(
+          productId: productId,
+          rating: _rating.toInt(),
+          title: 'User Feedback', // Có thể không cần thiết
+          context: _reviewController.text,
+          images: imageFiles, // Truyền danh sách MultipartFile
+          token: token!,
+        );
+
+        if (response['status'] == 'ok') {
+          // Hiển thị thông báo thành công
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Review submitted successfully')),
+            );
+          }
+          Navigator.pop(context); // Đóng BottomSheet
+        } else {
+          // Hiển thị thông báo lỗi
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Failed to submit review: ${response['message']}'),
+              ),
+            );
+          }
+        }
+      } catch (e) {
+        debugPrint('Error in _submitFeedback: $e'); // In ra lỗi
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('An error occurred: $e')),
+          );
+        }
       }
-      Navigator.pop(context);
+    } else {
+      // Hiển thị thông báo lỗi validation (nếu cần)
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please fill in all required fields')),
+        );
+      }
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -183,14 +249,28 @@ class _FeedbackFormState extends State<FeedbackForm> {
             },
           ),
           const SizedBox(height: CSSize.spaceBtwItems),
-          ElevatedButton(
-            onPressed: _pickImage,
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.all(CSSize.md),
-              backgroundColor: CSColors.black,
-              side: const BorderSide(color: CSColors.black),
-            ),
-            child: const Text('Pick Image'),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ElevatedButton(
+                onPressed: _pickImage,
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.all(CSSize.md),
+                  backgroundColor: CSColors.black,
+                  side: const BorderSide(color: CSColors.black),
+                ),
+                child: const Text('Pick Image'),
+              ),
+              ElevatedButton(
+                onPressed: _submitFeedback,
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.all(CSSize.md),
+                  backgroundColor: CSColors.black,
+                  side: const BorderSide(color: CSColors.black),
+                ),
+                child: const Text('Submit'),
+              ),
+            ],
           ),
           if (_image != null)
             Padding(
@@ -198,15 +278,6 @@ class _FeedbackFormState extends State<FeedbackForm> {
               child: Image.file(_image!),
             ),
           const SizedBox(height: CSSize.spaceBtwItems),
-          ElevatedButton(
-            onPressed: _submitFeedback,
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.all(CSSize.md),
-              backgroundColor: CSColors.black,
-              side: const BorderSide(color: CSColors.black),
-            ),
-            child: const Text('Submit'),
-          ),
         ],
       ),
     );

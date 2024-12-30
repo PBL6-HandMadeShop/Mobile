@@ -10,7 +10,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 
 import '../constants/api_constants.dart';
-
+import 'package:http/http.dart' as http;
 class API_Services {
   final dio.Dio _dio = dio.Dio();
   final String _baseUrl = APIConstants.BASE_URL;
@@ -272,12 +272,11 @@ class API_Services {
   }
 
   Future<Map<String, dynamic>> fetchProducts(
-      {int page = 0, int size = 10}) async {
+      {int page = 0, int size = 1000}) async {
     try {
       final response = await _dio.get(
         '$_baseUrl/${APIConstants.GET_PRODUCTS_PAGE}',
         queryParameters: {
-          'page': page,
           'size': size,
         },
       );
@@ -532,28 +531,26 @@ class API_Services {
   }
 
   Future<Map<String, dynamic>> searchProducts(
-      String token, String query, {
+      String token, {
         int page = 0,
         int size = 10,
+        String searchKey = "",
         double? minPrice,
         double? maxPrice,
-        String? productTypeId,
         String? origin,
       }) async {
     try {
-      // In URL để kiểm tra nếu cần
-      print('Searching products with query: $query');
+      print('Searching products with filters: searchKey=$searchKey, minPrice=$minPrice, maxPrice=$maxPrice, origin=$origin');
 
       final response = await _dio.get(
-        '$_baseUrl/${APIConstants.SEARCH_PRODUCTS}', // Endpoint cho tìm kiếm sản phẩm
+        '$_baseUrl/${APIConstants.SEARCH_PRODUCTS}',
         queryParameters: {
           'page': page,
           'size': size,
-          'searchKey': query, // Từ khóa tìm kiếm
+          'searchKey': searchKey,
           'minPrice': minPrice ?? 0,
-          'maxPrice': maxPrice ?? 1000000, // Giá tối đa mặc định là 1 triệu
-          'origin': origin ?? '',
-          'productTypeId': productTypeId ?? '',
+          'maxPrice': maxPrice ?? double.infinity, // Giá tối đa nếu không đặt sẽ là không giới hạn
+          'origin': origin ?? "", // Nếu không nhập thì gửi chuỗi rỗng
         },
         options: Options(
           headers: {
@@ -563,10 +560,10 @@ class API_Services {
           },
         ),
       );
-
-      if (response.statusCode == 200 && response.data != null) {
-        print('Products fetched successfully: ${response.data}');
-        return response.data;
+      Map<String, dynamic> responseData = jsonDecode(response.data);
+      if (response.statusCode == 200 && responseData != null) {
+        print('Products fetched successfully: ${responseData}');
+        return responseData;
       } else {
         throw Exception('Failed to fetch products: ${response.statusMessage}');
       }
@@ -579,6 +576,8 @@ class API_Services {
       return {'status': 'error', 'message': 'Failed to fetch products'};
     }
   }
+
+
 
   ///Don Hang
   Future<Map<String, dynamic>> fetchCartItems(String token) async {
@@ -995,6 +994,99 @@ class API_Services {
       return {'status': 'error', 'message': 'An error occurred while canceling the order.'};
     }
   }
+
+  Future<void> fetchPaymentResult(String apiUrl) async {
+    try {
+      // Gửi HTTP GET request tới API
+      final response = await http.get(Uri.parse(apiUrl));
+
+      // Kiểm tra mã trạng thái (status code) của response
+      if (response.statusCode == 200) {
+        // Parse dữ liệu JSON trả về
+        final Map<String, dynamic> data = jsonDecode(response.body);
+
+        // Lấy thông tin cần thiết từ JSON
+        String? message = data['message'];
+        String? orderId = data['content']?['orderId'];
+        String? totalPrice = data['content']?['totalPrice'];
+        String? transactionId = data['content']?['transactionId'];
+
+        // In ra console để kiểm tra
+        print("Message: $message");
+        print("Order ID: $orderId");
+        print("Total Price: $totalPrice");
+        print("Transaction ID: $transactionId");
+
+        // Xử lý dữ liệu theo nhu cầu
+      } else {
+        // Xử lý nếu API trả về lỗi
+        print("Error: ${response.statusCode}");
+        print("Response body: ${response.body}");
+      }
+    } catch (error) {
+      // Xử lý lỗi (như khi mất kết nối mạng)
+      print("An error occurred: $error");
+    }
+  }
+  Future<Map<String, dynamic>> createReviewOnProduct({
+    required String productId,
+    required int rating,
+    String? title,
+    required String context,
+    required List<MultipartFile> images,
+    required String token,
+  }) async {
+    try {
+      print('Creating review for product: $productId');
+      print('Rating: $rating');
+      print('Context: $context');
+      print('Images: $images');
+      print('Token: $token');
+
+      var formData = FormData.fromMap({
+        'productId': productId,
+        'rating': rating,
+        'context': context,
+      });
+
+      for (var file in images) {
+        formData.files.add(MapEntry('images', file));
+      }
+
+      final response = await _dio.post(
+        '$_baseUrl/${APIConstants.POST_REVIEW_BY_PRODUCT}',
+        data: formData,
+        options: Options(
+          headers: {
+            'Session-Code': token,
+            'ngrok-skip-browser-warning': 'true',
+          },
+        ),
+      );
+
+      print('Response status: ${response.statusCode}');
+      print('Response data: ${response.data}');
+
+      if (response.statusCode == 200) {
+        return {'status': 'ok', 'data': response.data};
+      } else {
+        throw Exception(
+            'Failed to create review: ${response.statusMessage} - ${response.statusCode}');
+      }
+    } catch (e) {
+      if (e is DioException) {
+        print('DioError: ${e.response?.data ?? e.message}');
+        return {
+          'status': 'error',
+          'message': 'DioError: ${e.response?.data ?? e.message}'
+        };
+      } else {
+        print('Unexpected Error: $e');
+        return {'status': 'error', 'message': 'Unexpected Error: $e'};
+      }
+    }
+  }
+
 
 
 }

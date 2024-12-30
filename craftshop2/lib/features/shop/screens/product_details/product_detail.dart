@@ -3,10 +3,8 @@ import 'package:craftshop2/features/shop/screens/product_details/widgets/product
 import 'package:craftshop2/features/shop/screens/product_details/widgets/product_detail_image_slider.dart';
 import 'package:craftshop2/features/shop/screens/product_details/widgets/product_meta_data.dart';
 import 'package:craftshop2/features/shop/screens/product_details/widgets/rating_share_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:readmore/readmore.dart';
 import 'dart:typed_data';
@@ -69,15 +67,26 @@ class ProductDetailScreen extends StatelessWidget {
               child: Column(
                 children: [
                   /// - Rating & share
-                  CSRatingAndShare(
-                    ratingScore: (productReview["ratings"]?["average"] != 'NaN' &&
-                        double.tryParse(productReview["ratings"]!["average"].toString()) != null)
-                        ? double.tryParse(productReview["ratings"]!["average"].toString())?.toString() ?? '0'
-                        : '0',
-
-                    countRating: _getAmountRating(productReview: productReview),
+                  Row(
+                    children: [
+                      CSRatingAndShare(
+                        ratingScore: (productReview["ratings"]?["average"] != 'NaN' &&
+                            double.tryParse(productReview["ratings"]!["average"].toString()) != null)
+                            ? double.tryParse(productReview["ratings"]!["average"].toString())
+                            ?.toStringAsFixed(2) ?? '0.00' // Sử dụng toStringAsFixed(2) và cung cấp '0.00' nếu giá trị là null
+                            : '0.00', // Cung cấp '0.00' nếu giá trị không hợp lệ
+                        countRating: _getAmountRating(productReview: productReview),
+                      ),
+                      const SizedBox(width: 24), // Khoảng cách giữa Rating và Stock
+                      // Thêm Text("Stock") và giá trị vào đây
+                      Text("Stock", style: TextStyle(fontWeight: FontWeight.bold, )), // Bạn có thể tùy chỉnh style
+                      const SizedBox(width: 8), // Khoảng cách giữa chữ "Stock" và giá trị
+                      Text(productData["quantityRemain"]?.toString() ?? '0'), // Giá trị Stock
+                      const SizedBox(width: 15),
+                      // CSProductAtributes(quantityRemain:productData["quantityRemain"] ?? 0,),
+                    ],
                   ),
-
+                  const SizedBox(height: CSSize.spaceBtwSections),
                   /// - Price, Title, Stock, Brand
                   CSProductMetaData(
                     productName: productData['name'] ?? 'Product Name',
@@ -86,12 +95,11 @@ class ProductDetailScreen extends StatelessWidget {
                         ? '${productData['vouchers'][0]['value'] ?? 0}%'
                         : '0',
                     origin: productData['origin'] ?? 'From the VietNam Handcrafted',
-                    status: "Loading",
                     // status: productData['status'] ?? 'Loading',
                   ),
 
                   /// - Attributes
-                  CSProductAtributes(quantityRemain:productData["quantityRemain"] ?? 0,),
+
 
                   /// - Description
                   const SizedBox(height: CSSize.spaceBtwSections),
@@ -115,7 +123,7 @@ class ProductDetailScreen extends StatelessWidget {
                     children: [
                        CSSectionHeading(title: 'Review(${_getAmountReview(productReview: productReview)})', showActionButton: false),
                       IconButton(
-                        onPressed: () => Get.to(() =>  ProductReviewScreen(productReview: productReview ?? {},)),
+                        onPressed: () => Get.to(() =>  ProductReviewScreen(productReview: productReview ?? {}, productId: productData['id'],)),
                         icon: const Icon(Iconsax.arrow_right_3, size: 18),
                       ),
                     ],

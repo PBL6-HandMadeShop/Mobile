@@ -5,17 +5,17 @@ import '../../../../common/widgets/products/sortable/sortable_products.dart';
 import '../../../../utils/constants/sizes.dart';
 
 class AllProducts extends StatelessWidget {
-  const AllProducts({super.key});
-
+  const AllProducts({super.key, required this.productPagePopular});
+  final List<dynamic>? productPagePopular;
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       // appBar
-        appBar: CSAppBar(title: Text('Popular Products'), showBackArrow: true),
+        appBar: const CSAppBar(title: Text('Popular Products'), showBackArrow: true),
         body: SingleChildScrollView(
           child: Padding(
-              padding: EdgeInsets.all(CSSize.defaultSpace),
-              child: CSSortableProducts(), // Column
+              padding: const EdgeInsets.all(CSSize.defaultSpace),
+              child: CSSortableProducts(productPagePopular: productPagePopular,), // Column
     ), // Padding
     ),
     );

@@ -30,7 +30,7 @@ class CSPromoSlider extends StatelessWidget {
             () => Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                for (int i = 0; i < banners.length; i++)
+                for (int i = 0; i < 6; i++)
                   CSCircularContainer(
                     width: 20,
                     height: 4,

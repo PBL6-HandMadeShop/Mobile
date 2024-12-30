@@ -32,7 +32,9 @@ class CsBrandTitleTextWithVertifiedIcon extends StatelessWidget {
                 maxLines: maxLines,
                 color: textColor,
                 textAlign: textAlign,
-                brandTextSize: brandTextSize)),
+                brandTextSize: brandTextSize),
+
+        ),
         const SizedBox(
           width: CSSize.xs,
         ),

@@ -21,7 +21,7 @@ class BrandProducts extends StatelessWidget {
               CSBrandCard(showBorder: true),
               SizedBox(height: CSSize.spaceBtwSections),
 
-              CSSortableProducts(),
+              CSSortableProducts(productPagePopular: [],),
             ], // Column children
           ), // Column
         ), // Padding

@@ -13,14 +13,13 @@ import '../../../../../utils/constants/sizes.dart';
 
 class CSProductMetaData extends StatelessWidget{
   const CSProductMetaData({
-    super.key, required this.price, required this.offPrice, required this.origin, required this.status, required this.productName,
+    super.key, required this.price, required this.offPrice, required this.origin, required this.productName,
 });
   final String productName;
   final String price;
   final String offPrice;
   // final String basePrice;
   final String origin;
-  final String status;
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -29,6 +28,17 @@ class CSProductMetaData extends StatelessWidget{
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Row(
+          children: [
+            Flexible(
+
+              child: CsBrandTitleTextWithVertifiedIcon(title: productName, brandTextSize: TextSizes.large
+                , textColor: CSColors.black,)
+              ,
+            ),
+          ],
+        ),
+        const SizedBox(height: CSSize.spaceBtwSections),
         /// Price & Sale Price
         Row(
           children: [
@@ -50,26 +60,10 @@ class CSProductMetaData extends StatelessWidget{
         CSProductTitleText(title: origin ?? 'From the VietNam Handcrafted'),
         const SizedBox(height: CSSize.spaceBtwItems/1.5),
         /// Stock
-        Row(
-          children: [
-            const CSProductTitleText(title: "Status"),
-            const SizedBox(width: CSSize.spaceBtwItems),
-            Text(status, style: Theme.of(context).textTheme.titleMedium),
-          ],
-        ),
+
         const SizedBox(height: CSSize.spaceBtwItems/1.5),
         /// Brand
-        Row(
-          children: [
-            CSCircularImage(
-                image: CSImage.verify,
-                width: 32,
-                height: 32,
-                overlayColor: darkMode ? CSColors.white : CSColors.black,
-            ),
-            CsBrandTitleTextWithVertifiedIcon(title: productName, brandTextSize: TextSizes.small, textColor: CSColors.black,),
-          ],
-        ),
+
       ],
     );
   }

@@ -1,5 +1,6 @@
 class APIConstants {
- static const String BASE_URL = 'https://10.0.2.2:8080'; // URL base của hệ thống
+ // static const String BASE_URL = 'https://10.0.2.2:8080'; // URL base của hệ thống
+ static const String BASE_URL = 'https://10a2-2405-4802-7034-3920-51be-4bc2-900a-11c1.ngrok-free.app'; // URL base của hệ thống
 
  // API Người dùng
  static const String REGISTER = 'api/register';
@@ -57,4 +58,5 @@ class APIConstants {
 
  // API Đánh giá
  static const String GET_REVIEWS_BY_PRODUCT = 'api/getReviewsByProduct';
+ static const String POST_REVIEW_BY_PRODUCT = 'api/createReviewOnProduct';
 }
