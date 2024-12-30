@@ -7,6 +7,7 @@ import 'dart:typed_data';
 import '../../../../../common/widgets/appbar/appbar.dart';
 import '../../../../../common/widgets/custom_shape/curved_edges/curved_edges_widget.dart';
 import '../../../../../common/widgets/icons/cs_circular_icon.dart';
+import '../../../../../common/widgets/images/cs_full_image.dart';
 import '../../../../../common/widgets/images/cs_rounded_image.dart';
 import '../../../../../utils/constants/colors.dart';
 import '../../../../../utils/constants/image_string.dart';
@@ -95,48 +96,46 @@ class _CSProductImageSliderState extends State<CSProductImageSlider> {
               left: CSSize.defaultSpace,
               child: SizedBox(
                 height: 80,
-                // child: ListView.separated(
-                //   shrinkWrap: true,
-                //   scrollDirection: Axis.horizontal,
-                //   physics: const AlwaysScrollableScrollPhysics(),
-                //   itemBuilder: (_, index) {
-                //     final image = imageList.isNotEmpty ? imageList[index] : null;
-                //     return CSRoundedImage(
-                //       width: 80,
-                //       backgroundColor: dark ? CSColors.dark : CSColors.light,
-                //       border: Border.all(color: CSColors.primaryColor),
-                //       padding: const EdgeInsets.all(CSSize.sm),
-                //       imageUrl: image,
-                //     );
-                //   },
-                //   separatorBuilder: (_, __) =>
-                //   const SizedBox(width: CSSize.spaceBtwItems),
-                //   itemCount: imageList.length,
-                // ),
                 child: ListView.separated(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    itemBuilder: (_, index) => CSRoundedImage(
-                      width:  80,
-                      backgroundColor: dark ? CSColors.dark : CSColors.light,
-                      border: Border.all(color: CSColors.primaryColor),
-                      padding: const EdgeInsets.all(CSSize.sm),
-                      imageUrl: CSImage.product3,
-                    ),
-                    separatorBuilder: (_,__) => const SizedBox(width: CSSize.spaceBtwItems),
-                    itemCount: 4
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  itemBuilder: (_, index) {
+                    final image = imageList[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => FullScreenImageSlider(
+                              imageList: imageList,
+                              initialIndex: index,
+                            ),
+                          ),
+                        );
+                      },
+                      child: CSRoundedImage(
+                        width: 80,
+                        backgroundColor: dark ? CSColors.dark : CSColors.light,
+                        border: Border.all(color: CSColors.primaryColor),
+                        padding: const EdgeInsets.all(CSSize.sm),
+                        imageUrl: image,
+                      ),
+                    );
+                  },
+                  separatorBuilder: (_, __) => const SizedBox(width: CSSize.spaceBtwItems),
+                  itemCount: imageList.length,
                 ),
               ),
             ),
 
             // Appbar Icons
-            const CSAppBar(
-              showBackArrow: true,
-              actions: [
-                CSCircularlIcon(icon: Iconsax.heart5, color: Colors.red),
-              ],
-            ),
+            // const CSAppBar(
+            //   showBackArrow: true,
+            //   actions: [
+            //     CSCircularlIcon(icon: Iconsax.heart5, color: Colors.red),
+            //   ],
+            // ),
           ],
         ),
       ),

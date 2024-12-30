@@ -88,7 +88,8 @@ class _CSProductCardVertical extends State<CSProductCardVertical> {
   Future<Uint8List?> _loadProductImage() async {
     try {
       final String imageId = widget.productData['avatar']?['id'] ?? '';
-      print("String image $imageId");
+      // print(widget.productData);
+      // print("String image $imageId");
       if (imageId.isNotEmpty) {
         return await api_services.downloadProductImage(imageId);
       }
@@ -145,14 +146,14 @@ class _CSProductCardVertical extends State<CSProductCardVertical> {
                       ),
                     ),
                   ),
-                  const Positioned(
-                    top: 0,
-                    right: 0,
-                    child: CSCircularlIcon(
-                      icon: Iconsax.heart5,
-                      color: Colors.red,
-                    ),
-                  ),
+                  // const Positioned(
+                  //   top: 0,
+                  //   right: 0,
+                  //   child: CSCircularlIcon(
+                  //     icon: Iconsax.heart5,
+                  //     color: Colors.red,
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -167,9 +168,9 @@ class _CSProductCardVertical extends State<CSProductCardVertical> {
                     smallSize: true,
                   ),
                   const SizedBox(height: CSSize.spaceBtwItems / 2),
-                  CsBrandTitleTextWithVertifiedIcon(
-                    title: productInfo?['description'] ?? 'Product Description',
-                  ),
+                  // CsBrandTitleTextWithVertifiedIcon(
+                  //   title: productInfo?['description'] ?? 'Product Description',
+                  // ),
                 ],
               ),
             ),

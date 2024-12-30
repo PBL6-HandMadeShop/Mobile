@@ -4,44 +4,40 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-<<<<<<< HEAD
-    <list default="true" id="89b5fc05-a9a9-4469-9dbe-30bb688fefe7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/Mobile.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Mobile.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-=======
     <list default="true" id="89b5fc05-a9a9-4469-9dbe-30bb688fefe7" name="Changes" comment="fix bug - Hanh">
-      <change afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Mobile.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Mobile.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/other.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/craftshop2/lib/common/widgets/images/cs_full_image.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/search/search_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/webview/payment_result.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/android/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/android/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/android/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/app/android/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/app/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/app/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/common/widgets/image_text_widgets/vertical_img_text.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/common/widgets/image_text_widgets/vertical_img_text.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/craftshop2/lib/common/widgets/custom_shape/containers/search_container.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/common/widgets/custom_shape/containers/search_container.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/craftshop2/lib/common/widgets/products/product_cart/product_card_horizontal.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/common/widgets/products/product_cart/product_card_horizontal.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/craftshop2/lib/common/widgets/products/product_cart/product_cart_vertical.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/common/widgets/products/product_cart/product_cart_vertical.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/common/widgets/texts/section_heading.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/common/widgets/texts/section_heading.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/craftshop2/lib/common/widgets/products/sortable/sortable_products.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/common/widgets/products/sortable/sortable_products.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/craftshop2/lib/common/widgets/texts/cs_brand_title_text.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/common/widgets/texts/cs_brand_title_text.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/craftshop2/lib/common/widgets/texts/cs_brand_title_text_with_vertified_icon.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/common/widgets/texts/cs_brand_title_text_with_vertified_icon.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/all_products/all_products.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/all_products/all_products.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/brand/brand_products.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/brand/brand_products.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/checkout/checkout.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/checkout/checkout.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/home/home.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/home/home.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/home/widgets/home_categories.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/home/widgets/home_categories.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/home/widgets/promo_slider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/home/widgets/promo_slider.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_details/product_detail.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_details/product_detail.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_details/widgets/bottom_add_to_cart_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_details/widgets/bottom_add_to_cart_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_details/widgets/product_atributes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_details/widgets/product_atributes.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_details/widgets/product_detail_image_slider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_details/widgets/product_detail_image_slider.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_details/widgets/product_meta_data.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_details/widgets/product_meta_data.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_details/widgets/rating_share_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_details/widgets/rating_share_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_reviews/product_reviews.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/product_reviews/product_reviews.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/store/store.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/store/store.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/store/widget/category_tab.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/store/widget/category_tab.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/sub_category/sub_categories.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/sub_category/sub_categories.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/webview/web_view_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/features/shop/screens/webview/web_view_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/craftshop2/lib/utils/constants/api_constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/utils/constants/api_constants.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/craftshop2/lib/utils/constants/enums.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/utils/constants/enums.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/craftshop2/lib/utils/http/api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/lib/utils/http/api_service.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/linux/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/linux/flutter/generated_plugin_registrant.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/linux/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/linux/flutter/generated_plugins.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/craftshop2/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/windows/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/windows/flutter/generated_plugin_registrant.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/craftshop2/windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/craftshop2/windows/flutter/generated_plugins.cmake" afterDir="false" />
->>>>>>> main
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,15 +47,23 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="TuanAnh3" />
-      </map>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dart File" />
+      </list>
     </option>
+  </component>
+  <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;LNHBKDN&quot;
+  }
+}</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/abuanwar072/E-commerce-Complete-Flutter-UI.git&quot;,
@@ -70,31 +74,34 @@
   &quot;associatedIndex&quot;: 1
 }</component>
   <component name="ProjectId" id="2mTEClwVUSy21SpIWtgayphF6EZ" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Dart Test.app.executor": "Run",
-    "Flutter.main.dart.executor": "Debug",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "#23 on Merging TuanAnh3",
-    "ignore.virus.scanning.warn.message": "true",
-    "io.flutter.reload.alreadyRun": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/ACER/Desktop/NET/PBL6/Mobile/craftshop2",
-    "settings.editor.selected.configurable": "flutter.settings",
-    "show.migrate.to.gradle.popup": "false"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Dart Test.app.executor&quot;: &quot;Debug&quot;,
+    &quot;Flutter.main.dart.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Hanh2&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/ACER/Desktop/NET/Ki7/test2/test2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;layout.inspector&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Flutter.main.dart">
     <configuration default="true" type="DartRemoteDebugConfigurationType" factoryName="Dart Remote Debug">
       <option name="dartProjectPath" value="$PROJECT_DIR$/E-commerce-Complete-Flutter-UI" />
@@ -133,13 +140,8 @@
       <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
-    <list>
-      <item itemvalue="Dart Test.app" />
-      <item itemvalue="Flutter.main.dart" />
-    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Flutter.main.dart" />
         <item itemvalue="Flutter.main.dart" />
       </list>
     </recent_temporary>
@@ -153,15 +155,6 @@
       <option name="presentableId" value="Default" />
       <updated>1727092041242</updated>
     </task>
-    <task id="LOCAL-00001" summary="merge main - Hanh">
-      <option name="closed" value="true" />
-      <created>1733245666913</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1733245666913</updated>
-    </task>
-    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

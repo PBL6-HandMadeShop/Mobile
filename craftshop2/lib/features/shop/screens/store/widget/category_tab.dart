@@ -35,23 +35,7 @@ class _CsCategoryTabState extends State<CsCategoryTab> {
           padding: const EdgeInsets.all(CSSize.defaultSpace),
           child: Column(
             children: [
-              ///-- Brand
-              // const CSBrandShowCase(
-              //   images: [
-              //     CSImage.product2,
-              //     CSImage.product2,
-              //     CSImage.product2,
-              //   ],
-              // ),
-              // const CSBrandShowCase(
-              //   images: [
-              //     CSImage.product2,
-              //     CSImage.product2,
-              //     CSImage.product2,
-              //   ],
-              // ),
-              // const SizedBox(height: CSSize.spaceBtwItems),
-              ///-- Products
+
               CSSectionHeading(title: "You might like", showActionButton: true, onPressed: () {}),
               const SizedBox(height: CSSize.spaceBtwItems),
 

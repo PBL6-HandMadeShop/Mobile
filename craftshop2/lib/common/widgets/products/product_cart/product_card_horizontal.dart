@@ -8,11 +8,9 @@ import 'package:craftshop2/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../../features/shop/screens/product_details/product_detail.dart';
-import '../../../../utils/constants/image_string.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/http/api_service.dart';
 import '../../texts/product_price_text.dart';
@@ -187,7 +185,7 @@ class _CSProductCardHorizontal extends State<CSProductCardHorizontal> {
                       children: [
 
                         /// Pricing
-                         Flexible(child: CSProductPriceText(price: widget.productData?['currentPrice']?.toString() ?? '0',)),
+                         Flexible(child: CSProductPriceText(price: widget.productData['currentPrice']?.toString() ?? '0',)),
 
                         /// Add to cart
                         Container(

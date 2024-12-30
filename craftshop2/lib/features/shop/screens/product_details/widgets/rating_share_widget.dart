@@ -30,7 +30,7 @@ class CSRatingAndShare extends StatelessWidget {
         ),
 
         /// Share Button
-        IconButton(onPressed: (){}, icon: const Icon(Icons.share, size: CSSize.iconMd))
+        // IconButton(onPressed: (){}, icon: const Icon(Icons.share, size: CSSize.iconMd))
       ],
     );
   }
